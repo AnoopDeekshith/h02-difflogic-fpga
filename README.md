@@ -29,6 +29,7 @@ python -m pytest tests -q        # should print: 4 passed
 python scripts/train.py --dataset digits --width 1000 --depth 4 --tau 10 --epochs 60 --out runs/digits_w1000
 python scripts/export.py runs/digits_w1000
 bash sim/run_sim.sh runs/digits_w1000/rtl_comb   # expect: PASS
+bash synth/synth_ice40.sh runs/digits_w1000/rtl_comb   # LUT4 / FF counts for iCE40
 ```
 
 ## Layout
