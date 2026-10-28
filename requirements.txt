@@ -1,0 +1,6 @@
+torch
+numpy
+scikit-learn
+pytest
+verilator      # RTL simulator (installs the `verilator-cli` command)
+yowasp-yosys   # open-source synthesis, for LUT counts without a board

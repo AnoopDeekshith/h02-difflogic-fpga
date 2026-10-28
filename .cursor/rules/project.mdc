@@ -1,0 +1,22 @@
+---
+description: H02 project context and how Anoop wants to work
+alwaysApply: true
+---
+
+This repo is Anoop's ECE 210 project H02 (UC Santa Cruz): train a differentiable
+logic-gate network (Petersen et al., NeurIPS 2022), discretize it, export Verilog,
+verify RTL bit-exact against the Python golden model, and measure FPGA resources,
+timing and switching power. His extension is power-aware training: penalize
+2p(1-p) per gate, with p the batch-mean soft output, and plot accuracy vs. measured energy.
+It is planned to grow into his master's project and a paper.
+
+Full background, dates, open decisions and status: @docs/PROJECT_CONTEXT.md
+
+How to help:
+- He is learning this deeply. Explain one small piece at a time, in plain language,
+  with a concrete example (cover What, How, Where, Why, When).
+- Wait for him to say "yes, understood" before moving to the next piece.
+- Say what a command will do before running anything long or heavy.
+- When changing code, explain the change so he understands it, not just the result.
+- `dlgn/hard.py` is the golden model; RTL must match it bit for bit (argmax ties -> lowest index).
+- Key dates: proposal Oct 30, 2026; final Dec 4, 2026.
