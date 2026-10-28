@@ -19,8 +19,12 @@ DEF=""; [[ -n "${DUMP:-}" ]] && DEF="DUMP"
 case "$SIM" in
   verilator)
     V=$(command -v verilator || command -v verilator-cli)
+    # The pip verilator wheel is configured for GCC; with clang (macOS) its
+    # precompiled-header flags are blank and larger designs fail to build.
+    MF=""
+    c++ --version 2>/dev/null | grep -qi clang && MF="CFG_CXXFLAGS_PCH_I=-include-pch CFG_GCH_IF_CLANG=.gch"
     "$V" --binary --timing -Wno-fatal -Wno-WIDTHTRUNC -Wno-WIDTHEXPAND \
-         ${DEF:+-D$DEF --trace} --top-module tb_dlgn -j 0 \
+         ${DEF:+-D$DEF --trace} ${MF:+-MAKEFLAGS "$MF"} --top-module tb_dlgn -j 0 \
          tb_dlgn.sv dlgn_top.sv -o simv --Mdir obj_dir > build.log 2>&1 \
       || { tail -30 build.log; exit 1; }
     ./obj_dir/simv | tee sim.log ;;
