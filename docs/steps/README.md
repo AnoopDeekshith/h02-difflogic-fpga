@@ -52,4 +52,3 @@ After completing a checklist step, add or update its numbered Markdown note.
 Explain what changed, why it matters, how it was checked, the saved evidence,
 and what the result does not establish. Link older notes by filename.
 Update this index and PROJECT_CHECKLIST.md together.
-
