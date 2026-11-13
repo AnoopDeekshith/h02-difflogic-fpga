@@ -1,0 +1,6 @@
+# iCEBreaker UP5K/SG48. Check the board revision before programming hardware.
+# https://github.com/amaranth-lang/amaranth-boards/blob/main/amaranth_boards/icebreaker.py
+set_io clk 35
+set_io button_n 10
+set_io uart_rx_pin 6
+set_io uart_tx_pin 9

@@ -1,7 +1,7 @@
 # H02 Project Context
 
 Background for anyone (or any AI assistant) working in this repo.
-Last updated: Oct 27, 2026.
+Last updated: Nov 13, 2026.
 
 ## Who and why
 
@@ -16,7 +16,7 @@ Last updated: Oct 27, 2026.
 Professor's project H02: train a small differentiable logic-gate network, discretize
 the gates, and map the result into an FPGA workflow.
 
-- **Baseline:** compare three models that must agree:
+- **Baseline:** compare three versions; hard software and RTL must agree:
   1. soft training model (each gate is a softmax mix of 16 rules)
   2. hard-gate software model (each gate locked to its top rule)
   3. RTL simulation (must match the hard model **bit for bit**)
@@ -76,15 +76,134 @@ switch, and train the network itself to switch less while staying accurate.
 6. Nov 23-29: stretch goal (power-aware training); Thanksgiving slack.
 7. Nov 30-Dec 4: report, slides, demo, clean repo.
 
-## Status (Oct 27)
+## Status (Nov 13)
 
-- Starter pipeline written; `pytest tests -q` passes (4 tests) on Anoop's laptop,
-  including a random-network RTL-vs-Python bit-exact check in Verilator.
-- **Not yet run:** the toy training run on 8x8 digits, export, simulation, LUT count.
-- **Next:** toy run, then proposal slides for Oct 30.
+- Toy training completed: `runs/digits_w1000`, digits dataset, 4 layers x 1,000
+  gates, 60 epochs, seed 0, no activity penalty. Soft accuracy 93.78%; hard and
+  NumPy reference accuracy 93.56%; discretization gap 0.22 percentage points.
+  PyTorch hard-model scores match the NumPy reference.
+- Removed a stray backtick at the start of `tests/test_gates.py` that prevented
+  test collection. Latest `.venv/bin/python -m pytest tests -q`: **14 passed**,
+  including four original tests, four UART regressions and six constraint tests.
+- Re-ran the trained model's combinational simulation and exported/simulated its
+  pipelined version. Both pass **450/450 vectors**, comparing every integer
+  class score and the predicted class with the NumPy reference. This covers the
+  supplied test inputs; it is not formal equivalence over every possible input.
+- Synthesized both versions with Yosys 0.63, targeting iCE40:
+
+  | Version | LUT4 | Flip-flops | Carry cells | Latency (cycles) |
+  |---|---:|---:|---:|---:|
+  | `rtl_comb` (input/output registers) | 2,929 | 268 | 123 | 2 |
+  | `rtl_pipe` (also registers each logic layer) | 4,528 | 3,523 | 123 | 6 |
+
+- Both designs accept one input per clock. Pipelining adds storage and prevents
+  some optimization across layer boundaries; clock-speed improvement is still
+  unmeasured. The testbench's nominal 100 MHz clock is not an Fmax measurement.
+- Saved logs: `runs/digits_w1000/rtl_{comb,pipe}/sim.log`,
+  `synth_ice40.log`, and `synth_ice40_stat.txt`; latency in `params.json`.
+  Generated runs are gitignored; the table above preserves the result in source.
+- **Timing tool flow established (checklist 2.5):** target iCE40UP5K/SG48 with
+  a 12 MHz clock; Yosys 0.63, Homebrew nextpnr-ice40 0.11.1_2, and IceStorm 1.1_1.
+  `bash synth/check_ice40_flow.sh` passed synthesis, placement/routing, timing,
+  and bitstream generation on a small 24-bit counter with fixed clock/LED pins.
+  Post-route estimated Fmax was 79.74 MHz (12 MHz target met), with 28 packed
+  logic cells. **This is the counter's timing, not the DLGN's.** Reports and
+  bitstream are in `runs/toolchain_smoke/`; no hardware was programmed.
+- **Not yet done for the DLGN:** placement/routing, Fmax, physical board
+  deployment, power estimation, or activity-penalty experiments. Synthesis counts
+  alone do not establish routability. Vivado is not configured.
+- **UART interface complete (checklist 2.6):** `scripts/export_uart.py` wraps the
+  core with an 8N1 UART interface, nominally 115200 baud on a 12 MHz clock.
+  `board_top` exposes clock, active-low button reset, serial RX and serial TX.
+  Each request has a 2-byte header and 24 encoded image bytes; each response has
+  a 2-byte header, predicted class, and all ten integer scores. The FPGA's USB
+  serial bridge handles the physical connection; no USB logic is added to RTL.
+- Both UART versions pass **450/450 images** against NumPy, exercising the
+  actual serial pins with an accelerated 8-clocks/bit simulation divider.
+  Focused regressions use the hardware's 104-clocks/bit divider and check baud
+  mismatch, header parsing, timeout/error recovery, reset, padding, and ties.
+  Simulation logs are in `runs/digits_w1000/uart_{comb,pipe}/sim.log`.
+- Both complete board tops synthesize with Yosys 0.63:
+
+  | UART version | LUT4 | Flip-flops | Carry cells |
+  |---|---:|---:|---:|
+  | `uart_comb` | 3,440 | 648 | 167 |
+  | `uart_pipe` | 5,059 | 3,903 | 167 |
+
+  These are pre-packing synthesis counts, not proof of physical fit. The
+  pipelined version leaves little LUT headroom; placement/routing must establish
+  whether it fits. Reports: `synth_uart.log` and `synth_uart_stat.txt` per export.
+  See `docs/UART_INTERFACE.md` for protocol, commands, pins and limitations.
+- **Constraints complete (checklist 2.7):** added `synth/icebreaker_uart.sdc`
+  for a 12 MHz / 83.333 ns clock and `synth/implement_uart_ice40.sh` to apply
+  the PCF and SDC. The mapped-netlist checker verifies all four pins, the single
+  register clock, the RX synchronizer chain and the reset-release chain. No
+  timing exceptions are applied; upstream nextpnr's generic false-path command
+  is a no-op. This is structural review, not metastability/physical CDC signoff.
+- Both designs accepted the constraints and packed. **Original UART: 3,795 of
+  5,280 logic cells. Pipelined UART: 6,236 of 5,280 (over capacity).** The wrapper
+  script now saves a capacity report and exits 3 on the latter instead of
+  reporting overall success. Cell packing, not separate LUT/FF counts,
+  establishes this resource limitation. Reports are in each UART run directory:
+  `constraint_audit.json`, `pack_uart.log`, and `pack_uart_report.json`.
+- Learning documentation is backfilled for all **21 completed checklist items**,
+  beginning with 1.1, in [docs/steps/README.md](steps/README.md). Each has a
+  numbered Markdown note with purpose, method, example, evidence, code links,
+  limitations and references to older notes. Local documentation links were
+  checked; the older Excel tracker remains a separate snapshot.
+- **Next (checklist 2.8):** place/route the original wrapped DLGN. Reduce the
+  pipelined design's resources or select a larger target before routing it.
+  Steps 2.9–2.10 still need actual routed timing and performance results.
+  No neural-network bitstream has been generated or programmed. A live serial
+  host client is still pending. UART throughput must not be reported as the
+  core's maximum throughput; power claims must specify the workload.
+
+Reproduce the pipeline comparison (from the repo root):
+
+```bash
+.venv/bin/python -m pytest tests -q
+.venv/bin/python scripts/export.py runs/digits_w1000 --pipeline
+bash sim/run_sim.sh runs/digits_w1000/rtl_comb
+bash sim/run_sim.sh runs/digits_w1000/rtl_pipe
+bash synth/synth_ice40.sh runs/digits_w1000/rtl_comb
+bash synth/synth_ice40.sh runs/digits_w1000/rtl_pipe
+```
+
+## Persistent checklist and research priorities (Nov 13)
+
+- Anoop supplied a detailed 57-task status checklist on Nov 13 and requested
+  that it be retained as project memory. Full snapshot: [PROJECT_CHECKLIST.md](PROJECT_CHECKLIST.md).
+- The checklist covers baseline verification, FPGA performance, switching
+  measurement, switching-aware training, power/energy evidence, physical
+  deployment, and reproducibility/course deliverables. Preserve the distinction
+  between completed work, existing code awaiting validation, and pending work.
+- Baseline Python logical switching is 0.34976 changes per gate per image
+  transition in the saved test order. Waveform recording support exists, but
+  baseline VCD capture and activity-analysis validation remain pending.
+- Batch-mean switching-penalty and per-sample ablation code exist; their
+  effectiveness has not been tested. No energy reduction has been demonstrated.
+- Implementation setup, interface, and constraints are complete through 2.7.
+  Next implementation work is placement/routing of the original UART design;
+  the pipelined version exceeds UP5K packed capacity as currently built.
+  Next activity work: capture
+  waveforms and compare equivalent useful-work windows against Python.
+- Research evaluation must use consistent targets, clocks, workloads and
+  settings; validation data for selecting penalty strengths; repeated seeds;
+  and separate reporting of switching, estimated power and measured energy.
+  Ordinary RTL traces do not establish physical glitch activity.
+- Physical deployment and electrical measurements are a separate branch.
+  MNIST support exists, but experiments and final artifact archival remain.
+- Excel tracker: `outputs/h02-tracker-20261113/H02_Project_Tracker.xlsx`.
+  It starts from the supplied snapshot; spreadsheet edits do not automatically
+  synchronize back to these Markdown notes. Final course deadline: Dec 4, 2026.
 
 ## How Anoop wants to work
 
+- For every completed checklist step, create or update a simple numbered
+  Markdown walkthrough in `docs/steps/`. Cover why, what, how, an example,
+  evidence, code links and limitations; link older documents by filename.
+  Keep `docs/steps/README.md` and the checklist in sync. Backfill completed work
+  from 1.1; distinguish code that exists from validated experimental results.
 - He is learning this deeply, not just shipping it. The course also asks students to
   understand any AI-suggested fix, not just paste it.
 - **Explain step by step**, one small piece at a time, in plain language with an example.
@@ -93,7 +212,9 @@ switch, and train the network itself to switch less while staying accurate.
 - Before running long or heavy commands, say what they will do.
 - Learning progress so far: (1) logic gates vs. normal neurons, (2) training with a softmax
   mix of 16 rules then discretizing (worked "digit 5" example), (3) exporting to Verilog.
-  **Next piece: (4) bit-exact verification**, then FPGA resources/timing, power, the extension.
+  (4) bit-exact verification: distinction from recognition accuracy explained and
+  understood. **Next piece: FPGA resources and pipelining**, then timing, power,
+  and the extension.
 
 ## Code conventions (see README for layout)
 

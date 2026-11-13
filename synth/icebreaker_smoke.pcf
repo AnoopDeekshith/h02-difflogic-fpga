@@ -1,0 +1,5 @@
+# iCEBreaker: iCE40UP5K, SG48 package, 12 MHz oscillator.
+# Clock pin 35; active-low red LED pin 11.
+# Reference: https://github.com/amaranth-lang/amaranth-boards/blob/main/amaranth_boards/icebreaker.py
+set_io clk 35
+set_io led_n 11
