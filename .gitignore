@@ -5,3 +5,4 @@ __pycache__/
 .venv/
 runs/
 obj_dir/
+docs/papers/
