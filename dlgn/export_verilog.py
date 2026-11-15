@@ -14,6 +14,8 @@ Generated design (dlgn_top):
     100-deep ripple chain, so it doesn't dominate the critical path.
   * argmax: strict '>' scan normally, or adjacent-pair balanced tree in the
     head-pipeline variant. Both preserve the lowest class index on ties.
+  * LAT counts register stages. Output ports are valid LAT-1 clock periods
+    after the input capture edge; a downstream register samples them at LAT.
 """
 import math
 import os

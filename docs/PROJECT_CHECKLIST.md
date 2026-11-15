@@ -4,12 +4,12 @@ Saved from Anoop's supplied checklist on November 13, 2026. Initially a snapshot
 items 2.5–2.7 were subsequently updated after tool, UART and constraint checks.
 Completed-step explanations start at [the learning index](steps/README.md).
 
-We have completed the toy model, functional verification, and FPGA synthesis. Switching measurements, timing analysis, energy experiments, and physical deployment remain.
+We have completed the toy model, functional verification, synthesis, and a routed timing/performance report for the feasible candidate. The full pipeline remains over capacity. Switching measurements, energy experiments, and physical deployment remain.
 
-This checklist reflects the code and saved results as of November 14, 2026.
+This checklist reflects the code and saved results as of November 15, 2026.
 New steps require an independent verification sub-agent and a recorded review.
 
-Status: ✅ Completed · ◐ Code exists, validation remains · ☐ Pending
+Status: ✅ Completed · ◐ Partially complete; validation or feasibility remains · ☐ Pending
 
 The first part establishes that the trained network works and that its Verilog implementation computes the same result.
 
@@ -25,22 +25,22 @@ The first part establishes that the trained network works and that its Verilog i
 | 1.8 | [Export the original Verilog design](steps/1.8-export-the-verilog-core.md) | ✅ | Input/output registers, logic layers, score calculation, predicted class, and valid signals generated. |
 | 1.9 | [Generate reference vectors and a self-checking testbench](steps/1.9-generate-reference-vectors.md) | ✅ | Testbench compares every class score and the predicted class against Python. |
 | 1.10 | [Verify the trained model in simulation](steps/1.10-verify-the-core-bit-for-bit.md) | ✅ | 450/450 images match exactly. This covers those inputs; it is not formal verification over every possible input. |
-| 1.11 | [Run the existing regression tests](steps/1.11-run-the-regression-tests.md) | ✅ | 45 tests pass: 14 earlier cases, 16 independently written exhaustive head-pipeline cases, 11 artifact and 4 data-partition cases. See independent review for scope. |
+| 1.11 | [Run the existing regression tests](steps/1.11-run-the-regression-tests.md) | ✅ | 71 tests pass: 45 cases through step 2.8, 18 archived-timing report cases in 2.9, and 8 independent performance cases in 2.10. See the reviews for scope. |
 
 The second part establishes the FPGA resource cost and achievable performance.
 
 | ID | Task | Status | Specific result or remaining work |
 |---|---|---|---|
-| 2.1 | [Synthesize the original design for iCE40](steps/2.1-synthesize-the-original-core.md) | ✅ | 2,929 LUT4s, 268 flip-flops, 123 carry cells. Latency: 2 cycles. |
-| 2.2 | [Export the pipelined design](steps/2.2-add-pipeline-registers.md) | ✅ | Added registers after each of the four logic layers. Latency: 6 cycles. |
+| 2.1 | [Synthesize the original design for iCE40](steps/2.1-synthesize-the-original-core.md) | ✅ | 2,929 LUT4s, 268 flip-flops, 123 carry cells. Two register stages; one elapsed clock from input capture to output availability. |
+| 2.2 | [Export the pipelined design](steps/2.2-add-pipeline-registers.md) | ✅ | Added registers after each of the four logic layers. Six register stages; five elapsed clocks from input capture to output availability. |
 | 2.3 | [Verify the pipelined design](steps/2.3-verify-the-pipelined-core.md) | ✅ | 450/450 images match exactly, including scores and predictions. |
 | 2.4 | [Synthesize the pipelined design](steps/2.4-synthesize-the-pipelined-core.md) | ✅ | 4,528 LUT4s, 3,523 flip-flops, 123 carry cells. |
 | 2.5 | [Establish the timing-analysis flow](steps/2.5-establish-the-fpga-tool-flow.md) | ✅ | Selected iCE40UP5K/SG48 and Yosys → nextpnr-ice40 → IceStorm. Installed nextpnr/IceStorm; counter check passed synthesis, placement/routing, 12 MHz timing, and bitstream generation. Run `bash synth/check_ice40_flow.sh`. This does not establish DLGN timing or board operation. |
 | 2.6 | [Prepare a usable top-level interface](steps/2.6-build-the-uart-interface.md) | ✅ | Four-pin UART board top implemented. Each request carries 24 encoded image bytes; each reply carries the class and 10 scores. Both architectures pass 450/450 serial images and synthesize. See `docs/UART_INTERFACE.md`. Physical fit/timing are pending. |
 | 2.7 | [Add clock and implementation constraints](steps/2.7-clock-and-pin-constraints.md) | ✅ | Explicit 12 MHz SDC clock plus all four PCF pins accepted by nextpnr. Mapped RX/reset synchronizer connections checked; no timing exceptions. Packing checked for both versions. See step 2.7 learning note for scope and capacity result. |
 | 2.8 | [Place and route both architectures](steps/2.8-place-and-route.md) | ◐ | Original routed but failed 12 MHz (7.26 MHz estimate). Corrected head-only pipeline/atomic-input candidate routes at 12 MHz using 4,160/5,280 cells; independently reproduced. Current full-layer+head candidate needs 6,575 cells and cannot fit. |
-| 2.9 | Measure maximum clock frequency | ◐ | Corrected candidate has a 19.3858566 MHz routed estimate at the fixed 12 MHz target. Other full-layer candidate is oversized. Consolidated scope/performance reporting and physical validation remain distinct. |
-| 2.10 | Compare performance | ☐ | Report clock frequency, latency in cycles and time, and predictions per second for both architectures. |
+| 2.9 | [Read and verify maximum-clock timing](steps/2.9-read-and-verify-clock-timing.md) | ◐ | Hash-checked archived report: 19.3858566 MHz estimated Fmax, 51.584 ns synchronous path, passes fixed 12 MHz. Independent archive agrees. Full-layer candidate is oversized and has no routed Fmax; no physical frequency measurement. |
+| 2.10 | [Compare latency and throughput](steps/2.10-compare-latency-and-throughput.md) | ◐ | Feasible core: 2 clocks to output, 3 to downstream capture, initiation interval 1 at qualified 12 MHz. UART simulation: 3.377375 ms per request/reply, about 296.08 images/s with an ideal host. Full pipeline: 6/7-cycle behavior checked, but no timing-qualified rate because it cannot fit. |
 
 The third part measures switching before we claim any energy improvement.
 

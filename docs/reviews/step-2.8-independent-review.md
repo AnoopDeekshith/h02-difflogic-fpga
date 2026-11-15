@@ -2,6 +2,12 @@
 
 Reviewer: independent verification sub-agent, November 14, 2026.
 
+Terminology clarification added November 15: cycle values in this historical
+review use the exporter's `LAT` register-stage/downstream-capture convention.
+Input-capture-to-output availability is `LAT-1` elapsed clock periods, as
+independently checked in [step 2.10](../steps/2.10-compare-latency-and-throughput.md).
+The original verification results below are retained.
+
 ## Verdict
 
 The corrected **head-pipelined UART implementation** passes the reviewed

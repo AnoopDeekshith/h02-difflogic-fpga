@@ -30,6 +30,8 @@ A completed learning note does not imply hardware deployment or energy reduction
 | 2.6 | [Build the UART board interface](2.6-build-the-uart-interface.md) |
 | 2.7 | [Clock and pin constraints](2.7-clock-and-pin-constraints.md) |
 | 2.8 | [Placement/routing, timing fix and independent research review](2.8-place-and-route.md) — feasible candidate passes; full layer pipeline remains oversized |
+| 2.9 | [Read and verify the maximum-clock estimate](2.9-read-and-verify-clock-timing.md) — feasible candidate's timing audited; full layer alternative remains unavailable |
+| 2.10 | [Compare latency and throughput](2.10-compare-latency-and-throughput.md) — core/UART report verified; full layer physical rate unavailable |
 | 3.1 | [Measure logical switching in Python](3.1-measure-python-switching.md) |
 | 4.2 | [Preserve the unpenalized baseline](4.2-preserve-the-unpenalized-baseline.md) |
 | 7.1 | [Maintain project and learning notes](7.1-maintain-project-notes.md) |
@@ -44,8 +46,10 @@ A completed learning note does not imply hardware deployment or energy reduction
 ## What is not complete
 
 Step 2.8 now has a routed, timing-valid head-pipelined candidate. The full layer
-pipeline still exceeds UP5K capacity. Steps 2.9–2.10 need consolidated performance
-reporting; a timing report alone is not a complete architecture comparison.
+pipeline still exceeds UP5K capacity. Step 2.9 now audits the saved feasible
+candidate's timing. Step 2.10 documents cycle latency, core interface capacity
+and ideal-host UART performance. The full candidate's physical rate is still
+unavailable; it is a capacity failure, not a second implemented benchmark.
 Waveform activity analysis, switching-aware training experiments, power estimates, board programming and electrical measurements also remain pending.
 Partial implementation such as the penalty code does not establish an experimental result.
 

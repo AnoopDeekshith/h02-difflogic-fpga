@@ -117,6 +117,42 @@ and [compact results](docs/results/step-2.8-results.json).
 Every future completed step requires an independent verifier, including a
 bounded research assessment. No energy reduction or novelty is established yet.
 
+To audit the saved routed clock estimate without rerunning implementation:
+
+```bash
+python scripts/report_timing.py runs/digits_w1000/uart_comb_head/implementation.UVAx2g
+```
+
+This requires the raw local artifacts, verifies their recorded hashes, and
+cross-checks the 51.584 ns synchronous path against the 19.39 MHz estimate.
+It preserves the 12 MHz operating target. See [step 2.9](docs/steps/2.9-read-and-verify-clock-timing.md)
+and the [tracked timing summary](docs/results/step-2.9-timing.json).
+
+## Latency and UART throughput
+
+The feasible candidate has 3 register stages: its output is available 2 clock
+periods after input capture, and a downstream register captures it after 3.
+At the qualified 12 MHz, those are cycle-equivalent 166.67 ns and 250 ns.
+The core can accept an input each clock; this is separate from UART board
+throughput. The ideal-host UART simulation gives 3.377375 ms per transaction
+and about 296.08 images/s, with no USB/OS delay modeled.
+
+```bash
+python scripts/report_performance.py \
+  runs/digits_w1000/uart_comb_head \
+  runs/digits_w1000/uart_comb_head/implementation.UVAx2g \
+  --comparison runs/digits_w1000/uart_pipe_head \
+  runs/digits_w1000/uart_pipe_head/implementation.1iiA0a \
+  --out docs/results/step-2.10-performance.json
+```
+
+This checks model/workload matching, regenerates NumPy vectors and runs fresh
+cycle simulations. The oversized candidate has cycle results only; its physical
+time and throughput remain unavailable. See the
+[step 2.10 walkthrough](docs/steps/2.10-compare-latency-and-throughput.md) and
+[independent review](docs/reviews/step-2.10-independent-review.md).
+Next is waveform recording and activity analysis; energy measurements remain pending.
+
 ## Layout
 
 | Path | What it does |
@@ -129,6 +165,8 @@ bounded research assessment. No energy reduction or novelty is established yet.
 | `scripts/train.py` | Train, discretize, report soft vs. hard accuracy |
 | `scripts/export.py` | Export a trained run to RTL |
 | `scripts/export_uart.py` | Export the core with its UART board adapter and serial testbench |
+| `scripts/report_timing.py` | Check archived routed timing and its provenance |
+| `scripts/report_performance.py` | Measure core/UART cycle boundaries with matched reference vectors |
 | `rtl/` | UART receiver/transmitter, board adapter, and serial testbench template |
 | `synth/synth_uart_ice40.sh` | Synthesize the complete UART board top |
 | `sim/run_sim.sh` | Run the testbench with Verilator, Icarus, or Vivado xsim |

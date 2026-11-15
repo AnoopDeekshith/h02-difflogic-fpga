@@ -36,7 +36,8 @@ def main():
     with open(os.path.join(out, "params.json"), "w") as f:
         json.dump(p, f, indent=2)
     print(f"wrote {out}/ (dlgn_top.sv, tb_dlgn.sv, {len(x)} vectors) "
-          f"latency={p['LAT']} cycles, score width={p['SW']} bits")
+          f"register stages={p['LAT']}, input-capture-to-output={p['LAT']-1} cycles, "
+          f"score width={p['SW']} bits")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "scope": "Archived tool-estimated single-clock timing; no physical clock measurement",
+  "implementation_directory": "runs/digits_w1000/uart_comb_head/implementation.UVAx2g",
+  "target": "iCE40UP5K-SG48",
+  "clock_name": "clk$SB_IO_IN_$glb_clk",
+  "operating_clock_hz": 12000000,
+  "constraint_mhz": 12.00004768371582,
+  "estimated_fmax_mhz": 19.38585662841797,
+  "target_met": true,
+  "estimated_min_period_ns": 51.58399853912504,
+  "constraint_period_ns": 83.33300219773373,
+  "period_margin_ns": 31.749003658608693,
+  "synchronous_path": {
+    "delay_ns": 51.58400058746338,
+    "delay_by_type_ns": {
+      "clk-to-q": 1.3899999856948853,
+      "routing": 33.86500042676926,
+      "logic": 15.505000174045563,
+      "setup": 0.8240000009536743
+    },
+    "start": {
+      "cell": "board.adapter.core.l0_SB_DFF_Q_127_DFFLC",
+      "loc": [
+        8,
+        15
+      ],
+      "port": "O"
+    },
+    "end": {
+      "cell": "board.adapter.core.sc_reg[6]_SB_DFF_Q_D_SB_LUT4_O_LC",
+      "loc": [
+        16,
+        26
+      ],
+      "port": "I3"
+    }
+  },
+  "cross_domain_paths": [
+    {
+      "from": "<async>",
+      "to": "posedge clk$SB_IO_IN_$glb_clk",
+      "delay_ns": 7.247000016272068
+    },
+    {
+      "from": "posedge clk$SB_IO_IN_$glb_clk",
+      "to": "<async>",
+      "delay_ns": 14.453000128269196
+    }
+  ],
+  "utilization": {
+    "ICESTORM_DSP": {
+      "available": 8,
+      "used": 0
+    },
+    "ICESTORM_HFOSC": {
+      "available": 1,
+      "used": 0
+    },
+    "ICESTORM_LC": {
+      "available": 5280,
+      "used": 4160
+    },
+    "ICESTORM_LFOSC": {
+      "available": 1,
+      "used": 0
+    },
+    "ICESTORM_PLL": {
+      "available": 1,
+      "used": 0
+    },
+    "ICESTORM_RAM": {
+      "available": 30,
+      "used": 0
+    },
+    "ICESTORM_SPRAM": {
+      "available": 4,
+      "used": 0
+    },
+    "IO_I3C": {
+      "available": 2,
+      "used": 0
+    },
+    "SB_GB": {
+      "available": 8,
+      "used": 5
+    },
+    "SB_I2C": {
+      "available": 2,
+      "used": 0
+    },
+    "SB_IO": {
+      "available": 39,
+      "used": 4
+    },
+    "SB_LEDDA_IP": {
+      "available": 1,
+      "used": 0
+    },
+    "SB_RGBA_DRV": {
+      "available": 1,
+      "used": 0
+    },
+    "SB_SPI": {
+      "available": 2,
+      "used": 0
+    },
+    "SB_WARMBOOT": {
+      "available": 1,
+      "used": 0
+    }
+  },
+  "provenance": {
+    "validation_sha256": "b4b5b0f34a2402175263d548841a43f4a58b276d42de48462f55dfcc710d59ec",
+    "params_sha256": "a0da844c15ce9e6d70dedb1a89d0458c5bb34301988f002c10ec4950bed539fd",
+    "input_files": {
+      "synth_uart.json": "00d383915c0102fa302c59ee735cc98156cd55282140b26ef9841504e99dc627",
+      "synth_manifest.json": "0bb9efe07c3d27c4131ffff18d3e17f1975970031b938e80c9eb697b97618783",
+      "icebreaker_uart.pcf": "4a2a32e2a0c6ea08db293027b4742f73a70b0e7fbcc31b5ec2ba19986f066e2a",
+      "icebreaker_uart.sdc": "0396f2bbdd84864beff668e052b8785d80d29b62125f55d86b2456f4b736acda",
+      "tools.txt": "84751cffa4791248c1ace863ac5395ac0a8bc1feaec53a479d436fb900fd5a02"
+    },
+    "output_files": {
+      "routed_uart.asc": "dcbc3c66009e795bfe90f46ae97d31fa9f2c3448f12b66d52cce54f87ea9ca13",
+      "routed_uart.json": "c9b8cc84e4f277da39162e3d8bf53f2bbd5d5d5f49310d7d6455b8f73ba0e40d",
+      "timing_uart.json": "538c60dec7f33f85d37e375367490ab7f29dd8d19220f67085d1a70fa626d615",
+      "pnr_uart.log": "1acff355afe46f0918bab3578cfe2f3fa5fa78954e31b47348ea46c6538403cd"
+    },
+    "nextpnr": {
+      "path": "/opt/homebrew/Cellar/nextpnr-ice40/0.11.1_2/bin/nextpnr-ice40",
+      "binary_sha256": "b5986780c6d40dba01d4f404adf5e1250f334828dc9429757802d6751e7878fe"
+    }
+  },
+  "limitations": [
+    "Fmax describes this routed implementation at a 12 MHz constraint; no frequency sweep",
+    "Period margin is arithmetic from the clock estimate, not a separate slack report",
+    "Cross-domain delays do not certify asynchronous I/O or synchronizer MTBF",
+    "No board operation, power reduction or energy reduction measured"
+  ]
+}

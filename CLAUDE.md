@@ -28,10 +28,10 @@ Read the relevant part when an answer depends on the paper instead of guessing:
 
 ```bash
 source .venv/bin/activate
-python -m pytest tests -q                       # 4 passed
-python scripts/train.py --dataset digits --width 1000 --depth 4 --tau 10 --epochs 60 --out runs/digits_w1000
-python scripts/export.py runs/digits_w1000      # add --pipeline for 1 register per layer
-bash sim/run_sim.sh runs/digits_w1000/rtl_comb  # expect PASS (bit-exact)
+python -m pytest tests -q                       # core, UART and report regressions
+python scripts/train.py --dataset digits --width 1000 --depth 4 --tau 10 --epochs 60 --out runs/digits_new
+python scripts/export.py runs/digits_new        # add --pipeline for 1 register per layer
+bash sim/run_sim.sh runs/digits_new/rtl_comb     # expect PASS (bit-exact)
 ```
 
 ## Rules for the code
@@ -39,5 +39,9 @@ bash sim/run_sim.sh runs/digits_w1000/rtl_comb  # expect PASS (bit-exact)
 - `dlgn/hard.py` is the golden model. RTL must match its integer class scores and argmax
   bit for bit, with argmax ties going to the lowest class index.
 - Gate IDs follow the paper's Table 1: `out = (id >> (3 - (2a + b))) & 1`.
+- `LAT` is the register-stage count. Input capture to valid output availability
+  takes `LAT-1` elapsed clocks; downstream register capture takes `LAT`.
+- Preserve `runs/digits_w1000` as the historical exploratory baseline. New
+  experiments use separate output directories and matched validation protocols.
 - Activity penalty uses p = batch-mean soft output per gate (`--act-mode batch`).
   The per-sample variant is an ablation only.

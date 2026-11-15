@@ -1,0 +1,311 @@
+{
+  "schema": 1,
+  "architectures": [
+    {
+      "export_directory": "runs/digits_w1000/uart_comb_head",
+      "implementation_directory": "runs/digits_w1000/uart_comb_head/implementation.UVAx2g",
+      "implementation": {
+        "outcome": "routed_timing_passed",
+        "timing_qualified": true,
+        "estimated_fmax_mhz": 19.38585662841797,
+        "utilization": {
+          "ICESTORM_DSP": {
+            "available": 8,
+            "used": 0
+          },
+          "ICESTORM_HFOSC": {
+            "available": 1,
+            "used": 0
+          },
+          "ICESTORM_LC": {
+            "available": 5280,
+            "used": 4160
+          },
+          "ICESTORM_LFOSC": {
+            "available": 1,
+            "used": 0
+          },
+          "ICESTORM_PLL": {
+            "available": 1,
+            "used": 0
+          },
+          "ICESTORM_RAM": {
+            "available": 30,
+            "used": 0
+          },
+          "ICESTORM_SPRAM": {
+            "available": 4,
+            "used": 0
+          },
+          "IO_I3C": {
+            "available": 2,
+            "used": 0
+          },
+          "SB_GB": {
+            "available": 8,
+            "used": 5
+          },
+          "SB_I2C": {
+            "available": 2,
+            "used": 0
+          },
+          "SB_IO": {
+            "available": 39,
+            "used": 4
+          },
+          "SB_LEDDA_IP": {
+            "available": 1,
+            "used": 0
+          },
+          "SB_RGBA_DRV": {
+            "available": 1,
+            "used": 0
+          },
+          "SB_SPI": {
+            "available": 2,
+            "used": 0
+          },
+          "SB_WARMBOOT": {
+            "available": 1,
+            "used": 0
+          }
+        },
+        "provenance": {
+          "validation_sha256": "b4b5b0f34a2402175263d548841a43f4a58b276d42de48462f55dfcc710d59ec",
+          "params_sha256": "a0da844c15ce9e6d70dedb1a89d0458c5bb34301988f002c10ec4950bed539fd",
+          "input_files": {
+            "synth_uart.json": "00d383915c0102fa302c59ee735cc98156cd55282140b26ef9841504e99dc627",
+            "synth_manifest.json": "0bb9efe07c3d27c4131ffff18d3e17f1975970031b938e80c9eb697b97618783",
+            "icebreaker_uart.pcf": "4a2a32e2a0c6ea08db293027b4742f73a70b0e7fbcc31b5ec2ba19986f066e2a",
+            "icebreaker_uart.sdc": "0396f2bbdd84864beff668e052b8785d80d29b62125f55d86b2456f4b736acda",
+            "tools.txt": "84751cffa4791248c1ace863ac5395ac0a8bc1feaec53a479d436fb900fd5a02"
+          },
+          "output_files": {
+            "routed_uart.asc": "dcbc3c66009e795bfe90f46ae97d31fa9f2c3448f12b66d52cce54f87ea9ca13",
+            "routed_uart.json": "c9b8cc84e4f277da39162e3d8bf53f2bbd5d5d5f49310d7d6455b8f73ba0e40d",
+            "timing_uart.json": "538c60dec7f33f85d37e375367490ab7f29dd8d19220f67085d1a70fa626d615",
+            "pnr_uart.log": "1acff355afe46f0918bab3578cfe2f3fa5fa78954e31b47348ea46c6538403cd"
+          },
+          "nextpnr": {
+            "path": "/opt/homebrew/Cellar/nextpnr-ice40/0.11.1_2/bin/nextpnr-ice40",
+            "binary_sha256": "b5986780c6d40dba01d4f404adf5e1250f334828dc9429757802d6751e7878fe"
+          }
+        }
+      },
+      "architecture": {
+        "layer_pipeline": false,
+        "head_pipeline": true,
+        "depth": 4,
+        "width": 1000,
+        "inputs": 192,
+        "classes": 10
+      },
+      "core": {
+        "register_stages": 3,
+        "verified_vectors": 32,
+        "port_latency_cycles": 2,
+        "downstream_capture_cycles": 3,
+        "initiation_interval_cycles": 1,
+        "port_latency_ns_at_qualified_clock": 166.66666666666666,
+        "downstream_capture_ns_at_qualified_clock": 250.0,
+        "interface_capacity_predictions_per_second": 12000000.0,
+        "scope": "Standalone core interface capacity; UART board cannot supply one image each clock"
+      },
+      "uart": {
+        "verified_transactions": 3,
+        "clocks_per_bit": 104,
+        "request_bytes": 26,
+        "reply_bytes": 13,
+        "nominal_nonoverlap_wire_budget_cycles": 40560,
+        "request_to_full_reply_cycles": [
+          40528.5,
+          40528.5,
+          40528.5
+        ],
+        "request_start_intervals_cycles": [
+          40529.0,
+          40529.0
+        ],
+        "request_to_full_reply_ms_at_qualified_clock": [
+          3.377375,
+          3.377375,
+          3.377375
+        ],
+        "ideal_host_simulated_predictions_per_second": 296.0842853265563,
+        "scope": "RTL simulation with hardware divider, full last stop bit, immediate ideal-host next request; no USB/OS delays"
+      },
+      "evidence": {
+        "simulation_directory": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/uart_comb_head/performance.ti23r0k9",
+        "model_sha256": "e41fff60d1d77688291053b507b874c7c98e18120089d8b9a0096f83c3f45c96",
+        "input_array_sha256": "253af81718221c39a547817a77a79fa978e7d415aaf8759ae3dfe13ba888cdb7",
+        "files": {
+          "tb_dlgn.sv": "fb1d9a1fe364ca05f6efc2971ac128e7c3673b481217b42208eb0f09ee6b13cb",
+          "performance_params.svh": "0f277620d5d02e3c2f07a02b0e16755c4de084f52b5729eb8a37e27d8d2458d7",
+          "dlgn_top.sv": "5ff4e1056e7a4ef2443602cd8dbccaff5815851a89e22851ec6a9e6c84cae7c7",
+          "uart.sv": "dec4cff65fe3871f5cf1c068e2148745ed6145c71913f319ae253cee52f53a1d",
+          "dlgn_uart.sv": "365bc7c3ed87321d8030eafe147118da5441a437f719b899e7db4753155e53b4",
+          "board_top.sv": "7c357ad045a0eff5805a226c19311dfc50882576cee099dc563041e2f365935a",
+          "x.hex": "9f179501d74accfb28e43a29f8d24f990ea4e7ba1891790c2a14d49e5ba99fc5",
+          "exp_scores.hex": "caac54b30c76b22d27f57624d3ebeb25201f538fc4dec94b8ad4ecb8545e0d1e",
+          "exp_class.hex": "38ac19265686f2e372ef6b97445d1a724fc3b5034ffddd808829e78c532a9fd8",
+          "sim.log": "22a5ca93d993fa77140c9ea09be88149239abcae2825bff7b5ce59148577eb26"
+        },
+        "iverilog": {
+          "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/bin/iverilog",
+          "binary_sha256": "5df81b269e1ff2c965dd00ad5a8071ca17717f416003b3661a18b2dde430e73c"
+        },
+        "vvp": {
+          "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp",
+          "binary_sha256": "1a9bdf1f40102f64f015514f5069f99a5dd9f9f38de343743ef4c169fb358392"
+        }
+      }
+    },
+    {
+      "export_directory": "runs/digits_w1000/uart_pipe_head",
+      "implementation_directory": "runs/digits_w1000/uart_pipe_head/implementation.1iiA0a",
+      "implementation": {
+        "outcome": "capacity_exceeded",
+        "timing_qualified": false,
+        "estimated_fmax_mhz": null,
+        "utilization": {
+          "ICESTORM_DSP": {
+            "available": 8,
+            "used": 0
+          },
+          "ICESTORM_HFOSC": {
+            "available": 1,
+            "used": 0
+          },
+          "ICESTORM_LC": {
+            "available": 5280,
+            "used": 6575
+          },
+          "ICESTORM_LFOSC": {
+            "available": 1,
+            "used": 0
+          },
+          "ICESTORM_PLL": {
+            "available": 1,
+            "used": 0
+          },
+          "ICESTORM_RAM": {
+            "available": 30,
+            "used": 0
+          },
+          "ICESTORM_SPRAM": {
+            "available": 4,
+            "used": 0
+          },
+          "IO_I3C": {
+            "available": 2,
+            "used": 0
+          },
+          "SB_GB": {
+            "available": 8,
+            "used": 5
+          },
+          "SB_I2C": {
+            "available": 2,
+            "used": 0
+          },
+          "SB_IO": {
+            "available": 39,
+            "used": 4
+          },
+          "SB_LEDDA_IP": {
+            "available": 1,
+            "used": 0
+          },
+          "SB_RGBA_DRV": {
+            "available": 1,
+            "used": 0
+          },
+          "SB_SPI": {
+            "available": 2,
+            "used": 0
+          },
+          "SB_WARMBOOT": {
+            "available": 1,
+            "used": 0
+          }
+        },
+        "provenance": {
+          "synth_uart.json": "dda61740ca0bc4ecbf88fc682fd5afefea36c5d9b3bd4dddd3add0d6cb575aac",
+          "synth_manifest.json": "7162ed884732331183cd210f1d78cb88fb56f5bcc70b237f236e246e246cc3f5",
+          "pack_uart_report.json": "a9eba8437f9e5159e56b704c0f263fe6536811b8ca96841201e795abc5877a75",
+          "constraint_audit.json": "43a3f4fe3ebe26e26fc08543ff32ba9041c0c6d5086db261ba78c75b6c12bc89",
+          "status.txt": "fcc9aec55551fad1d8d4127d310444f3faec20c720bb48976b17a3edfa27374c"
+        }
+      },
+      "architecture": {
+        "layer_pipeline": true,
+        "head_pipeline": true,
+        "depth": 4,
+        "width": 1000,
+        "inputs": 192,
+        "classes": 10
+      },
+      "core": {
+        "register_stages": 7,
+        "verified_vectors": 32,
+        "port_latency_cycles": 6,
+        "downstream_capture_cycles": 7,
+        "initiation_interval_cycles": 1,
+        "port_latency_ns_at_qualified_clock": null,
+        "downstream_capture_ns_at_qualified_clock": null,
+        "interface_capacity_predictions_per_second": null,
+        "scope": "Standalone core interface capacity; UART board cannot supply one image each clock"
+      },
+      "uart": {
+        "verified_transactions": 3,
+        "clocks_per_bit": 104,
+        "request_bytes": 26,
+        "reply_bytes": 13,
+        "nominal_nonoverlap_wire_budget_cycles": 40560,
+        "request_to_full_reply_cycles": [
+          40532.5,
+          40532.5,
+          40532.5
+        ],
+        "request_start_intervals_cycles": [
+          40533.0,
+          40533.0
+        ],
+        "request_to_full_reply_ms_at_qualified_clock": null,
+        "ideal_host_simulated_predictions_per_second": null,
+        "scope": "RTL simulation with hardware divider, full last stop bit, immediate ideal-host next request; no USB/OS delays"
+      },
+      "evidence": {
+        "simulation_directory": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/uart_pipe_head/performance.nssjkgqa",
+        "model_sha256": "e41fff60d1d77688291053b507b874c7c98e18120089d8b9a0096f83c3f45c96",
+        "input_array_sha256": "253af81718221c39a547817a77a79fa978e7d415aaf8759ae3dfe13ba888cdb7",
+        "files": {
+          "tb_dlgn.sv": "fb1d9a1fe364ca05f6efc2971ac128e7c3673b481217b42208eb0f09ee6b13cb",
+          "performance_params.svh": "17f4268864e333e54e0b0ef31922128c36c738d81d2b959020cb61acbf5621c2",
+          "dlgn_top.sv": "b6a2f49c788f2451b7615f3f6d8d4dbdca947ac14f246841bff0c8ccdbf12d7f",
+          "uart.sv": "dec4cff65fe3871f5cf1c068e2148745ed6145c71913f319ae253cee52f53a1d",
+          "dlgn_uart.sv": "365bc7c3ed87321d8030eafe147118da5441a437f719b899e7db4753155e53b4",
+          "board_top.sv": "7c357ad045a0eff5805a226c19311dfc50882576cee099dc563041e2f365935a",
+          "x.hex": "9f179501d74accfb28e43a29f8d24f990ea4e7ba1891790c2a14d49e5ba99fc5",
+          "exp_scores.hex": "caac54b30c76b22d27f57624d3ebeb25201f538fc4dec94b8ad4ecb8545e0d1e",
+          "exp_class.hex": "38ac19265686f2e372ef6b97445d1a724fc3b5034ffddd808829e78c532a9fd8",
+          "sim.log": "94c4daa68ff2a31dcc2d42b756c97c7409cb6eebfa5926b97cce097b84e71b0b"
+        },
+        "iverilog": {
+          "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/bin/iverilog",
+          "binary_sha256": "5df81b269e1ff2c965dd00ad5a8071ca17717f416003b3661a18b2dde430e73c"
+        },
+        "vvp": {
+          "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp",
+          "binary_sha256": "1a9bdf1f40102f64f015514f5069f99a5dd9f9f38de343743ef4c169fb358392"
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Cycle simulation and archived timing, not physical throughput measurement",
+    "Unroutable candidate has cycle counts only; qualified times/rates and Fmax are unavailable",
+    "UART stop-bit sampling can overlap the end of the last request byte with the reply",
+    "No energy or power reduction measured"
+  ]
+}

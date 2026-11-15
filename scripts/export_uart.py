@@ -32,7 +32,7 @@ def main():
     p = export_uart(net, x, out, a.pipeline, a.sim_clks_per_bit, a.head_pipeline)
     print(f"wrote {out}: {len(x)} UART test images, "
           f"{p['input_bytes']} image bytes, {p['reply_bytes']} reply bytes; "
-          f"core latency {p['LAT']} cycles")
+          f"core {p['LAT']} register stages, {p['LAT']-1} cycles from input capture to output availability")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 # H02 Project Context
 
 Background for anyone (or any AI assistant) working in this repo.
-Last updated: Nov 14, 2026.
+Last updated: Nov 15, 2026.
 
 ## Who and why
 
@@ -79,22 +79,23 @@ switch, and train the network itself to switch less while staying accurate.
 6. Nov 23-29: stretch goal (power-aware training); Thanksgiving slack.
 7. Nov 30-Dec 4: report, slides, demo, clean repo.
 
-## Status (updated Nov 14)
+## Status (updated Nov 15)
 
 - Toy training completed: `runs/digits_w1000`, digits dataset, 4 layers x 1,000
   gates, 60 epochs, seed 0, no activity penalty. Soft accuracy 93.78%; hard and
   NumPy reference accuracy 93.56%; discretization gap 0.22 percentage points.
   PyTorch hard-model scores match the NumPy reference.
 - Removed a stray backtick at the start of `tests/test_gates.py` that prevented
-  test collection. Latest `.venv/bin/python -m pytest tests -q`: **45 passed**,
-  including independent exhaustive head-pipeline and artifact/protocol checks.
+  test collection. Latest `.venv/bin/python -m pytest tests -q`: **71 passed**,
+  including independent exhaustive head-pipeline, artifact/protocol and
+  archived-timing/performance checks. Latest full run: 15.14 seconds, no skips.
 - Re-ran the trained model's combinational simulation and exported/simulated its
   pipelined version. Both pass **450/450 vectors**, comparing every integer
   class score and the predicted class with the NumPy reference. This covers the
   supplied test inputs; it is not formal equivalence over every possible input.
 - Synthesized both versions with Yosys 0.63, targeting iCE40:
 
-  | Version | LUT4 | Flip-flops | Carry cells | Latency (cycles) |
+  | Version | LUT4 | Flip-flops | Carry cells | Register stages |
   |---|---:|---:|---:|---:|
   | `rtl_comb` (input/output registers) | 2,929 | 268 | 123 | 2 |
   | `rtl_pipe` (also registers each logic layer) | 4,528 | 3,523 | 123 | 6 |
@@ -158,13 +159,14 @@ switch, and train the network itself to switch less while staying accurate.
 - **Step 2.8 implementation/review (Nov 14):** the original UART design routed
   but failed the unchanged 12 MHz clock target (7.26 MHz estimate). Fixed with
   an optional score-register bank and balanced argmax tree (`--head-pipeline`),
-  giving a 3-cycle core valid-interface latency. Also made UART image commit
+  giving 3 register stages (2 elapsed clocks to output availability, 3 to
+  downstream capture). Also made UART image commit
   atomic to prevent partial-image switching from confounding inference activity.
 - The corrected candidate (`uart_comb_head`) uses **3,449 LUT4, 911 flip-flops,
   167 carry cells; 4,160/5,280 packed logic cells**. It routed successfully and
   met 12 MHz with **19.3858566 MHz post-route estimated maximum**. This is a
   tool estimate, not a measured board frequency. The current full-layer plus
-  head-pipelined/atomic candidate (`uart_pipe_head`, 7 cycles) needs **6,575/5,280
+  head-pipelined/atomic candidate (`uart_pipe_head`, 7 stages) needs **6,575/5,280
   cells**, so it is rejected before routing. Do not silently label both routed.
 - Corrected UART RTL matches all 450 saved images bit for bit. Functional
   simulation of synthesized iCE40 primitives passes 12 images using the real
@@ -192,8 +194,52 @@ switch, and train the network itself to switch less while staying accurate.
   Use a supported device-specific power flow or measured rail power. Vivado
   analysis on an AMD target would be a separate device experiment, not UP5K
   power evidence. Full literature differentiation and energy benefit are unproven.
-- **Next:** consolidate 2.9–2.10 performance reporting for the feasible candidate,
-  then mapped activity. The full-layer design needs resizing or a larger target.
+- **Step 2.9 timing audit (Nov 14):** `scripts/report_timing.py` verifies the
+  saved attempt status, nine archived file hashes, parameter provenance,
+  target/capacity/completion evidence and final clock result. It reads archives
+  without invoking FPGA tools or rewriting their validation records. Primary
+  and independent archives agree: 19.3858566 MHz estimated Fmax; 51.584 ns
+  same-clock input-register-to-score-register path, including 33.865 ns routing,
+  15.505 ns combinational logic, 1.390 ns clock-to-output and 0.824 ns setup.
+  The required clock remains 12 MHz; this is a revalidation of saved timing,
+  not a new implementation run or physical clock measurement. Older archives
+  without an executable fingerprint are explicitly labeled as missing it.
+  See [step 2.9](steps/2.9-read-and-verify-clock-timing.md) and
+  [timing summary](results/step-2.9-timing.json). The independent verifier added
+  18 report fault/compatibility cases; the full suite passed 63 tests in 10.62 s.
+  Review: [step 2.9](reviews/step-2.9-independent-review.md).
+  Step 2.9 remains partial across
+  architectures because the full-layer candidate cannot fit and has no Fmax.
+- **Step 2.10 performance report (Nov 15):** added
+  `scripts/report_performance.py` and `rtl/tb_performance.sv`; regenerated exact
+  RTL from the matched model and fresh NumPy score/class vectors. Each current
+  architecture passes 32 streaming core vectors and 3 full UART transactions
+  at the hardware divider of 104. The feasible head candidate has 3 register
+  stages, output availability after 2 elapsed clocks and downstream capture
+  after 3; initiation interval is 1. At the qualified 12 MHz these are
+  cycle-equivalent 166.67 ns / 250 ns, not measured physical propagation times.
+  Its calculated standalone interface capacity is 12 million images/s;
+  the existing UART board interface cannot supply an image each clock.
+- Feasible UART first-request-start to final-reply-stop completion is
+  40,528.5 clocks (cycle-equivalent 3.377375 ms); the benchmark's immediate
+  ideal-host request-start interval is 40,529 clocks, about 296.0843 images/s.
+  USB/OS delays and physical board operation are not measured. The sum of all
+  directional byte times is 40,560 clocks, but it is not a wall-time lower
+  bound: the last request stop bit can overlap the reply on the other wire.
+- The full-layer candidate simulates 6 clocks to port / 7 to downstream
+  capture and 40,532.5-clock UART transactions. Its timing-qualified
+  nanosecond values, Fmax and throughput remain unavailable because it cannot
+  fit. Step 2.10 is partial as a two-architecture hardware comparison.
+  Independent tests cover all four register configurations, input bubbles,
+  UART boundaries, the shipped benchmark and matched-model/workload guards.
+  The initial benchmark's delta-cycle premature-completion failure was fixed
+  in the testbench only; its failed logs are retained. See
+  [step 2.10](steps/2.10-compare-latency-and-throughput.md),
+  [results](results/step-2.10-performance.json) and
+  [independent review](reviews/step-2.10-independent-review.md).
+- **Next:** step 3.2 will verify waveform recording, then 3.3 will capture the
+  baseline workload for activity analysis. The full-layer design still needs
+  resizing or a larger target for a second hardware performance result.
   No neural-network bitstream has been generated or programmed. A live serial
   host client is still pending. UART throughput must not be reported as the
   core's maximum throughput; power claims must specify the workload.
@@ -241,9 +287,15 @@ bash synth/synth_ice40.sh runs/digits_w1000/rtl_pipe
   27 pending. Partial tasks use the template's `In Progress` status. Dates,
   priorities and task owners remain unassigned unless supported by the notes;
   the Dec 4 final deadline is retained. The spreadsheet is a separate snapshot.
+  After the Nov 15 step 2.10 report, the Markdown checklist has 21 complete,
+  10 partial and 26 pending tasks; that older workbook has not been refreshed.
 
 ## How Anoop wants to work
 
+- Use `engineering:debug` when debugging tests or unexpected behavior. Follow
+  reproduce → isolate → diagnose → fix, then verify. Summaries should explain
+  expected/actual behavior, reproduction steps, root cause, fix, verification
+  and prevention. Preserve uncertainty when a root cause is not established.
 - For every step, use an independent verification sub-agent to check the code,
   methodology and results. Assess research correctness and relevance, fix
   blocking findings and have the verifier check the corrections. Keep claims
@@ -272,5 +324,7 @@ bash synth/synth_ice40.sh runs/digits_w1000/rtl_pipe
 - `dlgn/hard.py` is the golden model. RTL must match its integer class scores and its
   argmax, with **ties going to the lowest class index**.
 - Model hand-off format is `runs/<name>/model.json` (connections + gate IDs per layer).
-- Generated RTL always registers inputs and outputs, so Fmax is a real reg-to-reg number.
-  `--pipeline` adds a register after every layer (latency = depth + 2, else 2).
+- Generated RTL always registers inputs and outputs, so Fmax is a register-to-register
+  tool estimate. `LAT` counts register stages: depth + 2 with `--pipeline`,
+  otherwise 2, plus one for `--head-pipeline`. From input capture, port
+  availability is after `LAT-1` elapsed clocks; downstream capture is at `LAT`.
