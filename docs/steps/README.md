@@ -1,12 +1,13 @@
 # Project learning notes
 
 Start at step 1.1 and follow the previous/next links, or jump to a topic below.
-These notes explain completed work; the [project checklist](../PROJECT_CHECKLIST.md) also lists unfinished work.
+These notes explain completed work and the current partially completed implementation
+step; the [project checklist](../PROJECT_CHECKLIST.md) records exact status.
 
 Each note covers why, what, how, a small example, evidence, code and limitations.
 A completed learning note does not imply hardware deployment or energy reduction.
 
-## Completed steps
+## Documented steps
 
 | Step | Read this note |
 |---|---|
@@ -28,6 +29,7 @@ A completed learning note does not imply hardware deployment or energy reduction
 | 2.5 | [Establish the FPGA tool flow](2.5-establish-the-fpga-tool-flow.md) |
 | 2.6 | [Build the UART board interface](2.6-build-the-uart-interface.md) |
 | 2.7 | [Clock and pin constraints](2.7-clock-and-pin-constraints.md) |
+| 2.8 | [Placement/routing, timing fix and independent research review](2.8-place-and-route.md) — feasible candidate passes; full layer pipeline remains oversized |
 | 3.1 | [Measure logical switching in Python](3.1-measure-python-switching.md) |
 | 4.2 | [Preserve the unpenalized baseline](4.2-preserve-the-unpenalized-baseline.md) |
 | 7.1 | [Maintain project and learning notes](7.1-maintain-project-notes.md) |
@@ -41,8 +43,9 @@ A completed learning note does not imply hardware deployment or energy reduction
 
 ## What is not complete
 
-Steps 2.8–2.10 (DLGN placement/routing and performance) remain pending.
-Packing in step 2.7 found that the pipelined UART version exceeds UP5K logic-cell capacity.
+Step 2.8 now has a routed, timing-valid head-pipelined candidate. The full layer
+pipeline still exceeds UP5K capacity. Steps 2.9–2.10 need consolidated performance
+reporting; a timing report alone is not a complete architecture comparison.
 Waveform activity analysis, switching-aware training experiments, power estimates, board programming and electrical measurements also remain pending.
 Partial implementation such as the penalty code does not establish an experimental result.
 
@@ -52,3 +55,6 @@ After completing a checklist step, add or update its numbered Markdown note.
 Explain what changed, why it matters, how it was checked, the saved evidence,
 and what the result does not establish. Link older notes by filename.
 Update this index and PROJECT_CHECKLIST.md together.
+Every completed step now also needs independent sub-agent verification of code,
+methodology, evidence and bounded research relevance. Fix blocking findings and
+record the review; see [the step 2.8 review](../reviews/step-2.8-independent-review.md).

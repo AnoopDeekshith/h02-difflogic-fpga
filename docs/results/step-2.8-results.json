@@ -1,0 +1,194 @@
+{
+  "recorded": "2026-11-14",
+  "execution": "local macOS; no physical board or Codespaces",
+  "historical_original": {
+    "outcome": "timing_failed",
+    "clock": {
+      "clk$SB_IO_IN_$glb_clk": {
+        "achieved": 7.259317398071289,
+        "constraint": 12.00004768371582
+      }
+    },
+    "source": "runs/digits_w1000/uart_comb/pnr_uart.log"
+  },
+  "corrected_candidate": {
+    "core_latency": 3,
+    "synthesis": {
+      "lut4": 3449,
+      "flip_flops": 911,
+      "carry": 167
+    },
+    "implementation_directory": "runs/digits_w1000/uart_comb_head/implementation.UVAx2g",
+    "validated": {
+      "scope": "Tool-estimated single-clock routing/timing; not physical board or power validation",
+      "target": "iCE40UP5K-SG48",
+      "clock": {
+        "achieved": 19.38585662841797,
+        "constraint": 12.00004768371582
+      },
+      "utilization": {
+        "ICESTORM_DSP": {
+          "available": 8,
+          "used": 0
+        },
+        "ICESTORM_HFOSC": {
+          "available": 1,
+          "used": 0
+        },
+        "ICESTORM_LC": {
+          "available": 5280,
+          "used": 4160
+        },
+        "ICESTORM_LFOSC": {
+          "available": 1,
+          "used": 0
+        },
+        "ICESTORM_PLL": {
+          "available": 1,
+          "used": 0
+        },
+        "ICESTORM_RAM": {
+          "available": 30,
+          "used": 0
+        },
+        "ICESTORM_SPRAM": {
+          "available": 4,
+          "used": 0
+        },
+        "IO_I3C": {
+          "available": 2,
+          "used": 0
+        },
+        "SB_GB": {
+          "available": 8,
+          "used": 5
+        },
+        "SB_I2C": {
+          "available": 2,
+          "used": 0
+        },
+        "SB_IO": {
+          "available": 39,
+          "used": 4
+        },
+        "SB_LEDDA_IP": {
+          "available": 1,
+          "used": 0
+        },
+        "SB_RGBA_DRV": {
+          "available": 1,
+          "used": 0
+        },
+        "SB_SPI": {
+          "available": 2,
+          "used": 0
+        },
+        "SB_WARMBOOT": {
+          "available": 1,
+          "used": 0
+        }
+      },
+      "input_files": {
+        "synth_uart.json": "00d383915c0102fa302c59ee735cc98156cd55282140b26ef9841504e99dc627",
+        "synth_manifest.json": "0bb9efe07c3d27c4131ffff18d3e17f1975970031b938e80c9eb697b97618783",
+        "icebreaker_uart.pcf": "4a2a32e2a0c6ea08db293027b4742f73a70b0e7fbcc31b5ec2ba19986f066e2a",
+        "icebreaker_uart.sdc": "0396f2bbdd84864beff668e052b8785d80d29b62125f55d86b2456f4b736acda",
+        "tools.txt": "84751cffa4791248c1ace863ac5395ac0a8bc1feaec53a479d436fb900fd5a02"
+      },
+      "nextpnr": {
+        "path": "/opt/homebrew/Cellar/nextpnr-ice40/0.11.1_2/bin/nextpnr-ice40",
+        "binary_sha256": "b5986780c6d40dba01d4f404adf5e1250f334828dc9429757802d6751e7878fe"
+      },
+      "files": {
+        "routed_uart.asc": "dcbc3c66009e795bfe90f46ae97d31fa9f2c3448f12b66d52cce54f87ea9ca13",
+        "routed_uart.json": "c9b8cc84e4f277da39162e3d8bf53f2bbd5d5d5f49310d7d6455b8f73ba0e40d",
+        "timing_uart.json": "538c60dec7f33f85d37e375367490ab7f29dd8d19220f67085d1a70fa626d615",
+        "pnr_uart.log": "1acff355afe46f0918bab3578cfe2f3fa5fa78954e31b47348ea46c6538403cd"
+      }
+    }
+  },
+  "fully_pipelined_candidate": {
+    "core_latency": 7,
+    "outcome": "capacity_exceeded",
+    "utilization": {
+      "ICESTORM_DSP": {
+        "available": 8,
+        "used": 0
+      },
+      "ICESTORM_HFOSC": {
+        "available": 1,
+        "used": 0
+      },
+      "ICESTORM_LC": {
+        "available": 5280,
+        "used": 6575
+      },
+      "ICESTORM_LFOSC": {
+        "available": 1,
+        "used": 0
+      },
+      "ICESTORM_PLL": {
+        "available": 1,
+        "used": 0
+      },
+      "ICESTORM_RAM": {
+        "available": 30,
+        "used": 0
+      },
+      "ICESTORM_SPRAM": {
+        "available": 4,
+        "used": 0
+      },
+      "IO_I3C": {
+        "available": 2,
+        "used": 0
+      },
+      "SB_GB": {
+        "available": 8,
+        "used": 5
+      },
+      "SB_I2C": {
+        "available": 2,
+        "used": 0
+      },
+      "SB_IO": {
+        "available": 39,
+        "used": 4
+      },
+      "SB_LEDDA_IP": {
+        "available": 1,
+        "used": 0
+      },
+      "SB_RGBA_DRV": {
+        "available": 1,
+        "used": 0
+      },
+      "SB_SPI": {
+        "available": 2,
+        "used": 0
+      },
+      "SB_WARMBOOT": {
+        "available": 1,
+        "used": 0
+      }
+    },
+    "implementation_directory": "runs/digits_w1000/uart_pipe_head/implementation.1iiA0a"
+  },
+  "model_sha256": "e41fff60d1d77688291053b507b874c7c98e18120089d8b9a0096f83c3f45c96",
+  "verification": {
+    "full_suite_tests": 45,
+    "exhaustive_head_cases": 16,
+    "exhaustive_head_input_evaluations": 16384,
+    "rtl_uart_images": 450,
+    "mapped_functional_images": 12,
+    "independent_mapped_images": 3,
+    "independent_route_directory": "runs/digits_w1000/uart_comb_head/implementation.ogVBqL"
+  },
+  "limits": [
+    "No energy reduction demonstrated",
+    "No physical deployment or power measurement",
+    "Tool-estimated clock result, not measured board frequency",
+    "No universal formal equivalence or MTBF certification",
+    "Historical digits test already inspected; baseline and penalty runs must share corrected protocol"
+  ]
+}

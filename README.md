@@ -8,14 +8,15 @@ For simple explanations of completed work, start with the
 
 Train a network where every neuron is a two-input logic gate (Petersen et al.,
 "Deep Differentiable Logic Gate Networks", NeurIPS 2022), lock each gate to one
-rule, export the result as Verilog, and prove the hardware matches the software
+rule, export the result as Verilog, and test that hardware matches software
 bit for bit. Extension: measure switching power and train the network to switch less.
 
 ## Pipeline
 
 ```
-train (soft gates)  ->  discretize (hard gates)  ->  Verilog + testbench  ->  simulate (bit-exact)  ->  synthesize (LUTs, Fmax, power)
-scripts/train.py        dlgn/hard.py                  scripts/export.py         sim/run_sim.sh             synth/
+train -> discretize -> export -> simulate -> synthesize -> place/route -> timing
+
+Activity, power and energy evaluation are separate experiments, still pending.
 ```
 
 ## Setup
@@ -30,11 +31,17 @@ python -m pytest tests -q        # core and UART regressions; simulator required
 ## Toy run (8x8 digits, about a minute on a laptop CPU)
 
 ```bash
-python scripts/train.py --dataset digits --width 1000 --depth 4 --tau 10 --epochs 60 --out runs/digits_w1000
-python scripts/export.py runs/digits_w1000
-bash sim/run_sim.sh runs/digits_w1000/rtl_comb   # expect: PASS
-bash synth/synth_ice40.sh runs/digits_w1000/rtl_comb   # LUT4 / FF counts for iCE40
+python scripts/train.py --dataset digits --width 1000 --depth 4 --tau 10 --epochs 60 --out runs/digits_new
+python scripts/export.py runs/digits_new
+bash sim/run_sim.sh runs/digits_new/rtl_comb   # expect: PASS
+bash synth/synth_ice40.sh runs/digits_new/rtl_comb   # LUT4 / FF counts for iCE40
 ```
+
+New training runs monitor a separate validation set and save partition indices
+and a checkpoint. Preserve `runs/digits_w1000` as the historical exploratory
+baseline; its old training protocol used the full training pool and monitored
+test accuracy. Retrain both controls and penalized models under the same new
+protocol before research comparisons.
 
 ## iCEBreaker implementation tool check
 
@@ -83,9 +90,32 @@ bash synth/implement_uart_ice40.sh runs/digits_w1000/uart_comb --pack-only
 ```
 
 This validates the constraints and packed capacity without placement/routing.
-The original UART design uses 3,795/5,280 packed logic cells. The pipelined UART
-design needs 6,236 and currently fails capacity checking (exit code 3).
+The historical step 2.7 UART designs used 3,795 and 6,236 packed cells respectively.
+Current corrected candidates and their independently verified results follow.
 See [step 2.7](docs/steps/2.7-clock-and-pin-constraints.md) for the explanation.
+
+## Routed candidate and independent verification
+
+The original design failed the 12 MHz target. The corrected head-pipelined
+candidate registers the class scores, balances winner selection and commits
+complete UART images atomically. It uses 4,160/5,280 cells and has a routed
+19.39 MHz estimate, passing 12 MHz. The current full-layer+head candidate needs
+6,575 cells and is rejected for capacity. Neither has been tested on a board.
+
+```bash
+python scripts/export_uart.py runs/digits_w1000 --head-pipeline --sim-clks-per-bit 8
+bash sim/run_sim.sh runs/digits_w1000/uart_comb_head
+bash synth/synth_uart_ice40.sh runs/digits_w1000/uart_comb_head
+bash synth/implement_uart_ice40.sh runs/digits_w1000/uart_comb_head
+python scripts/simulate_mapped_uart.py runs/digits_w1000/uart_comb_head --n 12
+```
+
+Each implementation attempt has fresh artifacts, source hashes and status.
+See the [step 2.8 walkthrough](docs/steps/2.8-place-and-route.md),
+[independent code/methodology review](docs/reviews/step-2.8-independent-review.md),
+and [compact results](docs/results/step-2.8-results.json).
+Every future completed step requires an independent verifier, including a
+bounded research assessment. No energy reduction or novelty is established yet.
 
 ## Layout
 

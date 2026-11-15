@@ -1,0 +1,401 @@
+[
+  {
+    "id": "1.1",
+    "task": "Prepare the toy dataset",
+    "doc": "docs/steps/1.1-prepare-the-digits-data.md",
+    "status": "Complete",
+    "evidence": "8×8 handwritten digits; each pixel encoded using three thresholds, giving 192 input bits per image."
+  },
+  {
+    "id": "1.2",
+    "task": "Implement the 16 two-input logic gates",
+    "doc": "docs/steps/1.2-implement-the-logic-gates.md",
+    "status": "Complete",
+    "evidence": "Truth tables, differentiable formulas, and Verilog expressions implemented. Gate tests pass."
+  },
+  {
+    "id": "1.3",
+    "task": "Implement the trainable network",
+    "doc": "docs/steps/1.3-build-the-trainable-network.md",
+    "status": "Complete",
+    "evidence": "Soft gate selection, fixed connections, and class-score calculation implemented."
+  },
+  {
+    "id": "1.4",
+    "task": "Train the baseline",
+    "doc": "docs/steps/1.4-train-the-baseline.md",
+    "status": "Complete",
+    "evidence": "4 layers × 1,000 gates, 60 epochs, seed 0, switching penalty disabled."
+  },
+  {
+    "id": "1.5",
+    "task": "Lock each gate to one rule",
+    "doc": "docs/steps/1.5-lock-the-gates.md",
+    "status": "Complete",
+    "evidence": "Discretized network saved in runs/digits_w1000/model.json."
+  },
+  {
+    "id": "1.6",
+    "task": "Measure recognition accuracy",
+    "doc": "docs/steps/1.6-measure-recognition-accuracy.md",
+    "status": "Complete",
+    "evidence": "Soft: 93.78%; hard: 93.56%; loss from discretization: 0.22 percentage points."
+  },
+  {
+    "id": "1.7",
+    "task": "Build the independent Python reference",
+    "doc": "docs/steps/1.7-build-the-python-reference.md",
+    "status": "Complete",
+    "evidence": "NumPy implementation computes gate outputs, integer class scores, and predictions. Hard PyTorch scores match it."
+  },
+  {
+    "id": "1.8",
+    "task": "Export the original Verilog design",
+    "doc": "docs/steps/1.8-export-the-verilog-core.md",
+    "status": "Complete",
+    "evidence": "Input/output registers, logic layers, score calculation, predicted class, and valid signals generated."
+  },
+  {
+    "id": "1.9",
+    "task": "Generate reference vectors and a self-checking testbench",
+    "doc": "docs/steps/1.9-generate-reference-vectors.md",
+    "status": "Complete",
+    "evidence": "Testbench compares every class score and the predicted class against Python."
+  },
+  {
+    "id": "1.10",
+    "task": "Verify the trained model in simulation",
+    "doc": "docs/steps/1.10-verify-the-core-bit-for-bit.md",
+    "status": "Complete",
+    "evidence": "450/450 images match exactly. This covers those inputs; it is not formal verification over every possible input."
+  },
+  {
+    "id": "1.11",
+    "task": "Run the existing regression tests",
+    "doc": "docs/steps/1.11-run-the-regression-tests.md",
+    "status": "Complete",
+    "evidence": "45 tests pass: 14 earlier cases, 16 independently written exhaustive head-pipeline cases, 11 artifact and 4 data-partition cases. See independent review for scope."
+  },
+  {
+    "id": "2.1",
+    "task": "Synthesize the original design for iCE40",
+    "doc": "docs/steps/2.1-synthesize-the-original-core.md",
+    "status": "Complete",
+    "evidence": "2,929 LUT4s, 268 flip-flops, 123 carry cells. Latency: 2 cycles."
+  },
+  {
+    "id": "2.2",
+    "task": "Export the pipelined design",
+    "doc": "docs/steps/2.2-add-pipeline-registers.md",
+    "status": "Complete",
+    "evidence": "Added registers after each of the four logic layers. Latency: 6 cycles."
+  },
+  {
+    "id": "2.3",
+    "task": "Verify the pipelined design",
+    "doc": "docs/steps/2.3-verify-the-pipelined-core.md",
+    "status": "Complete",
+    "evidence": "450/450 images match exactly, including scores and predictions."
+  },
+  {
+    "id": "2.4",
+    "task": "Synthesize the pipelined design",
+    "doc": "docs/steps/2.4-synthesize-the-pipelined-core.md",
+    "status": "Complete",
+    "evidence": "4,528 LUT4s, 3,523 flip-flops, 123 carry cells."
+  },
+  {
+    "id": "2.5",
+    "task": "Establish the timing-analysis flow",
+    "doc": "docs/steps/2.5-establish-the-fpga-tool-flow.md",
+    "status": "Complete",
+    "evidence": "Selected iCE40UP5K/SG48 and Yosys → nextpnr-ice40 → IceStorm. Installed nextpnr/IceStorm; counter check passed synthesis, placement/routing, 12 MHz timing, and bitstream generation. Run `bash synth/check_ice40_flow.sh`. This does not establish DLGN timing or board operation."
+  },
+  {
+    "id": "2.6",
+    "task": "Prepare a usable top-level interface",
+    "doc": "docs/steps/2.6-build-the-uart-interface.md",
+    "status": "Complete",
+    "evidence": "Four-pin UART board top implemented. Each request carries 24 encoded image bytes; each reply carries the class and 10 scores. Both architectures pass 450/450 serial images and synthesize. See `docs/UART_INTERFACE.md`. Physical fit/timing are pending."
+  },
+  {
+    "id": "2.7",
+    "task": "Add clock and implementation constraints",
+    "doc": "docs/steps/2.7-clock-and-pin-constraints.md",
+    "status": "Complete",
+    "evidence": "Explicit 12 MHz SDC clock plus all four PCF pins accepted by nextpnr. Mapped RX/reset synchronizer connections checked; no timing exceptions. Packing checked for both versions. See step 2.7 learning note for scope and capacity result."
+  },
+  {
+    "id": "2.8",
+    "task": "Place and route both architectures",
+    "doc": "docs/steps/2.8-place-and-route.md",
+    "status": "In Progress",
+    "evidence": "Original routed but failed 12 MHz (7.26 MHz estimate). Corrected head-only pipeline/atomic-input candidate routes at 12 MHz using 4,160/5,280 cells; independently reproduced. Current full-layer+head candidate needs 6,575 cells and cannot fit."
+  },
+  {
+    "id": "2.9",
+    "task": "Measure maximum clock frequency",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "In Progress",
+    "evidence": "Corrected candidate has a 19.3858566 MHz routed estimate at the fixed 12 MHz target. Other full-layer candidate is oversized. Consolidated scope/performance reporting and physical validation remain distinct."
+  },
+  {
+    "id": "2.10",
+    "task": "Compare performance",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Report clock frequency, latency in cycles and time, and predictions per second for both architectures."
+  },
+  {
+    "id": "3.1",
+    "task": "Count logical gate changes in Python",
+    "doc": "docs/steps/3.1-measure-python-switching.md",
+    "status": "Complete",
+    "evidence": "Baseline average: 0.34976 changes per gate per image transition, using the saved test order."
+  },
+  {
+    "id": "3.2",
+    "task": "Implement waveform recording",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "In Progress",
+    "evidence": "DUMP=1 support exists in the simulator script and testbench. No saved VCD waveform was found."
+  },
+  {
+    "id": "3.3",
+    "task": "Generate baseline waveforms",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Run the original design with waveform recording enabled and preserve the input sequence."
+  },
+  {
+    "id": "3.4",
+    "task": "Implement waveform activity analysis",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Count signal transitions, avoid counting aliases twice, and handle unknown values explicitly."
+  },
+  {
+    "id": "3.5",
+    "task": "Define the measurement window",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Exclude reset and startup; account for pipeline fill and drain so comparisons cover equivalent useful work."
+  },
+  {
+    "id": "3.6",
+    "task": "Separate activity categories",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Report logical-layer activity separately from registers, clock, control, and output logic where observable."
+  },
+  {
+    "id": "3.7",
+    "task": "Cross-check Python and RTL activity",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Compare corresponding settled logical outputs under the same image order. Explain discrepancies."
+  },
+  {
+    "id": "3.8",
+    "task": "Measure mapped hardware activity",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Extend beyond logical gates to signals in the synthesized or implemented design."
+  },
+  {
+    "id": "3.9",
+    "task": "Assess glitch activity",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Use an appropriate timing-aware simulation flow if supported. Ordinary RTL traces cannot establish physical glitch activity."
+  },
+  {
+    "id": "4.1",
+    "task": "Implement the training penalty",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "In Progress",
+    "evidence": "Code supports λ × mean[2p(1−p)], an IID zero-delay surrogate. One-epoch smoke validates execution only; effectiveness and energy correlation remain untested. Future runs use validation monitoring and saved partitions/checkpoints."
+  },
+  {
+    "id": "4.2",
+    "task": "Preserve the unpenalized baseline",
+    "doc": "docs/steps/4.2-preserve-the-unpenalized-baseline.md",
+    "status": "Complete",
+    "evidence": "Existing run uses λ = 0 and has saved accuracy, model, and logical switching results."
+  },
+  {
+    "id": "4.3",
+    "task": "Run an initial penalized experiment",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Train the same network with a small nonzero λ, holding the other settings constant."
+  },
+  {
+    "id": "4.4",
+    "task": "Sweep penalty strengths",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Compare several λ values using validation data for selection; reserve test results for final evaluation."
+  },
+  {
+    "id": "4.5",
+    "task": "Repeat selected experiments across seeds",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Check that improvements are reproducible rather than dependent on one initialization."
+  },
+  {
+    "id": "4.6",
+    "task": "Verify each selected model",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Export each model and repeat score-and-class comparisons against its own Python reference."
+  },
+  {
+    "id": "4.7",
+    "task": "Measure each model’s hardware cost and activity",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Compare accuracy, switching, LUTs, registers, and timing using a consistent procedure."
+  },
+  {
+    "id": "4.8",
+    "task": "Plot the tradeoffs",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Accuracy versus switching first; accuracy versus estimated or measured energy once available."
+  },
+  {
+    "id": "4.9",
+    "task": "Run the optional penalty ablation",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "In Progress",
+    "evidence": "Per-sample penalty mode exists, but no experiment has compared it with the batch-mean switching penalty."
+  },
+  {
+    "id": "5.1",
+    "task": "Select a supported power-analysis flow",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Confirm the FPGA target, software, and activity-file format. The notes propose Vivado for detailed power analysis, but this is not configured."
+  },
+  {
+    "id": "5.2",
+    "task": "Supply representative switching activity",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Import simulation activity and check which implemented signals receive it and which use tool defaults."
+  },
+  {
+    "id": "5.3",
+    "task": "Estimate baseline power",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Record operating conditions and report static and dynamic power separately, including the tool’s component breakdown."
+  },
+  {
+    "id": "5.4",
+    "task": "Estimate optimized-model power",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Use the same target, clock, workload, and analysis settings as the baseline."
+  },
+  {
+    "id": "5.5",
+    "task": "Calculate energy per prediction",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Divide the stated power quantity by sustained predictions per second; distinguish total energy from dynamic-only energy."
+  },
+  {
+    "id": "5.6",
+    "task": "Establish whether the extension succeeds",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Quantify energy reduction alongside accuracy, area, and performance changes. No energy reduction has been demonstrated yet."
+  },
+  {
+    "id": "6.1",
+    "task": "Confirm the available board",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Notes list an iCEBreaker/iCE40 UP5K; physical availability and connection have not been checked in this session."
+  },
+  {
+    "id": "6.2",
+    "task": "Implement host-to-board communication",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "In Progress",
+    "evidence": "FPGA UART adapter and packet format implemented; a serial host client and live connection remain pending."
+  },
+  {
+    "id": "6.3",
+    "task": "Verify the complete board design",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "In Progress",
+    "evidence": "UART pins, board reset, image assembly, core inference, and serial results pass end-to-end simulation. Host integration and physical-board checks remain pending."
+  },
+  {
+    "id": "6.4",
+    "task": "Generate and program a bitstream",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Complete board-specific constraints, placement/routing, timing checks, and programming."
+  },
+  {
+    "id": "6.5",
+    "task": "Compare board predictions against Python",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Send known test images and record exact prediction agreement."
+  },
+  {
+    "id": "6.6",
+    "task": "Set up electrical power measurement",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Identify measurement equipment and whether we can measure an FPGA supply rail or only whole-board power."
+  },
+  {
+    "id": "6.7",
+    "task": "Compare physical energy consumption",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Run identical workloads and record power, runtime, and predictions for baseline and optimized designs."
+  },
+  {
+    "id": "7.1",
+    "task": "Maintain current project notes",
+    "doc": "docs/steps/7.1-maintain-project-notes.md",
+    "status": "Complete",
+    "evidence": "Project context (docs/PROJECT_CONTEXT.md) contains the verified baseline and architecture comparison."
+  },
+  {
+    "id": "7.2",
+    "task": "Automate experiment summaries",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Collect configuration, seed, accuracy, switching, resources, timing, and power into a consistent results table."
+  },
+  {
+    "id": "7.3",
+    "task": "Preserve reproducible artifacts",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "In Progress",
+    "evidence": "Local models and logs exist, but runs/ is gitignored. Decide how final artifacts will be archived."
+  },
+  {
+    "id": "7.4",
+    "task": "Expand beyond the toy dataset",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "In Progress",
+    "evidence": "MNIST loading and training support exist; no saved MNIST experiment was found. Larger experiments follow the working baseline."
+  },
+  {
+    "id": "7.5",
+    "task": "Prepare the final report, plots, slides, and demo",
+    "doc": "docs/PROJECT_CHECKLIST.md",
+    "status": "Not Started",
+    "evidence": "Recorded final submission/presentation date: December 4, 2026. Existing proposal materials were not found in this repository."
+  }
+]

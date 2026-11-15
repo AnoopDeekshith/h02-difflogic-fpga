@@ -83,8 +83,10 @@ class DLGN(nn.Module):
         mode="batch"  (recommended): p_g = mean over the batch of gate g's
             soft output, i.e. the probability g outputs 1 across the input
             distribution. If consecutive inputs are independent, the
-            expected toggle rate is alpha_g = 2 p_g (1 - p_g). This is the
-            quantity a SAIF file measures.
+            expected zero-delay toggle probability is alpha_g = 2 p_g (1-p_g).
+            This is a training surrogate, not measured SAIF activity or power.
+            Actual transitions depend on input order; mapped nets, glitches,
+            clocking and capacitances need separate hardware evaluation.
         mode="sample": mean of 2 a (1 - a) per sample. This is NOT activity;
             it penalizes undecided soft outputs and mostly pushes the
             network toward discreteness. Keep it only as an ablation.

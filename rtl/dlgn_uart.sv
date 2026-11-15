@@ -20,6 +20,7 @@ module dlgn_uart #(
     reg [RW-1:0] reply_index;
     reg [TW-1:0] idle_count;
     reg [INPUT_BYTES*8-1:0] image;
+    reg [INPUT_BYTES*8-1:0] core_image;
     reg [REPLY_BYTES*8-1:0] reply;
     reg core_valid;
     wire [7:0] rx_data;
@@ -34,14 +35,14 @@ module dlgn_uart #(
         .clk(clk), .rst(rst), .data(reply[7:0]),
         .valid(state == SEND), .ready(tx_ready), .tx(uart_tx_pin));
     dlgn_top core (
-        .clk(clk), .rst(rst), .in_valid(core_valid), .x(image[IN-1:0]),
+        .clk(clk), .rst(rst), .in_valid(core_valid), .x(core_image[IN-1:0]),
         .out_valid(result_valid), .class_out(result_class), .scores(result_scores));
 
     always @(posedge clk) begin
         core_valid <= 0;
         if (rst) begin
             state <= HEAD0; input_index <= 0; reply_index <= 0;
-            idle_count <= 0; image <= 0; reply <= 0;
+            idle_count <= 0; image <= 0; core_image <= 0; reply <= 0;
         end else if ((state == HEAD1 || state == PAYLOAD) &&
                      (rx_error || idle_count == RX_TIMEOUT_CYCLES-1)) begin
             // Discard an incomplete frame on UART errors or a long byte gap.
@@ -58,6 +59,10 @@ module dlgn_uart #(
                 PAYLOAD: if (rx_valid) begin
                     image[input_index*8 +: 8] <= rx_data;
                     if (input_index == INPUT_BYTES-1) begin
+                        // Commit a complete image atomically; partial UART bytes
+                        // must not cause spurious inference-core transitions.
+                        core_image <= image;
+                        core_image[input_index*8 +: 8] <= rx_data;
                         core_valid <= 1; state <= RESULT;
                     end else input_index <= input_index + 1'b1;
                 end

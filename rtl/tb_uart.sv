@@ -1,11 +1,17 @@
 // Byte-level end-to-end test: UART pins -> adapter -> real DLGN -> UART pins.
 `timescale 1ns/1ps
-`include "uart.sv"
-`include "dlgn_uart.sv"
+`ifndef MAPPED_UART
+  `include "uart.sv"
+  `include "dlgn_uart.sv"
+`endif
 module tb_dlgn;
     `include "uart_params.svh"
     localparam INPUT_BYTES=(IN+7)/8, REPLY_BYTES=K+3;
+`ifdef MAPPED_UART
+    localparam TIMEOUT_CYCLES=3000000;
+`else
     localparam TIMEOUT_CYCLES=CPB*40;
+`endif
     reg clk=0, rst=1, rx=1;
     wire tx;
     reg [IN-1:0] xmem [N];
@@ -13,13 +19,29 @@ module tb_dlgn;
     reg [CW-1:0] cmem [N];
     integer nout=0, response_index=0, cycles=0;
     reg [7:0] response_byte, expected_byte;
+`ifdef MAPPED_UART
+    board_top dut (.clk(clk), .button_n(~rst), .uart_rx_pin(rx), .uart_tx_pin(tx));
+`else
     icebreaker_top #(.IN(IN), .K(K), .SW(SW), .CW(CW),
         .CLKS_PER_BIT(CPB), .RX_TIMEOUT_CYCLES(TIMEOUT_CYCLES)) dut (
         .clk(clk), .button_n(~rst), .uart_rx_pin(rx), .uart_tx_pin(tx));
+`endif
     always #5 clk=~clk;
+`ifndef MAPPED_UART
+    reg [IN-1:0] previous_core_input = 0;
+    always @(posedge clk) begin
+        if (dut.reset_pipe[1]) previous_core_input <= 0;
+        else begin
+            if (dut.adapter.core_image[IN-1:0] !== previous_core_input &&
+                !dut.adapter.core_valid)
+                $fatal(1, "Core input changed during partial UART image collection");
+            previous_core_input <= dut.adapter.core_image[IN-1:0];
+        end
+    end
+`endif
     always @(posedge clk) begin
         cycles <= cycles+1;
-        if (cycles > (N+10)*(INPUT_BYTES+REPLY_BYTES+10)*12*(CPB+1))
+        if (cycles > 3*TIMEOUT_CYCLES + (N+10)*(INPUT_BYTES+REPLY_BYTES+10)*12*(CPB+1))
             $fatal(1, "UART test timeout: %0d/%0d replies", nout, N);
     end
 

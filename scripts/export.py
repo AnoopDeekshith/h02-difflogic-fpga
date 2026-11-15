@@ -21,6 +21,7 @@ def main():
     ap.add_argument("run")
     ap.add_argument("--n", type=int, default=0, help="test vectors (0 = all)")
     ap.add_argument("--pipeline", action="store_true")
+    ap.add_argument("--head-pipeline", action="store_true")
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
 
@@ -29,7 +30,9 @@ def main():
     if a.n:
         x = x[:a.n]
     out = a.out or os.path.join(a.run, "rtl_pipe" if a.pipeline else "rtl_comb")
-    p = export(net, x, out, pipeline=a.pipeline)
+    if a.head_pipeline and a.out is None:
+        out += "_head"
+    p = export(net, x, out, pipeline=a.pipeline, head_pipeline=a.head_pipeline)
     with open(os.path.join(out, "params.json"), "w") as f:
         json.dump(p, f, indent=2)
     print(f"wrote {out}/ (dlgn_top.sv, tb_dlgn.sv, {len(x)} vectors) "

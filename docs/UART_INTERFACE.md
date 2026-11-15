@@ -104,13 +104,20 @@ each architecture with the accelerated divider.
 
 ## What remains
 
+Follow-up: [step 2.8](steps/2.8-place-and-route.md) adds atomic completed-image
+updates and an optional head-pipelined core. The latter routes at the unchanged
+12 MHz target using 4,160 cells. `--head-pipeline` exports `uart_comb_head`;
+its core latency is 3 cycles. The packet layout is unchanged. The older resource
+counts below describe the historical step 2.7 versions.
+
 Step 2.7 now integrates explicit clock/pin constraints and checks the synthesized
 RX/reset connections. Packing uses 3,795/5,280 logic cells for the original UART
 design and 6,236/5,280 for the pipelined version. The latter cannot fit as built.
 See [the step 2.7 walkthrough](steps/2.7-clock-and-pin-constraints.md).
-Placement/routing and clock-speed measurements remain steps 2.8–2.10.
+Full-layer pipeline resizing and consolidated performance reporting remain.
 UART transfer time limits demo throughput;
 do not report it as the inference core's maximum throughput. Power experiments
 must distinguish this request/response workload from a core processing one
-image per clock. The core still evaluates its input registers during image
-collection; this adapter does not add clock gating or claim energy reduction.
+image per clock. The current adapter holds the completed core input during
+packet collection; registers remain clocked. It does not add clock gating or
+claim energy reduction.

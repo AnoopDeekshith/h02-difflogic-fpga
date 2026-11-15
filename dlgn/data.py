@@ -50,3 +50,12 @@ def get(name, **kw):
     if name == "mnist":
         return load_mnist(**kw)
     raise ValueError(name)
+
+
+def validation_indices(n, labels, fraction=0.2, seed=0):
+    """Partition only the supplied training pool; the test set stays separate."""
+    from sklearn.model_selection import train_test_split
+    if not 0 < fraction < 1:
+        raise ValueError("validation fraction must be between 0 and 1")
+    return train_test_split(np.arange(n), test_size=fraction, random_state=seed,
+                            stratify=labels)

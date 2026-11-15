@@ -6,7 +6,8 @@ Completed-step explanations start at [the learning index](steps/README.md).
 
 We have completed the toy model, functional verification, and FPGA synthesis. Switching measurements, timing analysis, energy experiments, and physical deployment remain.
 
-This checklist reflects the code and saved results as of November 13, 2026.
+This checklist reflects the code and saved results as of November 14, 2026.
+New steps require an independent verification sub-agent and a recorded review.
 
 Status: ✅ Completed · ◐ Code exists, validation remains · ☐ Pending
 
@@ -24,7 +25,7 @@ The first part establishes that the trained network works and that its Verilog i
 | 1.8 | [Export the original Verilog design](steps/1.8-export-the-verilog-core.md) | ✅ | Input/output registers, logic layers, score calculation, predicted class, and valid signals generated. |
 | 1.9 | [Generate reference vectors and a self-checking testbench](steps/1.9-generate-reference-vectors.md) | ✅ | Testbench compares every class score and the predicted class against Python. |
 | 1.10 | [Verify the trained model in simulation](steps/1.10-verify-the-core-bit-for-bit.md) | ✅ | 450/450 images match exactly. This covers those inputs; it is not formal verification over every possible input. |
-| 1.11 | [Run the existing regression tests](steps/1.11-run-the-regression-tests.md) | ✅ | Suite includes 4 core/gate, 4 UART and 6 constraint tests, including deliberately incorrect pins, clocks and synchronizer wiring. See the latest test result in PROJECT_CONTEXT.md. |
+| 1.11 | [Run the existing regression tests](steps/1.11-run-the-regression-tests.md) | ✅ | 45 tests pass: 14 earlier cases, 16 independently written exhaustive head-pipeline cases, 11 artifact and 4 data-partition cases. See independent review for scope. |
 
 The second part establishes the FPGA resource cost and achievable performance.
 
@@ -37,8 +38,8 @@ The second part establishes the FPGA resource cost and achievable performance.
 | 2.5 | [Establish the timing-analysis flow](steps/2.5-establish-the-fpga-tool-flow.md) | ✅ | Selected iCE40UP5K/SG48 and Yosys → nextpnr-ice40 → IceStorm. Installed nextpnr/IceStorm; counter check passed synthesis, placement/routing, 12 MHz timing, and bitstream generation. Run `bash synth/check_ice40_flow.sh`. This does not establish DLGN timing or board operation. |
 | 2.6 | [Prepare a usable top-level interface](steps/2.6-build-the-uart-interface.md) | ✅ | Four-pin UART board top implemented. Each request carries 24 encoded image bytes; each reply carries the class and 10 scores. Both architectures pass 450/450 serial images and synthesize. See `docs/UART_INTERFACE.md`. Physical fit/timing are pending. |
 | 2.7 | [Add clock and implementation constraints](steps/2.7-clock-and-pin-constraints.md) | ✅ | Explicit 12 MHz SDC clock plus all four PCF pins accepted by nextpnr. Mapped RX/reset synchronizer connections checked; no timing exceptions. Packing checked for both versions. See step 2.7 learning note for scope and capacity result. |
-| 2.8 | Place and route both architectures | ☐ | Original UART version packs to 3,795/5,280 logic cells and still needs placement/routing. Pipelined UART version needs 6,236/5,280 and cannot fit as built; reduce resources or change target before routing it. |
-| 2.9 | Measure maximum clock frequency | ☐ | Obtain timing reports for both designs. The simulation clock is not evidence of achievable hardware frequency. |
+| 2.8 | [Place and route both architectures](steps/2.8-place-and-route.md) | ◐ | Original routed but failed 12 MHz (7.26 MHz estimate). Corrected head-only pipeline/atomic-input candidate routes at 12 MHz using 4,160/5,280 cells; independently reproduced. Current full-layer+head candidate needs 6,575 cells and cannot fit. |
+| 2.9 | Measure maximum clock frequency | ◐ | Corrected candidate has a 19.3858566 MHz routed estimate at the fixed 12 MHz target. Other full-layer candidate is oversized. Consolidated scope/performance reporting and physical validation remain distinct. |
 | 2.10 | Compare performance | ☐ | Report clock frequency, latency in cycles and time, and predictions per second for both architectures. |
 
 The third part measures switching before we claim any energy improvement.
@@ -59,7 +60,7 @@ The fourth part is your switching-aware training extension.
 
 | ID | Task | Status | Specific result or remaining work |
 |---|---|---|---|
-| 4.1 | Implement the training penalty | ◐ | Code supports λ × mean[2p(1−p)], using each gate’s batch-mean soft output. Effectiveness has not been tested. |
+| 4.1 | Implement the training penalty | ◐ | Code supports λ × mean[2p(1−p)], an IID zero-delay surrogate. One-epoch smoke validates execution only; effectiveness and energy correlation remain untested. Future runs use validation monitoring and saved partitions/checkpoints. |
 | 4.2 | [Preserve the unpenalized baseline](steps/4.2-preserve-the-unpenalized-baseline.md) | ✅ | Existing run uses λ = 0 and has saved accuracy, model, and logical switching results. |
 | 4.3 | Run an initial penalized experiment | ☐ | Train the same network with a small nonzero λ, holding the other settings constant. |
 | 4.4 | Sweep penalty strengths | ☐ | Compare several λ values using validation data for selection; reserve test results for final evaluation. |

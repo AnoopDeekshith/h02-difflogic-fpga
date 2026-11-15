@@ -8,7 +8,7 @@ from .export_verilog import export
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def export_uart(net, x_bits, outdir, pipeline=False, sim_clks_per_bit=104):
+def export_uart(net, x_bits, outdir, pipeline=False, sim_clks_per_bit=104, head_pipeline=False):
     if sim_clks_per_bit < 8:
         raise ValueError("UART simulation requires at least 8 clocks per bit")
     # Protocol v1 carries one byte per score and one byte for the class index.
@@ -16,7 +16,7 @@ def export_uart(net, x_bits, outdir, pipeline=False, sim_clks_per_bit=104):
         raise ValueError("UART protocol requires class indices and scores to fit in a byte")
     if not len(x_bits):
         raise ValueError("At least one input vector is required")
-    p = export(net, x_bits, outdir, pipeline=pipeline)
+    p = export(net, x_bits, outdir, pipeline=pipeline, head_pipeline=head_pipeline)
     out = Path(outdir)
     for name in ("uart.sv", "dlgn_uart.sv"):
         shutil.copyfile(ROOT / "rtl" / name, out / name)

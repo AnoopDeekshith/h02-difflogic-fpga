@@ -1,7 +1,7 @@
 # H02 Project Context
 
 Background for anyone (or any AI assistant) working in this repo.
-Last updated: Nov 13, 2026.
+Last updated: Nov 14, 2026.
 
 ## Who and why
 
@@ -44,8 +44,11 @@ reduce that switching during training:
 - Important: p must be the **batch mean**, not per-sample. Per-sample 2a(1-a) only pushes
   outputs toward 0/1 (discreteness), it does not measure switching. That variant is kept
   as an ablation (`--act-mode sample`).
-- Closest prior work to differentiate from: "Silicon Aware Neural Networks"
-  (arXiv 2604.19334), which uses an area-aware loss and assumes a fixed activity factor.
+- Relevant prior work includes [Silicon Aware Neural Networks](https://arxiv.org/abs/2604.19334)
+  (hardware-area-aware DLGN training) and [DiffPower](https://arxiv.org/abs/2608.03778)
+  (differentiable switching-power analysis/optimization). Broad novelty for
+  differentiable power optimization is not established. A narrower candidate is
+  DLGN gate-rule learning evaluated against mapped/measured FPGA energy.
 - Possible venues: ISLPED, FPL, FCCM, DATE, ICCAD.
 
 **Master's-level follow-ons:** glitch-aware training (real gates toggle more than the
@@ -76,15 +79,15 @@ switch, and train the network itself to switch less while staying accurate.
 6. Nov 23-29: stretch goal (power-aware training); Thanksgiving slack.
 7. Nov 30-Dec 4: report, slides, demo, clean repo.
 
-## Status (Nov 13)
+## Status (updated Nov 14)
 
 - Toy training completed: `runs/digits_w1000`, digits dataset, 4 layers x 1,000
   gates, 60 epochs, seed 0, no activity penalty. Soft accuracy 93.78%; hard and
   NumPy reference accuracy 93.56%; discretization gap 0.22 percentage points.
   PyTorch hard-model scores match the NumPy reference.
 - Removed a stray backtick at the start of `tests/test_gates.py` that prevented
-  test collection. Latest `.venv/bin/python -m pytest tests -q`: **14 passed**,
-  including four original tests, four UART regressions and six constraint tests.
+  test collection. Latest `.venv/bin/python -m pytest tests -q`: **45 passed**,
+  including independent exhaustive head-pipeline and artifact/protocol checks.
 - Re-ran the trained model's combinational simulation and exported/simulated its
   pipelined version. Both pass **450/450 vectors**, comparing every integer
   class score and the predicted class with the NumPy reference. This covers the
@@ -109,9 +112,10 @@ switch, and train the network itself to switch less while staying accurate.
   Post-route estimated Fmax was 79.74 MHz (12 MHz target met), with 28 packed
   logic cells. **This is the counter's timing, not the DLGN's.** Reports and
   bitstream are in `runs/toolchain_smoke/`; no hardware was programmed.
-- **Not yet done for the DLGN:** placement/routing, Fmax, physical board
-  deployment, power estimation, or activity-penalty experiments. Synthesis counts
-  alone do not establish routability. Vivado is not configured.
+- At the end of 2.5, DLGN placement/routing and timing were still pending.
+  See the 2.8 results below for the subsequent routed candidate. Physical board
+  deployment, power estimation and meaningful activity-penalty experiments
+  remain pending. Vivado is not configured.
 - **UART interface complete (checklist 2.6):** `scripts/export_uart.py` wraps the
   core with an 8N1 UART interface, nominally 115200 baud on a 12 MHz clock.
   `board_top` exposes clock, active-low button reset, serial RX and serial TX.
@@ -151,9 +155,45 @@ switch, and train the network itself to switch less while staying accurate.
   numbered Markdown note with purpose, method, example, evidence, code links,
   limitations and references to older notes. Local documentation links were
   checked; the older Excel tracker remains a separate snapshot.
-- **Next (checklist 2.8):** place/route the original wrapped DLGN. Reduce the
-  pipelined design's resources or select a larger target before routing it.
-  Steps 2.9–2.10 still need actual routed timing and performance results.
+- **Step 2.8 implementation/review (Nov 14):** the original UART design routed
+  but failed the unchanged 12 MHz clock target (7.26 MHz estimate). Fixed with
+  an optional score-register bank and balanced argmax tree (`--head-pipeline`),
+  giving a 3-cycle core valid-interface latency. Also made UART image commit
+  atomic to prevent partial-image switching from confounding inference activity.
+- The corrected candidate (`uart_comb_head`) uses **3,449 LUT4, 911 flip-flops,
+  167 carry cells; 4,160/5,280 packed logic cells**. It routed successfully and
+  met 12 MHz with **19.3858566 MHz post-route estimated maximum**. This is a
+  tool estimate, not a measured board frequency. The current full-layer plus
+  head-pipelined/atomic candidate (`uart_pipe_head`, 7 cycles) needs **6,575/5,280
+  cells**, so it is rejected before routing. Do not silently label both routed.
+- Corrected UART RTL matches all 450 saved images bit for bit. Functional
+  simulation of synthesized iCE40 primitives passes 12 images using the real
+  UART divider/timeout. That simulation is not routed-delay/glitch simulation.
+  The independent verifier reran placement/routing, checked all final hashes,
+  added 16 exhaustive cases (16,384 synthetic input evaluations), ran a separate
+  3-image mapped check, and found no remaining blocking defect in this scope.
+- Fresh attempt folders, status files, synthesis fingerprints, archived-input
+  validation and timing/capacity/BEL/log checks prevent stale output from being
+  called a successful new run. Final root evidence:
+  `runs/digits_w1000/uart_comb_head/implementation.UVAx2g/`; independent rerun:
+  `implementation.ogVBqL/`. Tracked summary: [step-2.8-results.json](results/step-2.8-results.json).
+  Walkthrough: [step 2.8](steps/2.8-place-and-route.md); review:
+  [independent verification](reviews/step-2.8-independent-review.md).
+- **Research correction:** future training monitors validation, not test,
+  uses fixed partition seed separately from model seed, and saves split indices
+  and checkpoints. Digits now has 1,077 train / 270 validation / 450 test.
+  Existing 93.56% baseline used 1,347 training examples and exposed test metrics;
+  preserve it as exploratory. Retrain both control and penalty models with the
+  same corrected protocol; the already inspected digits test is not pristine.
+  One-epoch smoke runs verify code paths only, not energy/accuracy improvements.
+- **Research verdict:** proceed conditionally. Freeze target, head architecture,
+  clock, input order and valid/workload pattern; repeat seeds and select using
+  validation. Logical switching depends on sequence order and is not energy.
+  Use a supported device-specific power flow or measured rail power. Vivado
+  analysis on an AMD target would be a separate device experiment, not UP5K
+  power evidence. Full literature differentiation and energy benefit are unproven.
+- **Next:** consolidate 2.9–2.10 performance reporting for the feasible candidate,
+  then mapped activity. The full-layer design needs resizing or a larger target.
   No neural-network bitstream has been generated or programmed. A live serial
   host client is still pending. UART throughput must not be reported as the
   core's maximum throughput; power claims must specify the workload.
@@ -182,9 +222,9 @@ bash synth/synth_ice40.sh runs/digits_w1000/rtl_pipe
   baseline VCD capture and activity-analysis validation remain pending.
 - Batch-mean switching-penalty and per-sample ablation code exist; their
   effectiveness has not been tested. No energy reduction has been demonstrated.
-- Implementation setup, interface, and constraints are complete through 2.7.
-  Next implementation work is placement/routing of the original UART design;
-  the pipelined version exceeds UP5K packed capacity as currently built.
+- Implementation setup, interface and constraints are complete through 2.7;
+  2.8 has an independently validated routed head-only candidate. The full-layer
+  candidate remains oversized, so the two-architecture item is partial.
   Next activity work: capture
   waveforms and compare equivalent useful-work windows against Python.
 - Research evaluation must use consistent targets, clocks, workloads and
@@ -196,9 +236,18 @@ bash synth/synth_ice40.sh runs/digits_w1000/rtl_pipe
 - Excel tracker: `outputs/h02-tracker-20261113/H02_Project_Tracker.xlsx`.
   It starts from the supplied snapshot; spreadsheet edits do not automatically
   synchronize back to these Markdown notes. Final course deadline: Dec 4, 2026.
+- Updated template-based tracker: `outputs/h02-tracker-20261114/H02_Project_Tracker.xlsx`.
+  It captures all 57 checklist tasks as of Nov 14: 21 complete, 9 partial,
+  27 pending. Partial tasks use the template's `In Progress` status. Dates,
+  priorities and task owners remain unassigned unless supported by the notes;
+  the Dec 4 final deadline is retained. The spreadsheet is a separate snapshot.
 
 ## How Anoop wants to work
 
+- For every step, use an independent verification sub-agent to check the code,
+  methodology and results. Assess research correctness and relevance, fix
+  blocking findings and have the verifier check the corrections. Keep claims
+  bounded by evidence. Persist these rules in the root `AGENTS.md`.
 - For every completed checklist step, create or update a simple numbered
   Markdown walkthrough in `docs/steps/`. Cover why, what, how, an example,
   evidence, code links and limitations; link older documents by filename.

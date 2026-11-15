@@ -52,6 +52,8 @@ def main():
     ap.add_argument("--act-weight", type=float, default=0.0)
     ap.add_argument("--act-mode", default="batch", choices=["batch", "sample"])
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--split-seed", type=int, default=0, help="fixed data partition seed, separate from model seed")
+    ap.add_argument("--val-frac", type=float, default=0.2)
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     ap.add_argument("--out", default="runs/latest")
     args = ap.parse_args()
@@ -59,11 +61,15 @@ def main():
     torch.manual_seed(args.seed)
     kw = {"pool": args.pool} if args.dataset == "mnist" else {}
     xtr, ytr, xte, yte = data.get(args.dataset, **kw)
+    train_idx, val_idx = data.validation_indices(len(xtr), ytr, args.val_frac, args.split_seed)
+    xval, yval = xtr[val_idx], ytr[val_idx]
+    xtr, ytr = xtr[train_idx], ytr[train_idx]
     dev = args.device
     Xtr, Ytr = torch.tensor(xtr, device=dev), torch.tensor(ytr, device=dev)
     Xte, Yte = torch.tensor(xte, device=dev), torch.tensor(yte, device=dev)
+    Xval, Yval = torch.tensor(xval, device=dev), torch.tensor(yval, device=dev)
     n_classes = int(ytr.max()) + 1
-    print(f"{args.dataset}: train {len(xtr)}, test {len(xte)}, {xtr.shape[1]} input bits")
+    print(f"{args.dataset}: train {len(xtr)}, validation {len(xval)}, test {len(xte)}, {xtr.shape[1]} input bits")
 
     model = DLGN(xtr.shape[1], args.width, args.depth, n_classes,
                  args.tau, seed=args.seed).to(dev)
@@ -88,12 +94,12 @@ def main():
             tot_ce += ce.item() * len(idx)
         if ep == 1 or ep % 10 == 0 or ep == args.epochs:
             model.set_hard(False)
-            sa = accuracy(model, Xte, Yte)
+            sa = accuracy(model, Xval, Yval)
             model.set_hard(True)
-            ha = accuracy(model, Xte, Yte)
+            ha = accuracy(model, Xval, Yval)
             model.set_hard(False)
-            msg = (f"ep {ep:3d}  ce {tot_ce/len(Xtr):.3f}  soft {sa:.4f}  "
-                   f"hard {ha:.4f}  ({time.time()-t0:.0f}s)")
+            msg = (f"ep {ep:3d}  ce {tot_ce/len(Xtr):.3f}  val_soft {sa:.4f}  "
+                   f"val_hard {ha:.4f}  ({time.time()-t0:.0f}s)")
             if args.act_weight > 0:
                 msg += f"  act {tot_act/len(Xtr):.3f}"
             print(msg, flush=True)
@@ -101,8 +107,10 @@ def main():
     # ---- three-way baseline ----
     os.makedirs(args.out, exist_ok=True)
     model.set_hard(False)
+    validation_soft_acc = accuracy(model, Xval, Yval)
     soft_acc = accuracy(model, Xte, Yte)
     model.set_hard(True)
+    validation_hard_acc = accuracy(model, Xval, Yval)
     hard_acc = accuracy(model, Xte, Yte)
     model.eval()
     with torch.no_grad():
@@ -117,6 +125,9 @@ def main():
     hist = {GATE_NAMES[g]: int((gates == g).sum()) for g in range(16)}
 
     metrics = dict(args=vars(args), soft_acc=soft_acc, hard_acc=hard_acc,
+                   evaluation_protocol="train_validation_test_v1",
+                   validation_soft_acc=validation_soft_acc, validation_hard_acc=validation_hard_acc,
+                   n_train=len(xtr), n_validation=len(xval), n_test=len(xte),
                    ref_acc=ref_acc, discretization_gap=soft_acc - hard_acc,
                    torch_vs_ref_scores_match=bool(match),
                    ref_toggle_rate=float(act_ref), n_gates=int(gates.size),
@@ -125,6 +136,9 @@ def main():
         json.dump(metrics, f, indent=2)
     np.save(os.path.join(args.out, "x_test_bits.npy"), xte.astype(bool))
     np.save(os.path.join(args.out, "y_test.npy"), yte)
+    np.savez(os.path.join(args.out, "split_indices.npz"), train=train_idx, validation=val_idx)
+    torch.save(dict(state_dict=model.state_dict(), args=vars(args)),
+               os.path.join(args.out, "checkpoint.pt"))
 
     print(f"\nsoft {soft_acc:.4f} | hard {hard_acc:.4f} | numpy ref {ref_acc:.4f} "
           f"| gap {100*(soft_acc-hard_acc):.2f} pts | torch==ref scores: {match}")
