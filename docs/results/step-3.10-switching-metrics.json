@@ -1,0 +1,304 @@
+{
+  "step": "3.10",
+  "scope": "Step 3.10: complementary switching metrics for the historical digits baseline.\n\nPuts side by side, with explicit populations and denominators:\n\n1. the training surrogate 2p(1-p) (p = mean hard output over the saved images)\n2. settled logical changes in the saved order, overall and per layer\n3. the finite-sample random-order expectation 2m(n-m)/(n(n-1)) and an\n   empirical permutation check\n4. tracked RTL waveform categories (3.6), mapped net bits (3.8) and the\n   SDF-timed glitch estimate on the routed board (3.9)\n\nThese views use different populations, windows and workloads. They are\ncomplementary, not independent evidence of energy savings.",
+  "model_run": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000",
+  "model_sha256": "e41fff60d1d77688291053b507b874c7c98e18120089d8b9a0096f83c3f45c96",
+  "inputs_sha256": "253af81718221c39a547817a77a79fa978e7d415aaf8759ae3dfe13ba888cdb7",
+  "order": "saved test order (450 images) unless stated",
+  "permutation_seed": 0,
+  "logical": {
+    "layers": {
+      "l1": {
+        "width": 1000,
+        "images": 450,
+        "adjacent_pairs": 449,
+        "bit_pair_opportunities": 449000,
+        "surrogate_mean_2p1mp": 0.2792953975308642,
+        "saved_order_changes": 126546,
+        "saved_order_rate": 0.28183964365256126,
+        "random_order_expected_rate": 0.27991743627814897,
+        "random_order_empirical": {
+          "permutations": 200,
+          "mean": 0.27963856347438754,
+          "std": 0.0027489050826198427,
+          "min": 0.2698507795100223,
+          "max": 0.2870044543429844
+        },
+        "constant_bits": 220
+      },
+      "l2": {
+        "width": 1000,
+        "images": 450,
+        "adjacent_pairs": 449,
+        "bit_pair_opportunities": 449000,
+        "surrogate_mean_2p1mp": 0.3178724740740741,
+        "saved_order_changes": 144016,
+        "saved_order_rate": 0.32074832962138083,
+        "random_order_expected_rate": 0.3185804305864885,
+        "random_order_empirical": {
+          "permutations": 200,
+          "mean": 0.3187247327394209,
+          "std": 0.0028358182372906116,
+          "min": 0.31179287305122494,
+          "max": 0.32598886414253897
+        },
+        "constant_bits": 177
+      },
+      "l3": {
+        "width": 1000,
+        "images": 450,
+        "adjacent_pairs": 449,
+        "bit_pair_opportunities": 449000,
+        "surrogate_mean_2p1mp": 0.3696603851851852,
+        "saved_order_changes": 167436,
+        "saved_order_rate": 0.3729086859688196,
+        "random_order_expected_rate": 0.3704836822568671,
+        "random_order_empirical": {
+          "permutations": 200,
+          "mean": 0.3704234743875279,
+          "std": 0.00336680640107723,
+          "min": 0.360630289532294,
+          "max": 0.38098440979955456
+        },
+        "constant_bits": 99
+      },
+      "l4": {
+        "width": 1000,
+        "images": 450,
+        "adjacent_pairs": 449,
+        "bit_pair_opportunities": 449000,
+        "surrogate_mean_2p1mp": 0.4194029530864198,
+        "saved_order_changes": 190171,
+        "saved_order_rate": 0.423543429844098,
+        "random_order_expected_rate": 0.42033703538728034,
+        "random_order_empirical": {
+          "permutations": 200,
+          "mean": 0.42057566815144765,
+          "std": 0.00398440864138476,
+          "min": 0.40792650334075725,
+          "max": 0.43309799554565703
+        },
+        "constant_bits": 3
+      }
+    },
+    "all_gates": {
+      "width": 4000,
+      "images": 450,
+      "adjacent_pairs": 449,
+      "bit_pair_opportunities": 1796000,
+      "surrogate_mean_2p1mp": 0.3465578024691358,
+      "saved_order_changes": 628169,
+      "saved_order_rate": 0.34976002227171493,
+      "random_order_expected_rate": 0.3473296461271962,
+      "random_order_empirical": {
+        "permutations": 200,
+        "mean": 0.34716106904231625,
+        "std": 0.0032692559413492815,
+        "min": 0.33757461024498886,
+        "max": 0.35518095768374164
+      },
+      "constant_bits": 499
+    },
+    "input_bits": {
+      "width": 192,
+      "images": 450,
+      "adjacent_pairs": 449,
+      "bit_pair_opportunities": 86208,
+      "surrogate_mean_2p1mp": 0.2523496913580247,
+      "saved_order_changes": 22013,
+      "saved_order_rate": 0.2553475315515961,
+      "random_order_expected_rate": 0.252911717396684,
+      "random_order_empirical": {
+        "permutations": 200,
+        "mean": 0.2529967056421678,
+        "std": 0.002148985575137466,
+        "min": 0.24689123979213065,
+        "max": 0.2573079064587973
+      },
+      "constant_bits": 41
+    }
+  },
+  "rtl_whole_trace_categories": {
+    "output_logic": 505537,
+    "clock": 914,
+    "control": 11,
+    "logical_layer_copy": 629527,
+    "input_port": 22071,
+    "logical_layer_output": 629527,
+    "elaboration_constant": 0,
+    "data_register": 36923,
+    "head_score_register_view": 14061,
+    "simulator_bookkeeping": 2,
+    "testbench": 4582
+  },
+  "mapped_categories": {
+    "whole_trace": {
+      "carry": 23856,
+      "clock": 914,
+      "control": 3,
+      "data_input": 22071,
+      "ff": 51053,
+      "lut": 569566
+    },
+    "complete_burst": {
+      "carry": 23839,
+      "clock": 904,
+      "control": 3,
+      "data_input": 22071,
+      "ff": 50989,
+      "lut": 569484
+    }
+  },
+  "timed": {
+    "categories": {
+      "clock": {
+        "nets": 2,
+        "timed_transitions": 1302720,
+        "timed_unknown_changes": 0,
+        "settled_changes": 0,
+        "extra_transitions": 1302720,
+        "nets_with_extra": 2,
+        "untimed_events": 1302720,
+        "extra_per_settled": null
+      },
+      "core": {
+        "nets": 3252,
+        "timed_transitions": 32580,
+        "timed_unknown_changes": 0,
+        "settled_changes": 12178,
+        "extra_transitions": 20402,
+        "nets_with_extra": 1897,
+        "untimed_events": 76864,
+        "extra_per_settled": 1.6753161438659878
+      },
+      "global_buffer": {
+        "nets": 4,
+        "timed_transitions": 608,
+        "timed_unknown_changes": 0,
+        "settled_changes": 608,
+        "extra_transitions": 0,
+        "nets_with_extra": 0,
+        "untimed_events": 1216,
+        "extra_per_settled": 0.0
+      },
+      "interface": {
+        "nets": 1022,
+        "timed_transitions": 2923403,
+        "timed_unknown_changes": 0,
+        "settled_changes": 1723025,
+        "extra_transitions": 1200378,
+        "nets_with_extra": 164,
+        "untimed_events": 3294665,
+        "extra_per_settled": 0.6966689398006413
+      },
+      "io": {
+        "nets": 2,
+        "timed_transitions": 756,
+        "timed_unknown_changes": 0,
+        "settled_changes": 756,
+        "extra_transitions": 0,
+        "nets_with_extra": 0,
+        "untimed_events": 756,
+        "extra_per_settled": 0.0
+      },
+      "unclassified": {
+        "nets": 41,
+        "timed_transitions": 529032,
+        "timed_unknown_changes": 0,
+        "settled_changes": 528932,
+        "extra_transitions": 100,
+        "nets_with_extra": 17,
+        "untimed_events": 529934,
+        "extra_per_settled": 0.00018906021946110276
+      }
+    },
+    "totals": {
+      "nets": 4321,
+      "timed_transitions": 3486379,
+      "timed_unknown_changes": 0,
+      "settled_changes": 2265499,
+      "extra_transitions": 1220880,
+      "nets_with_extra": 2078,
+      "untimed_events": 3903435,
+      "extra_per_settled": 0.5389011427504492
+    },
+    "n_images": 8
+  },
+  "table": [
+    {
+      "metric": "Training surrogate mean 2p(1-p)",
+      "population": "4,000 learned gates (hard outputs)",
+      "denominator": "per gate; order-free",
+      "value": 0.3465578024691358,
+      "source": "this step"
+    },
+    {
+      "metric": "Random-order expected change rate",
+      "population": "4,000 learned gates",
+      "denominator": "per gate per image pair (finite-sample exact)",
+      "value": 0.3473296461271962,
+      "source": "this step"
+    },
+    {
+      "metric": "Saved-order settled change rate",
+      "population": "4,000 learned gates",
+      "denominator": "1,796,000 gate-pair opportunities",
+      "value": 0.34976002227171493,
+      "source": "3.7 (RTL = NumPy)"
+    },
+    {
+      "metric": "Saved-order input-bit change rate",
+      "population": "192 thermometer input bits",
+      "denominator": "86,208 bit-pair opportunities",
+      "value": 0.2553475315515961,
+      "source": "3.7"
+    },
+    {
+      "metric": "RTL whole-trace known flips",
+      "population": "1,036 VCD identifiers, all categories",
+      "denominator": "count; includes reset/fill/drain, copies, clock",
+      "value": 1843155,
+      "source": "3.6"
+    },
+    {
+      "metric": "Mapped whole-trace known flips",
+      "population": "3,569 unique iCE40UP net bits (zero delay)",
+      "denominator": "count; standalone core, 450 images",
+      "value": 667463,
+      "source": "3.8"
+    },
+    {
+      "metric": "Timed extra per settled change, core",
+      "population": "3,252 routed core net bits",
+      "denominator": "per settled change; 8 images, SDF delays",
+      "value": 1.6753161438659878,
+      "source": "3.9"
+    },
+    {
+      "metric": "Timed extra per settled change, all non-clock",
+      "population": "4,321 routed UART-board non-clock net bits",
+      "denominator": "per settled change; dominated by UART interface nets",
+      "value": 0.5389011427504492,
+      "source": "3.9"
+    }
+  ],
+  "tracked_results_sha256": {
+    "step-3.6-activity-categories.json": "723d461d78cc314cfc202e7a54d8176f156d92d116d696ca7e7a029bcf3ca9d9",
+    "step-3.7-numpy-rtl-activity.json": "82b308807871e52d8daa6ace7fc946f43c424276a3e16851a5f1ecafde64f047",
+    "step-3.8-mapped-activity.json": "a6e0f865eca0556aea1870376fec4d75c6847aff2619331cb86f062bf9abe014",
+    "step-3.9-timed-activity.json": "eeb413148ebb610fee304e3deb64a1d47f7b1eb8ce3c70a1222c25187041b00e"
+  },
+  "interpretation": [
+    "2p(1-p) assumes independent consecutive inputs; it ignores order",
+    "For a random order of a fixed image set the exact expectation is 2m(n-m)/(n(n-1))",
+    "Saved-order rate exceeds it by under one permutation standard deviation (within shuffle noise)",
+    "Timed core nets include popcount/score/argmax logic, a wider population than the 4,000 gates",
+    "RTL/mapped/timed counts use different populations, windows and workloads; do not subtract them",
+    "No metric here is power or energy"
+  ],
+  "limits": [
+    "Historical exploratory baseline (test data already inspected), not a matched control",
+    "Surrogate uses hard outputs on the test set; training uses soft outputs on train batches",
+    "Timed glitch estimate covers only the first images on the routed UART board"
+  ]
+}

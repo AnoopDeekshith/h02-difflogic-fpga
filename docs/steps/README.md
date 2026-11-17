@@ -40,6 +40,8 @@ A completed learning note does not imply hardware deployment or energy reduction
 | 3.6 | [Separate activity categories](3.6-separate-activity-categories.md) — exclusive raw-ID categories and canonical settled layer activity; direct NumPy comparison is documented in 3.7 |
 | 3.7 | [Cross-check NumPy and RTL activity](3.7-cross-check-numpy-and-rtl-activity.md) — independently verified exact settled states, transition masks and per-gate counts across all 450 images |
 | 3.8 | [Measure mapped hardware activity](3.8-measure-mapped-activity.md) — independently verified mapped net-bit activity, zero-delay |
+| 3.9 | [Assess glitch activity](3.9-assess-glitch-activity.md) — SDF-timed routed board, 8 images; core glitch ratio 1.68 |
+| 3.10 | [Report complementary switching metrics](3.10-report-complementary-switching-metrics.md) — surrogate vs measured, per layer, RTL/mapped/timed views |
 | 4.2 | [Preserve the unpenalized baseline](4.2-preserve-the-unpenalized-baseline.md) |
 | 7.1 | [Maintain project and learning notes](7.1-maintain-project-notes.md) |
 

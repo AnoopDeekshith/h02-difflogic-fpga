@@ -1,0 +1,125 @@
+{
+  "step": "3.9",
+  "date": "2026-11-16",
+  "status": "independently verified",
+  "primary_report": "runs/step3.9-glitch/timed-activity.0hvnej44/result.json",
+  "primary_report_sha256": "e40c59019d8125af24c9c0cf95eab4778a506d85fb66d2c51f85a1c0399c40b0",
+  "n_images": 8,
+  "image_order": "first N of saved test order",
+  "implementation": "runs/digits_w1000/uart_comb_head/implementation.UVAx2g",
+  "bitstream_sha256": "dcbc3c66009e795bfe90f46ae97d31fa9f2c3448f12b66d52cce54f87ea9ca13",
+  "reroute_fmax_mhz": 19.39,
+  "clock": {
+    "nominal_hz": 12000000,
+    "simulated_period_ps": 83334,
+    "uart_clks_per_bit": 104
+  },
+  "window": {
+    "rule": "(first sample, last sample]; samples 1 ps before rising edges",
+    "samples": 325680,
+    "guard_ps": 10000,
+    "timed_max_event_offset_ps": 51369,
+    "untimed_max_event_offset_ps": 41667
+  },
+  "observed_net_bits": 4323,
+  "sdf_rewritten": {
+    "interconnect": 13871,
+    "instance": 4169
+  },
+  "categories": {
+    "clock": {
+      "nets": 2,
+      "timed_transitions": 1302720,
+      "timed_unknown_changes": 0,
+      "settled_changes": 0,
+      "extra_transitions": 1302720,
+      "nets_with_extra": 2,
+      "untimed_events": 1302720,
+      "extra_per_settled": null
+    },
+    "core": {
+      "nets": 3252,
+      "timed_transitions": 32580,
+      "timed_unknown_changes": 0,
+      "settled_changes": 12178,
+      "extra_transitions": 20402,
+      "nets_with_extra": 1897,
+      "untimed_events": 76864,
+      "extra_per_settled": 1.6753161438659878
+    },
+    "global_buffer": {
+      "nets": 4,
+      "timed_transitions": 608,
+      "timed_unknown_changes": 0,
+      "settled_changes": 608,
+      "extra_transitions": 0,
+      "nets_with_extra": 0,
+      "untimed_events": 1216,
+      "extra_per_settled": 0.0
+    },
+    "interface": {
+      "nets": 1022,
+      "timed_transitions": 2923403,
+      "timed_unknown_changes": 0,
+      "settled_changes": 1723025,
+      "extra_transitions": 1200378,
+      "nets_with_extra": 164,
+      "untimed_events": 3294665,
+      "extra_per_settled": 0.6966689398006413
+    },
+    "io": {
+      "nets": 2,
+      "timed_transitions": 756,
+      "timed_unknown_changes": 0,
+      "settled_changes": 756,
+      "extra_transitions": 0,
+      "nets_with_extra": 0,
+      "untimed_events": 756,
+      "extra_per_settled": 0.0
+    },
+    "unclassified": {
+      "nets": 41,
+      "timed_transitions": 529032,
+      "timed_unknown_changes": 0,
+      "settled_changes": 528932,
+      "extra_transitions": 100,
+      "nets_with_extra": 17,
+      "untimed_events": 529934,
+      "extra_per_settled": 0.00018906021946110276
+    }
+  },
+  "totals": {
+    "nets": 4321,
+    "timed_transitions": 3486379,
+    "timed_unknown_changes": 0,
+    "settled_changes": 2265499,
+    "extra_transitions": 1220880,
+    "nets_with_extra": 2078,
+    "untimed_events": 3903435,
+    "extra_per_settled": 0.5389011427504492
+  },
+  "semantics": [
+    "extra_transitions = timed transitions - settled changes, per net",
+    "clock nets (2 edges per sampled cycle) are reported but excluded from totals",
+    "Icarus module-path and interconnect delays are inertial; pulses narrower than a path delay are not counted",
+    "untimed_events are zero-delay simulator events (delta ordering), not glitches",
+    "settled changes agree exactly between timed and untimed runs"
+  ],
+  "limits": [
+    "Single nextpnr delay corner; no measured silicon glitches",
+    "Routed UART board top, not the standalone core used in 3.3-3.8",
+    "Not power or energy; no capacitance weighting",
+    "Only the first 8 images in saved order"
+  ],
+  "simulator": {
+    "timed_flags": [
+      "-gspecify",
+      "-ginterconnect",
+      "-DTIMING",
+      "-DSDF"
+    ],
+    "untimed_flags": [],
+    "pulse_handling": "inertial on module paths and interconnects (probe: 200 ps pulse through a 300 ps interconnect and a 50 ps pulse were swallowed; 800 ps passed)"
+  },
+  "review": "docs/reviews/step-3.9-independent-review.md"
+}

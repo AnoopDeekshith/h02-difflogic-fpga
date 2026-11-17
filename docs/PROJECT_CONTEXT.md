@@ -417,8 +417,23 @@ switch, and train the network itself to switch less while staying accurate.
   whole-trace flips (LUT 569,566, FF 51,053, carry 23,856, data input 22,071,
   clock 914, control 3), 0 unknown. Full suite: 239 passed in 13.81 s, no skips.
   Deferred: parser/validator consolidation and repeated VCD passes.
-- **Next:** timing-aware glitch assessment in 3.9 and
-  complementary metric reporting in 3.10.
+- **Step 3.9 glitch estimate (Nov 16, independently verified):** added
+  `scripts/capture_timed_activity.py`. Re-routed the archived head-only UART
+  board with `--sdf` (bit-identical bitstream, 19.39 MHz), renamed cells so
+  Icarus parses the SDF, and simulated 8 images at 12 MHz with the real UART
+  divider, timed (`-gspecify -ginterconnect -DTIMING`) and zero delay. All
+  replies exact; settled values identical. Core: 32,580 timed transitions vs
+  12,178 settled changes, **1.68 extra per settled change**; interface 0.70.
+  Icarus filters pulses narrower than a path delay (inertial); one delay
+  corner; not energy. Evidence: `runs/step3.9-glitch/timed-activity.0hvnej44/`.
+- **Step 3.10 metrics (Nov 16):** `scripts/report_switching_metrics.py`.
+  Surrogate 2p(1−p) 0.3466, random-order expectation 0.3473, saved order
+  0.3498 per gate pair (within 1% per layer); saved order acts random
+  (difference < 1 permutation std). Layers 0.28→0.42; 499 constant gates.
+  The surrogate models settled changes only; routed-core glitches add ~1.7
+  transitions per settled change on 8 images.
+- **Next:** 4.1 onward (validation-only sweep mode 4.10 before 4.3–4.5);
+  code-review tidy-ups (shared VCD parser/validators) before sweeps.
   The full-layer design still needs
   resizing or a larger target for a second hardware performance result.
   No neural-network bitstream has been generated or programmed. A live serial
@@ -506,7 +521,7 @@ deployment 6.x retain their separate evidence requirements. Four pending tasks
 were added to the original 57-item checklist; the older Excel tracker is still
 a separate, unrefreshed snapshot.
 With steps 3.2–3.7 independently verified, the current Markdown checklist has
-**61 tasks: 28 complete, 9 partial and 24 pending** (after 3.8).
+**61 tasks: 30 complete, 9 partial and 22 pending** (after 3.10).
 
 ## How Anoop wants to work
 
