@@ -1,0 +1,312 @@
+{
+  "step": "3.2",
+  "date": "2026-11-16",
+  "status": "passed_independent_review",
+  "scope": "Step 3.2 short core recording smoke; not full baseline capture, UART, routed-delay, switching-rate, power or energy evidence",
+  "primary_report": "runs/digits_w1000/waveform-check.njxy5prx/result.json",
+  "primary_report_sha256": "295c3a10955f40fe77a789a8e85a7864676f7815ad1e28e5f9934e1e2f617710",
+  "nominal_clock_mhz": 100,
+  "n_distinct_images": 8,
+  "input_order": "First 8 rows, unchanged saved order",
+  "source_sha256": {
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/model.json": "e41fff60d1d77688291053b507b874c7c98e18120089d8b9a0096f83c3f45c96",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/x_test_bits.npy": "253af81718221c39a547817a77a79fa978e7d415aaf8759ae3dfe13ba888cdb7",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/dlgn/export_verilog.py": "ba4a6677160948b9f40b3053917b3ac909473e23efb0834266a6698db95dcf18",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/dlgn/hard.py": "5b98258067a01625c4e17b575bc6a264e14e0c2edd0f0f232b3721a74202641c",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/dlgn/gates.py": "ddf3ee96c0055b6a95f761580aeb91edf12f76fc4385902f396ce9468ff90804",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/sim/run_sim.sh": "25906c648456f089c4b52a5d5f91b31b149b48c0b146ccd994bc8a69e8b7657f",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/check_waveform_recording.py": "cb2eebc38dc624b0017869c91035856047c94cff20650fbca5097ea80578f301"
+  },
+  "simulators": {
+    "iverilog": {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/bin/iverilog",
+      "sha256": "5df81b269e1ff2c965dd00ad5a8071ca17717f416003b3661a18b2dde430e73c",
+      "version": "Icarus Verilog version 13.0 (stable) (v13_0)\n\nCopyright (c) 2000-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\nIcarus Verilog Preprocessor version 13.0 (stable) (v13_0)\n\nCopyright (c) 1999-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\nIcarus Verilog Parser/Elaborator version 13.0 (stable) (v13_0)\n\nCopyright (c) 1998-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\n FLAGS DLL vvp.tgt\nvvp.tgt: Icarus Verilog VVP Code Generator 13.0 (stable) (v13_0)\n\nCopyright (c) 2001-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\n"
+    },
+    "vvp": {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp",
+      "sha256": "1a9bdf1f40102f64f015514f5069f99a5dd9f9f38de343743ef4c169fb358392",
+      "version": "Icarus Verilog runtime version 13.0 (stable) (v13_0)\n\nCopyright (c) 2001-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\n"
+    }
+  },
+  "records": [
+    {
+      "architecture": "comb",
+      "recording": false,
+      "folder": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/waveform-check.njxy5prx/comb_dump_0",
+      "passed_vectors": 8,
+      "params": {
+        "IN": 192,
+        "K": 10,
+        "SW": 7,
+        "CW": 4,
+        "LAT": 2,
+        "W": 1000,
+        "D": 4,
+        "G": 100,
+        "head_pipeline": false
+      },
+      "waveform": null,
+      "files_sha256": {
+        "dlgn_top.sv": "c165751c342093a7e20511908838399041880c280ca7eef7ea1e842ad7f2bd75",
+        "tb_dlgn.sv": "edf371f1902fcd9886b2aadac494c8d35561ee88673b80fe19f23c5b6939cc57",
+        "x.hex": "46c06867763496ff908d1714b7a1e2daf8900ee7068dece04f4a9cc8fb5870ba",
+        "exp_scores.hex": "8e290c745183ff481401f36ac106730e93d0e2f46e0590f40fc51462fc4c2e30",
+        "exp_class.hex": "5c02d247236c2ac21745d7a87a2b17f5c1404e16fd48ac6d4b8357eee0b800a8",
+        "params.json": "91f119d186bd138c7848a2aec1f5a5050169babfb5570e2a770823a0294bfcaa",
+        "command.json": "c1b892f1be7fabeada2c95d69e42d91427b0884dd4801b0e660e3bdb92b6bfa9",
+        "stdout.log": "40a0a863555b868ceb177c586d80b0dacd6c41d76c8c98a996c714ae97f9eaab",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sim.log": "40a0a863555b868ceb177c586d80b0dacd6c41d76c8c98a996c714ae97f9eaab"
+      }
+    },
+    {
+      "architecture": "comb",
+      "recording": true,
+      "folder": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/waveform-check.njxy5prx/comb_dump_1",
+      "passed_vectors": 8,
+      "params": {
+        "IN": 192,
+        "K": 10,
+        "SW": 7,
+        "CW": 4,
+        "LAT": 2,
+        "W": 1000,
+        "D": 4,
+        "G": 100,
+        "head_pipeline": false
+      },
+      "waveform": {
+        "timescale": "$timescale 1ps $end",
+        "final_timestamp": 145000,
+        "required_signals": {
+          "clk": {
+            "width": 1,
+            "identifier": "!"
+          },
+          "rst": {
+            "width": 1,
+            "identifier": "'"
+          },
+          "in_valid": {
+            "width": 1,
+            "identifier": "\""
+          },
+          "out_valid": {
+            "width": 1,
+            "identifier": "[+"
+          },
+          "x": {
+            "width": 192,
+            "identifier": "("
+          },
+          "scores": {
+            "width": 70,
+            "identifier": "f+"
+          },
+          "class_out": {
+            "width": 4,
+            "identifier": "c+"
+          },
+          "l0": {
+            "width": 192,
+            "identifier": "d+"
+          },
+          "l1": {
+            "width": 1000,
+            "identifier": "#"
+          },
+          "l2": {
+            "width": 1000,
+            "identifier": "$"
+          },
+          "l3": {
+            "width": 1000,
+            "identifier": "%"
+          },
+          "l4": {
+            "width": 1000,
+            "identifier": "&"
+          },
+          "l1_c": {
+            "width": 1000,
+            "identifier": "_+"
+          },
+          "l2_c": {
+            "width": 1000,
+            "identifier": "^+"
+          },
+          "l3_c": {
+            "width": 1000,
+            "identifier": "]+"
+          },
+          "l4_c": {
+            "width": 1000,
+            "identifier": "\\+"
+          }
+        },
+        "bytes": 177244,
+        "scope": "Recording observability only; no activity counts or window validation"
+      },
+      "files_sha256": {
+        "dlgn_top.sv": "c165751c342093a7e20511908838399041880c280ca7eef7ea1e842ad7f2bd75",
+        "tb_dlgn.sv": "edf371f1902fcd9886b2aadac494c8d35561ee88673b80fe19f23c5b6939cc57",
+        "x.hex": "46c06867763496ff908d1714b7a1e2daf8900ee7068dece04f4a9cc8fb5870ba",
+        "exp_scores.hex": "8e290c745183ff481401f36ac106730e93d0e2f46e0590f40fc51462fc4c2e30",
+        "exp_class.hex": "5c02d247236c2ac21745d7a87a2b17f5c1404e16fd48ac6d4b8357eee0b800a8",
+        "params.json": "91f119d186bd138c7848a2aec1f5a5050169babfb5570e2a770823a0294bfcaa",
+        "command.json": "f5b389c621c0c6b9085c598fb0c962d7b1671ed31ce165b215085cd801c09eb4",
+        "stdout.log": "b1c95b126c98262feafea80006b44930eaed8087b7f8dfdff5e46b56f2f9dc5d",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sim.log": "b1c95b126c98262feafea80006b44930eaed8087b7f8dfdff5e46b56f2f9dc5d",
+        "dlgn.vcd": "831097a9f6e54f618b6c70ceb9b7023c6ca5477c11557fcb3eb83b2bab57478f"
+      }
+    },
+    {
+      "architecture": "comb_head",
+      "recording": false,
+      "folder": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/waveform-check.njxy5prx/comb_head_dump_0",
+      "passed_vectors": 8,
+      "params": {
+        "IN": 192,
+        "K": 10,
+        "SW": 7,
+        "CW": 4,
+        "LAT": 3,
+        "W": 1000,
+        "D": 4,
+        "G": 100,
+        "head_pipeline": true
+      },
+      "waveform": null,
+      "files_sha256": {
+        "dlgn_top.sv": "5ff4e1056e7a4ef2443602cd8dbccaff5815851a89e22851ec6a9e6c84cae7c7",
+        "tb_dlgn.sv": "edf371f1902fcd9886b2aadac494c8d35561ee88673b80fe19f23c5b6939cc57",
+        "x.hex": "46c06867763496ff908d1714b7a1e2daf8900ee7068dece04f4a9cc8fb5870ba",
+        "exp_scores.hex": "8e290c745183ff481401f36ac106730e93d0e2f46e0590f40fc51462fc4c2e30",
+        "exp_class.hex": "5c02d247236c2ac21745d7a87a2b17f5c1404e16fd48ac6d4b8357eee0b800a8",
+        "params.json": "e913db934ddcc54e9280ac004a8d18ce16d4fe2b94a5359e464b9821167047f6",
+        "command.json": "4127ee5cd7c1b30d6e2490e2a058e85c41d8317c1aaa800acd63790d85920cf0",
+        "stdout.log": "29de925608b90226e954f8ddb4491625b5c6618194ada5668a59cc1b3f082db1",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sim.log": "29de925608b90226e954f8ddb4491625b5c6618194ada5668a59cc1b3f082db1"
+      }
+    },
+    {
+      "architecture": "comb_head",
+      "recording": true,
+      "folder": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/waveform-check.njxy5prx/comb_head_dump_1",
+      "passed_vectors": 8,
+      "params": {
+        "IN": 192,
+        "K": 10,
+        "SW": 7,
+        "CW": 4,
+        "LAT": 3,
+        "W": 1000,
+        "D": 4,
+        "G": 100,
+        "head_pipeline": true
+      },
+      "waveform": {
+        "timescale": "$timescale 1ps $end",
+        "final_timestamp": 155000,
+        "required_signals": {
+          "clk": {
+            "width": 1,
+            "identifier": "\""
+          },
+          "rst": {
+            "width": 1,
+            "identifier": "("
+          },
+          "in_valid": {
+            "width": 1,
+            "identifier": "#"
+          },
+          "out_valid": {
+            "width": 1,
+            "identifier": "n+"
+          },
+          "x": {
+            "width": 192,
+            "identifier": ")"
+          },
+          "scores": {
+            "width": 70,
+            "identifier": "w+"
+          },
+          "class_out": {
+            "width": 4,
+            "identifier": "t+"
+          },
+          "l0": {
+            "width": 192,
+            "identifier": "u+"
+          },
+          "l1": {
+            "width": 1000,
+            "identifier": "$"
+          },
+          "l2": {
+            "width": 1000,
+            "identifier": "%"
+          },
+          "l3": {
+            "width": 1000,
+            "identifier": "&"
+          },
+          "l4": {
+            "width": 1000,
+            "identifier": "'"
+          },
+          "l1_c": {
+            "width": 1000,
+            "identifier": "r+"
+          },
+          "l2_c": {
+            "width": 1000,
+            "identifier": "q+"
+          },
+          "l3_c": {
+            "width": 1000,
+            "identifier": "p+"
+          },
+          "l4_c": {
+            "width": 1000,
+            "identifier": "o+"
+          }
+        },
+        "bytes": 179200,
+        "scope": "Recording observability only; no activity counts or window validation"
+      },
+      "files_sha256": {
+        "dlgn_top.sv": "5ff4e1056e7a4ef2443602cd8dbccaff5815851a89e22851ec6a9e6c84cae7c7",
+        "tb_dlgn.sv": "edf371f1902fcd9886b2aadac494c8d35561ee88673b80fe19f23c5b6939cc57",
+        "x.hex": "46c06867763496ff908d1714b7a1e2daf8900ee7068dece04f4a9cc8fb5870ba",
+        "exp_scores.hex": "8e290c745183ff481401f36ac106730e93d0e2f46e0590f40fc51462fc4c2e30",
+        "exp_class.hex": "5c02d247236c2ac21745d7a87a2b17f5c1404e16fd48ac6d4b8357eee0b800a8",
+        "params.json": "e913db934ddcc54e9280ac004a8d18ce16d4fe2b94a5359e464b9821167047f6",
+        "command.json": "8ff99e206e39ec690c26aedf7463a6b4d3b1125dea8c06d899b498e695f297a1",
+        "stdout.log": "8d4cdf9ddef13ceb67647e7b6e6593ae6ef74fca39b7524cfa0c26369ab98f9c",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sim.log": "8d4cdf9ddef13ceb67647e7b6e6593ae6ef74fca39b7524cfa0c26369ab98f9c",
+        "dlgn.vcd": "41f0157a63b3502fdd052f51f5ea6edb122e08e89a0bf2649c50d4e2cf61973f"
+      }
+    }
+  ],
+  "limits": [
+    "Icarus recording only",
+    "Not the full baseline capture or timing-qualified workload",
+    "No activity totals, Python/RTL activity cross-check, power, energy or novelty result"
+  ],
+  "independent_report": "runs/digits_w1000/waveform-check.am2eksx1/result.json",
+  "independent_report_sha256": "b3aafbe03b873e732fc7255de54de1895cbeddca6cc0252ee12d7d050d4cd98f",
+  "verification": {
+    "targeted_tests_passed": 14,
+    "full_suite_passed": 85,
+    "full_suite_seconds": 9.34,
+    "skips": 0,
+    "review": "docs/reviews/step-3.2-independent-review.md"
+  }
+}

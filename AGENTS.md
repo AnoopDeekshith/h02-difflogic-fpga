@@ -26,3 +26,19 @@ Use `docs/PROJECT_CHECKLIST.md` to identify the current numbered step.
 - The NumPy model is the reference; scores and predicted class must match RTL,
   including lowest-index tie breaking. Keep historical baseline results distinct
   from experiments using changed training or hardware protocols.
+
+## Model routing and credit use
+
+- Anoop prefers Sol High for the main implementation work. Use `gpt-6-sol`
+  with high reasoning when explicitly selecting a Sol sub-agent.
+- Delegate substantial documentation drafting/formatting from verified artifacts
+  to `gpt-6-luna` with medium reasoning. Technical conclusions and energy claims
+  must come from reviewed evidence, not be invented by the documentation agent.
+- Keep routine independent correctness reviews on Sol High. Use `gpt-6-astra`
+  with high reasoning for critical measurement methodology, power/energy claims,
+  novelty assessment, final paper review and difficult unresolved technical issues.
+- Preserve the independent verifier requirement for every completed numbered step.
+  Give delegated agents bounded tasks and concise file/evidence handoffs; avoid
+  duplicating full-context work or rerunning completed experiments unnecessarily.
+- These choices concern sub-agents. Changing the main conversation's model
+  requires the app's model selector; do not claim to have changed it via tools.

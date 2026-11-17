@@ -1,7 +1,7 @@
 # H02 Project Context
 
 Background for anyone (or any AI assistant) working in this repo.
-Last updated: Nov 15, 2026.
+Last updated: Nov 16, 2026.
 
 ## Who and why
 
@@ -79,16 +79,17 @@ switch, and train the network itself to switch less while staying accurate.
 6. Nov 23-29: stretch goal (power-aware training); Thanksgiving slack.
 7. Nov 30-Dec 4: report, slides, demo, clean repo.
 
-## Status (updated Nov 15)
+## Status (updated Nov 16)
 
 - Toy training completed: `runs/digits_w1000`, digits dataset, 4 layers x 1,000
   gates, 60 epochs, seed 0, no activity penalty. Soft accuracy 93.78%; hard and
   NumPy reference accuracy 93.56%; discretization gap 0.22 percentage points.
   PyTorch hard-model scores match the NumPy reference.
 - Removed a stray backtick at the start of `tests/test_gates.py` that prevented
-  test collection. Latest `.venv/bin/python -m pytest tests -q`: **71 passed**,
+  test collection. Latest `.venv/bin/python -m pytest tests -q`: **194 passed**,
   including independent exhaustive head-pipeline, artifact/protocol and
-  archived-timing/performance checks. Latest full run: 15.14 seconds, no skips.
+  archived-timing/performance, recording/full-capture, counter/window/category
+  and NumPy/RTL activity checks. Latest full run: Nov 16, 13.83 seconds, no skips.
 - Re-ran the trained model's combinational simulation and exported/simulated its
   pipelined version. Both pass **450/450 vectors**, comparing every integer
   class score and the predicted class with the NumPy reference. This covers the
@@ -237,8 +238,188 @@ switch, and train the network itself to switch less while staying accurate.
   [step 2.10](steps/2.10-compare-latency-and-throughput.md),
   [results](results/step-2.10-performance.json) and
   [independent review](reviews/step-2.10-independent-review.md).
-- **Next:** step 3.2 will verify waveform recording, then 3.3 will capture the
-  baseline workload for activity analysis. The full-layer design still needs
+- **Step 3.2 recording check (Nov 16, independently verified):** added
+  `scripts/check_waveform_recording.py`. Fresh Icarus exports of the first eight
+  historical images pass exact score/class checks with recording on and off
+  for both original and head-only cores. Off produces no VCD; on records the
+  input/layer/output buses and clock/reset/valid with advancing timestamps.
+  Source/vector hashes match across recording modes. Primary evidence:
+  `runs/digits_w1000/waveform-check.njxy5prx/result.json`;
+  [walkthrough](steps/3.2-verify-waveform-recording.md) and
+  [tracked summary](results/step-3.2-waveform-recording.json).
+  Independent rerun: `waveform-check.am2eksx1/result.json` under the same model
+  directory. The verifier checked all source/tool/artifact hashes and independently
+  decoded the saved vectors against NumPy. Four simulator cases cover all
+  layer/head register combinations; ten inspector cases cover valid aliases,
+  unknown startup values and recording faults. All 14 pass with no skips.
+  [Independent review](reviews/step-3.2-independent-review.md).
+  This is a short nominal-100-MHz functional recording check, not a full
+  baseline waveform, qualified 12-MHz workload or activity/energy result.
+- **Waveform viewing (Nov 16):** Surfer 0.6.0 was already installed. Opened
+  the head-only eight-image VCD and visually verified clock/reset/valid,
+  input/layer buses, class and scores. Saved local view:
+  `runs/waveform-viewer/head-core-view.ron`; reopen with
+  `surfer --state-file runs/waveform-viewer/head-core-view.ron`.
+  The local `Surfer.app` launcher wraps an unchanged copy of the Homebrew
+  executable because desktop control could not target the bare CLI executable.
+  No additional viewer package was required. GTKWave's separate desktop launch
+  timed out with cause unestablished; Surfer is the verified viewer here.
+- **VS Code waveform viewing (Nov 16):** installed the Marketplace extension
+  `lramseyer.vaporview` 1.6.1 and opened the same eight-image head-only VCD in
+  the project window. Visually verified all twelve selected clock/control,
+  input/layer and output signals. Open `.vcd` files in VS Code and double-click
+  signals in the VaporView Netlist to display them. No rerun or RTL change was
+  needed; Surfer remains an available standalone option.
+- **Step 3.3 full baseline capture (Nov 16, independently verified):** added
+  `scripts/capture_baseline_waveform.py` and `rtl/tb_activity_capture.sv`.
+  All 450 saved inputs, unchanged order, pass every integer score/class check
+  using the historical unpenalized model and the feasible head-only core.
+  Regenerated core matches the existing export and archived passing
+  implementation. Standalone streaming II=1, not UART; three reset cycles,
+  falling-edge input drive, post-update output checks and held-input drain.
+  VCD includes all DUT signals plus transaction indices/counters and completion.
+  Nominal clock is 12 MHz; explicit 1 ps quantization gives an 83,334 ps period
+  (11,999,904.000768 Hz simulated). Archived constraints remain unchanged.
+  Primary raw report: `runs/digits_w1000/baseline-waveform.xs90rtvt/result.json`;
+  VCD is 6,476,465 bytes, ending at 38,083,639 ps. Model/input copies, source/
+  executable/artifact hashes, command logs and every capture/check timestamp
+  are preserved. See [walkthrough](steps/3.3-capture-the-baseline-waveform.md)
+  and [tracked summary](results/step-3.3-baseline-waveform.json).
+  Independent fresh capture: `baseline-waveform.q2umneq1/` under the same model
+  run. Separate decoding checks all 450 recorded inputs, scores/classes and
+  markers in both traces, with exact reset/drain boundaries and 457 rising
+  edges at the declared period. Each report's 13 source, 16 artifact and two
+  executable hashes passed. Ten independent capture/ledger regressions pass;
+  full suite: 95 passed in 10.83 s, no skips. See
+  [independent review](reviews/step-3.3-independent-review.md).
+  Raw trace includes reset/fill/drain; activity window approval, transition
+  totals, alias/unknown accounting and Python/RTL activity agreement remain
+  steps 3.4–3.7. This is not mapped-delay, physical power or energy evidence.
+- **Step 3.4 activity counter (Nov 16, independently verified):** added
+  `dlgn/vcd_activity.py` and `scripts/analyze_waveform.py`. The standard-library
+  streaming parser counts bit changes once per VCD identifier, retains aliases,
+  excludes first observations from toggles and separates known 0/1 transitions
+  from changes touching X/Z. Repeated values are ignored as transitions;
+  same-timestamp records would be counted, but Icarus writes each identifier at
+  most once per timestamp, so real-capture counts are settled per-timestamp.
+  Optional (start,end] mechanics carry state; useful-work selection remains 3.5.
+  Unsupported/malformed encodings fail rather than silently produce partial counts.
+  Fresh read-only analysis of the archived primary capture:
+  `baseline-waveform.xs90rtvt/activity-analysis.zemyttyn/result.json` under the
+  historical run. Whole-file diagnostic: 1,036 IDs, 1,843,155 known bit flips
+  (921,584 rises, 921,571 falls), 10,897 unknown-involving changes. These include
+  clock/control/testbench markers, separate logical copies, reset/fill/drain;
+  they are not the validated useful-work network total or a power/energy result.
+  The actual trace has no shared-ID aliases; synthetic tests cover that case.
+  A separate string-per-bit oracle agrees for every ID on both saved captures;
+  fresh independent analyses and audit scripts preserve provenance. Thirty-five
+  independent cases cover four-state values, aliases, ranges/timescales,
+  same-timestamp records, window mechanics and malformed/tampered inputs.
+  Initial two test metadata assumptions (range-free names/numeric timescale)
+  were corrected to the explicit report schema; counting semantics did not change.
+  Full suite: 130 passed in 10.16 s, no skips. See
+  [walkthrough](steps/3.4-count-waveform-transitions.md),
+  [summary](results/step-3.4-waveform-activity.json) and
+  [independent review](reviews/step-3.4-independent-review.md).
+- **Step 3.5 measurement windows (Nov 16, independently verified):** added
+  `scripts/report_activity_windows.py`. Each of 14 observation points has 450
+  known settled image states and 449 adjacent-image intervals. Windows use
+  (first settled state, last settled state] with carried baseline state, shifted
+  to each register/combination's availability; no single crop can remove fill
+  at all pipeline stages while retaining every image. Current head-only bounds
+  in ps: input port (250003,37666969], l0/layers (291670,37708636], head bank/
+  winner (375004,37791970], registered scores/class (458338,37875304]. All span
+  37,416,966 ps = 449 rounded simulation periods. These are not a shared
+  device-energy interval or the finite-burst runtime for 450 predictions.
+  Full clock/reset/valid and every raw input-port change are checked, along
+  with markers, references, known endpoints and held-input drain. An independent
+  verifier found that endpoint-only input checks accepted hidden between-sample
+  and drain pulses. The validator now requires the exact normalized falling-edge
+  input-change schedule. Both originally accepted malformed captures were
+  preserved and independently rechecked to confirm rejection after the fix.
+  Final primary evidence under the historical run:
+  `baseline-waveform.xs90rtvt/activity-windows.lf7s8aqq/result.json`;
+  independent reports: `activity-windows.p4p5y9h0/` under the primary capture
+  and `activity-windows.kuy7li2p/` under the independent capture. A separate
+  endpoint/provenance audit agrees on all windows; 22 independent tests cover
+  all four register configurations, repeated inputs and semantic/hash faults.
+  Full suite: 152 passed in 11.78 s, no skips. See
+  [walkthrough](steps/3.5-define-activity-windows.md),
+  [summary](results/step-3.5-activity-windows.json) and
+  [review](reviews/step-3.5-independent-review.md).
+  No transition total or logical-layer/NumPy activity comparison is claimed
+  here; known sampled endpoints do not erase intermediate recorded events.
+- **Step 3.6 categories (Nov 16, independently verified):** added
+  `scripts/report_activity_categories.py`. Exact exporter RTL/parameter and
+  capture/window checks precede role assignment. Whole-trace categories
+  partition all 1,036 IDs and reconcile every counter field; duplicate layer
+  views, registers, output logic, clock/control and simulation bookkeeping
+  remain explicit. Roles follow the circuit, not the VCD `reg` label;
+  `sc_flat` observes the head score bank but is not another register bank.
+  Unpacked score arrays are not separately dumped, so this is not a complete
+  physical storage inventory or mapped-node breakdown.
+  Four canonical layer buses `l1_c`–`l4_c` have 126,546 / 144,016 / 167,436 /
+  190,171 settled changes: **628,169 / 1,796,000 = 0.34976002 changes per
+  gate per image pair**, with 449 pairs. Four forwarding views are excluded
+  from that metric. Recorded layer events agree with settled counts in these
+  aligned windows (expected by construction: Icarus records one value per
+  identifier per timestamp); this is not physical glitch evidence. Whole-trace category
+  sum remains 1,843,155 known flips, including startup and redundant views.
+  Primary evidence: `baseline-waveform.xs90rtvt/activity-categories.w0799sk1/`;
+  independent reports: `.xs90rtvt/activity-categories.y98xlian/` and
+  `.q2umneq1/activity-categories.z_xyxdti/` under `runs/digits_w1000/`.
+  Separate raw/endpoint oracles agree on all three reports; all capture/source/
+  analysis hashes pass. Twenty independent tests cover four architectures,
+  aliases/copies, raw versus settled known/unknown pulses and provenance faults.
+  Full suite: **172 passed in 12.25 seconds, no skips**; no blocking finding.
+  See [walkthrough](steps/3.6-separate-activity-categories.md),
+  [summary](results/step-3.6-activity-categories.json) and
+  [review](reviews/step-3.6-independent-review.md).
+  This is a logical switching proxy, not energy, regularizer benefit or novelty.
+- **Step 3.7 NumPy/RTL activity (Nov 16, independently verified):** added
+  `scripts/compare_activity_numpy.py`. It binds the saved NumPy inputs/order,
+  model and fresh reference scores/classes to the capture, revalidates stage
+  windows, and compares every settled state and adjacent-image XOR mask,
+  followed by totals/rises/falls and per-gate counts. All **14 observations
+  match across 450 images**, including six tied-score images with lowest-index
+  winners. Zero sampled-state, transition-mask or per-gate discrepancies.
+  Canonical layers match NumPy exactly: 126,546 / 144,016 / 167,436 / 190,171
+  changes; total **628,169 / 1,796,000 = 0.34976002227171493**, with 314,079
+  rises and 314,090 falls. Fresh original `hard.toggle_rate` agrees. Raw
+  aligned observation counts also agree here; whole-file diagnostic counts
+  include other categories/startup and are a different measurement.
+  Primary read-only analysis under the historical run:
+  `baseline-waveform.xs90rtvt/activity-numpy.e4k0xtre/result.json`;
+  independent reports: `.xs90rtvt/activity-numpy.vsauy9f4/` and
+  `.q2umneq1/activity-numpy.e5oitt9n/` under `runs/digits_w1000/`.
+  Separate scalar-gate, line-decoded VCD and raw-event oracles audit all three
+  reports, full archived settled sequences and all provenance hashes.
+  Twenty-two independent tests cover four architectures, bit order, incorrect
+  states despite matching toggle totals, copies/registers, repeated inputs,
+  explicit ties, known/X pulses and reference/provenance faults. An initial
+  test incorrectly assumed repeated inputs guarantee score ties; a separate
+  deliberate tied-score fixture now verifies that property. Original failing
+  evidence and exact reproduction are preserved, with the correction rechecked.
+  Full suite: **194 passed in 13.83 seconds, no skips**; no production blocker.
+  See [walkthrough](steps/3.7-cross-check-numpy-and-rtl-activity.md),
+  [summary](results/step-3.7-numpy-rtl-activity.json) and
+  [review](reviews/step-3.7-independent-review.md).
+  This validates a matched logical proxy, not mapped activity, physical
+  glitches, power/energy benefit, regularizer effectiveness or novelty.
+- **Step 3.8 mapped activity (Nov 16, independently verified):**
+  code-review fixes applied: per-timestamp wording (Icarus records one value
+  per identifier per timestamp; measured max 1 in mapped trace), source hashes
+  taken before copying and rechecked at end, `yosys-config`/`vvp` taken from the
+  same install as `yosys`/`iverilog`, start-window and port-width validation,
+  clock/control/data input categories, 0/1 check on baseline inputs. Fresh
+  capture `runs/digits_w1000/mapped-activity.57fn0ze0/` passes 450/450 and its
+  reanalysis; 2,912 LUT4 / 339 FF / 123 carry, 3,569 net bits, 667,463 known
+  whole-trace flips (LUT 569,566, FF 51,053, carry 23,856, data input 22,071,
+  clock 914, control 3), 0 unknown. Full suite: 239 passed in 13.81 s, no skips.
+  Deferred: parser/validator consolidation and repeated VCD passes.
+- **Next:** timing-aware glitch assessment in 3.9 and
+  complementary metric reporting in 3.10.
+  The full-layer design still needs
   resizing or a larger target for a second hardware performance result.
   No neural-network bitstream has been generated or programmed. A live serial
   host client is still pending. UART throughput must not be reported as the
@@ -264,15 +445,17 @@ bash synth/synth_ice40.sh runs/digits_w1000/rtl_pipe
   deployment, and reproducibility/course deliverables. Preserve the distinction
   between completed work, existing code awaiting validation, and pending work.
 - Baseline Python logical switching is 0.34976 changes per gate per image
-  transition in the saved test order. Waveform recording support exists, but
-  baseline VCD capture and activity-analysis validation remain pending.
+  transition in the saved test order. Short recording checks and a full
+  450-image capture now have independently checked VCDs and raw activity counts;
+  useful-work windows, categories and exact settled logical/Python values,
+  transition masks and per-gate activity agreement are now verified.
 - Batch-mean switching-penalty and per-sample ablation code exist; their
   effectiveness has not been tested. No energy reduction has been demonstrated.
 - Implementation setup, interface and constraints are complete through 2.7;
   2.8 has an independently validated routed head-only candidate. The full-layer
   candidate remains oversized, so the two-architecture item is partial.
-  Next activity work: capture
-  waveforms and compare equivalent useful-work windows against Python.
+  Next activity work: mapped-net activity, supported timing-aware glitch
+  assessment and complementary metrics, before energy claims.
 - Research evaluation must use consistent targets, clocks, workloads and
   settings; validation data for selecting penalty strengths; repeated seeds;
   and separate reporting of switching, estimated power and measured energy.
@@ -289,6 +472,41 @@ bash synth/synth_ice40.sh runs/digits_w1000/rtl_pipe
   the Dec 4 final deadline is retained. The spreadsheet is a separate snapshot.
   After the Nov 15 step 2.10 report, the Markdown checklist has 21 complete,
   10 partial and 26 pending tasks; that older workbook has not been refreshed.
+
+## Professor-feedback continuation (Nov 16)
+
+Recovered prior conversation `01a1e2b2-7d25-7680-95f3-94ff4ccff21d` summarized
+Professor Eshraghian's suggestions: multiple switching metrics, Gray coding
+where relevant, and a manuscript draft for review before submission. The
+conversation discussed MCSoC 2027 with a Nov 30 target; verify current venue
+dates separately before submission. This is recovered conversational context,
+not a verbatim quote or a newly verified venue deadline.
+
+Anoop approved continuing the existing plan with additions, not restarting 1.1:
+
+- **3.10:** compare training surrogate, measured settled logical changes,
+  per-layer results, waveform categories and mapped activity where supported.
+  Counts and normalized rates are complementary, not independent energy proof.
+- **4.10 before 4.3–4.5:** add validation-only sweep mode (the trainer currently
+  evaluates test at the end of each run), validation switching and input-order
+  artifacts, explicit selection criteria and provenance. Train a new matched
+  lambda=0 control and penalized models; retain the old baseline separately.
+- **4.11:** investigate Gray coding separately after baseline measurement.
+  Grayscale is already the image format; current bit encoding is thermometer.
+  Identify useful signals before recoding. Pixel recoding needs retraining and
+  explicit quantization/input-width controls; score/counter changes need exact
+  function checks and area/timing/activity accounting. Distinguish interface
+  activity savings from changes to the learned network.
+- **7.6:** start the manuscript alongside experiments and obtain professor
+  review before submission. This task list does not authorize sending messages.
+
+No original task is removed. Proceed 3.2–3.7 with complementary reporting,
+then matched training and mapped comparison. Power/energy 5.x and physical
+deployment 6.x retain their separate evidence requirements. Four pending tasks
+were added to the original 57-item checklist; the older Excel tracker is still
+a separate, unrefreshed snapshot.
+With steps 3.2–3.7 independently verified, the current Markdown checklist has
+**61 tasks: 28 complete, 9 partial and 24 pending** (after 3.8).
 
 ## How Anoop wants to work
 

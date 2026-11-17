@@ -4,10 +4,30 @@ Saved from Anoop's supplied checklist on November 13, 2026. Initially a snapshot
 items 2.5–2.7 were subsequently updated after tool, UART and constraint checks.
 Completed-step explanations start at [the learning index](steps/README.md).
 
-We have completed the toy model, functional verification, synthesis, and a routed timing/performance report for the feasible candidate. The full pipeline remains over capacity. Switching measurements, energy experiments, and physical deployment remain.
+We have completed the toy model, functional verification, synthesis, a routed timing/performance report for the feasible candidate, full waveform capture, categorized activity and exact settled layer-value/activity comparison against NumPy. The full pipeline remains over capacity. Mapped activity, timing-aware glitch analysis, energy experiments and physical deployment remain.
 
-This checklist reflects the code and saved results as of November 15, 2026.
+This checklist reflects the code and saved results as of November 16, 2026.
 New steps require an independent verification sub-agent and a recorded review.
+
+## Professor-feedback additions (November 16)
+
+Continue the original plan; do not restart step 1.1. Digits images are already
+grayscale and currently use three-threshold thermometer encoding. Gray coding
+is a different bit representation, to be investigated separately in 4.11.
+Preserve the historical baseline and all failed implementation attempts.
+
+Feedback recovered from conversation `01a1e2b2-7d25-7680-95f3-94ff4ccff21d`:
+evaluate multiple switching metrics, investigate Gray coding where relevant,
+and send a manuscript draft to Professor Eshraghian before submission. This is
+the prior conversation's summary of feedback, not a verbatim professor quote.
+
+Execution order: finish recording/activity checks **3.2–3.7**, with metric
+reporting in **3.10**; complete the validation-only preparation **4.10 before
+4.3–4.5**; retrain a matched unpenalized control and penalized models. Carry
+selected models through 4.6–4.8 and mapped activity 3.8. Treat **4.11** as a
+separate encoding experiment after baseline activity is understood. Retain
+power/energy steps 5.x and deployment 6.x. Start writing in parallel and use
+**7.6** for professor review before submission. No original task is removed.
 
 Status: ✅ Completed · ◐ Partially complete; validation or feasibility remains · ☐ Pending
 
@@ -25,7 +45,7 @@ The first part establishes that the trained network works and that its Verilog i
 | 1.8 | [Export the original Verilog design](steps/1.8-export-the-verilog-core.md) | ✅ | Input/output registers, logic layers, score calculation, predicted class, and valid signals generated. |
 | 1.9 | [Generate reference vectors and a self-checking testbench](steps/1.9-generate-reference-vectors.md) | ✅ | Testbench compares every class score and the predicted class against Python. |
 | 1.10 | [Verify the trained model in simulation](steps/1.10-verify-the-core-bit-for-bit.md) | ✅ | 450/450 images match exactly. This covers those inputs; it is not formal verification over every possible input. |
-| 1.11 | [Run the existing regression tests](steps/1.11-run-the-regression-tests.md) | ✅ | 71 tests pass: 45 cases through step 2.8, 18 archived-timing report cases in 2.9, and 8 independent performance cases in 2.10. See the reviews for scope. |
+| 1.11 | [Run the existing regression tests](steps/1.11-run-the-regression-tests.md) | ✅ | 194 tests pass: 45 cases through step 2.8, 18 archived-timing cases in 2.9, 8 performance cases in 2.10, 14 recording cases in 3.2, 10 full-capture cases in 3.3, 35 activity-counter cases in 3.4, 22 measurement-window cases in 3.5, 20 category cases in 3.6 and 22 NumPy/RTL activity cases in 3.7. See the reviews for scope. |
 
 The second part establishes the FPGA resource cost and achievable performance.
 
@@ -47,14 +67,15 @@ The third part measures switching before we claim any energy improvement.
 | ID | Task | Status | Specific result or remaining work |
 |---|---|---|---|
 | 3.1 | [Count logical gate changes in Python](steps/3.1-measure-python-switching.md) | ✅ | Baseline average: 0.34976 changes per gate per image transition, using the saved test order. |
-| 3.2 | Implement waveform recording | ◐ | DUMP=1 support exists in the simulator script and testbench. No saved VCD waveform was found. |
-| 3.3 | Generate baseline waveforms | ☐ | Run the original design with waveform recording enabled and preserve the input sequence. |
-| 3.4 | Implement waveform activity analysis | ☐ | Count signal transitions, avoid counting aliases twice, and handle unknown values explicitly. |
-| 3.5 | Define the measurement window | ☐ | Exclude reset and startup; account for pipeline fill and drain so comparisons cover equivalent useful work. |
-| 3.6 | Separate activity categories | ☐ | Report logical-layer activity separately from registers, clock, control, and output logic where observable. |
-| 3.7 | Cross-check Python and RTL activity | ☐ | Compare corresponding settled logical outputs under the same image order. Explain discrepancies. |
-| 3.8 | Measure mapped hardware activity | ☐ | Extend beyond logical gates to signals in the synthesized or implemented design. |
+| 3.2 | [Verify waveform recording](steps/3.2-verify-waveform-recording.md) | ✅ | Fresh Icarus recording-on/off runs pass 8/8 exact score/class vectors for original and feasible head-only cores; required input/layer/output signals recorded. Independently reproduced; 14 focused tests pass. Short nominal-100-MHz mechanism check only; full baseline capture is documented in 3.3. |
+| 3.3 | [Capture full baseline waveforms](steps/3.3-capture-the-baseline-waveform.md) | ✅ | Independently reproduced full capture: 450/450 scores/classes. Historical unpenalized model, feasible head-only core, all saved inputs in original order, standalone streaming at nominal 12 MHz (83,334 ps simulation period). Full VCD input/output/marker decoding and provenance checked; raw reset/fill/drain preserved. |
+| 3.4 | [Implement waveform activity analysis](steps/3.4-count-waveform-transitions.md) | ✅ | Digital VCD bit counter groups true aliases by ID, excludes initialization from toggles and separates X/Z changes. 35 independent tests pass; separate per-ID oracle agrees on both full captures. Whole-file diagnostic: 1,843,155 known bit flips; includes markers/control/copies/startup/drain, not a validated useful-work network total or energy result. |
+| 3.5 | [Define and verify measurement windows](steps/3.5-define-activity-windows.md) | ✅ | Stage-aligned windows retain 450 known states/449 image pairs each, shifted for register availability; initialization excluded and final outputs retained. Clock/reset/valid/data schedule and held drain verified on both captures. Independent review rechecked the off-phase/drain pulse fix; 22 focused tests pass. These are not one global energy interval; categories and NumPy comparisons are documented in 3.6–3.7. |
+| 3.6 | [Separate activity categories](steps/3.6-separate-activity-categories.md) | ✅ | Independently verified exclusive whole-trace ID categories and 14 aligned observations. Canonical settled layers: 628,169 changes / 1,796,000 bit-pair opportunities = 0.34976002; copies excluded. Twenty focused tests pass; separate raw/settled oracles agree on both captures. RTL proxy only; direct NumPy comparison documented in 3.7, no energy claim. |
+| 3.7 | [Cross-check Python and RTL activity](steps/3.7-cross-check-numpy-and-rtl-activity.md) | ✅ | Independently verified exact values, transition masks and per-gate counts: 14 observations × 450 images, zero discrepancies, including six tied-score images. Canonical 628,169 changes / 1,796,000 opportunities = 0.34976002, matching fresh NumPy toggle_rate. Twenty-two focused tests pass; fixture-only tie assumption corrected and preserved. No mapped/glitch/power/energy claim. |
+| 3.8 | [Measure mapped hardware activity](steps/3.8-measure-mapped-activity.md) | ✅ | Independently verified zero-delay iCE40UP mapped sim: 3,569 net bits, 450/450 exact, 667,463 known whole-trace flips (LUT 569,566), 0 X/Z. Not glitches or energy. |
 | 3.9 | Assess glitch activity | ☐ | Use an appropriate timing-aware simulation flow if supported. Ordinary RTL traces cannot establish physical glitch activity. |
+| 3.10 | Report complementary switching metrics | ☐ | Compare training surrogate 2p(1−p), actual settled changes overall/per layer, waveform events by category and mapped activity where supported. State denominators, aliases, unknown handling, windows and order. Counts and normalized rates are complementary views, not independent evidence of energy savings. |
 
 The fourth part is your switching-aware training extension.
 
@@ -62,13 +83,15 @@ The fourth part is your switching-aware training extension.
 |---|---|---|---|
 | 4.1 | Implement the training penalty | ◐ | Code supports λ × mean[2p(1−p)], an IID zero-delay surrogate. One-epoch smoke validates execution only; effectiveness and energy correlation remain untested. Future runs use validation monitoring and saved partitions/checkpoints. |
 | 4.2 | [Preserve the unpenalized baseline](steps/4.2-preserve-the-unpenalized-baseline.md) | ✅ | Existing run uses λ = 0 and has saved accuracy, model, and logical switching results. |
-| 4.3 | Run an initial penalized experiment | ☐ | Train the same network with a small nonzero λ, holding the other settings constant. |
+| 4.3 | Run an initial penalized experiment | ☐ | After 4.10, retrain both λ=0 control and a small nonzero λ with matched splits, architecture, seed and training budget. Do not use the historical baseline as the matched control. |
 | 4.4 | Sweep penalty strengths | ☐ | Compare several λ values using validation data for selection; reserve test results for final evaluation. |
 | 4.5 | Repeat selected experiments across seeds | ☐ | Check that improvements are reproducible rather than dependent on one initialization. |
 | 4.6 | Verify each selected model | ☐ | Export each model and repeat score-and-class comparisons against its own Python reference. |
 | 4.7 | Measure each model’s hardware cost and activity | ☐ | Compare accuracy, switching, LUTs, registers, and timing using a consistent procedure. |
 | 4.8 | Plot the tradeoffs | ☐ | Accuracy versus switching first; accuracy versus estimated or measured energy once available. |
 | 4.9 | Run the optional penalty ablation | ◐ | Per-sample penalty mode exists, but no experiment has compared it with the batch-mean switching penalty. |
+| 4.10 | Prepare validation-only experiment selection | ☐ | Execute before 4.3–4.5: allow sweeps to defer test evaluation, save validation inputs/order and hard switching alongside accuracy, define accuracy/switching selection criteria and archive configurations/checkpoints/split provenance. Final test reporting follows selection; the already inspected digits test remains exploratory. |
+| 4.11 | Assess Gray coding in a separate experiment | ☐ | First identify candidate pixel/score/counter signals and actual transitions. Current pixel encoding is thermometer. Gray-coded pixel inputs require retraining and explicit input-width/quantization controls; register/counter recoding requires score/class equivalence and area/timing/activity accounting. Separate interface savings from learned-network savings; no automatic benefit is assumed. |
 
 The fifth part turns activity measurements into power and energy evidence.
 
@@ -102,3 +125,4 @@ Finally, we need a reproducible experiment package and the course deliverables.
 | 7.3 | Preserve reproducible artifacts | ◐ | Local models and logs exist, but runs/ is gitignored. Decide how final artifacts will be archived. |
 | 7.4 | Expand beyond the toy dataset | ◐ | MNIST loading and training support exist; no saved MNIST experiment was found. Larger experiments follow the working baseline. |
 | 7.5 | Prepare the final report, plots, slides, and demo | ☐ | Recorded final submission/presentation date: December 4, 2026. Existing proposal materials were not found in this repository. |
+| 7.6 | Send manuscript draft for professor review | ☐ | Write alongside experiments; send Professor Eshraghian a concrete draft with figures, measurement definitions, limitations and open questions before submission. Prior discussion targeted MCSoC 2027/November 30; independently verify venue dates before submission. Sending requires explicit user authorization. |

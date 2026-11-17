@@ -1,0 +1,82 @@
+{
+  "step": "3.8",
+  "status": "independently verified",
+  "date": "2026-11-16",
+  "evidence": "runs/digits_w1000/mapped-activity.57fn0ze0/result.json",
+  "mapping": {
+    "device": "iCE40 UltraPlus (-device u)",
+    "design": "fresh standalone head-only core",
+    "historic_board_mapping": "separate UART board synthesis; no mapped-net identity claim",
+    "primitive_counts": {
+      "SB_CARRY": 123,
+      "SB_DFF": 334,
+      "SB_DFFSR": 5,
+      "SB_LUT4": 2912
+    },
+    "net_bit_count": 3569,
+    "category_bit_counts": {
+      "carry": 123,
+      "clock": 1,
+      "control": 2,
+      "data_input": 192,
+      "ff": 339,
+      "lut": 2912
+    }
+  },
+  "simulation_ports_checked": 450,
+  "activity": {
+    "whole_trace": {
+      "window": {
+        "start_exclusive_tick": null,
+        "end_inclusive_tick": null
+      },
+      "totals": {
+        "known_toggles": 667463,
+        "rises": 333799,
+        "falls": 333664,
+        "unknown_changes": 0,
+        "four_state_changes": 667463,
+        "initial_unknown_bits": 0
+      },
+      "max_bus_records_per_tick": 1,
+      "categories": {
+        "carry": 23856,
+        "clock": 914,
+        "control": 3,
+        "data_input": 22071,
+        "ff": 51053,
+        "lut": 569566
+      }
+    },
+    "complete_burst": {
+      "window": {
+        "start_exclusive_tick": 250001,
+        "end_inclusive_tick": 37875304
+      },
+      "totals": {
+        "known_toggles": 667290,
+        "rises": 333697,
+        "falls": 333593,
+        "unknown_changes": 0,
+        "four_state_changes": 667290,
+        "initial_unknown_bits": 0
+      },
+      "max_bus_records_per_tick": 1,
+      "categories": {
+        "carry": 23839,
+        "clock": 904,
+        "control": 3,
+        "data_input": 22071,
+        "ff": 50989,
+        "lut": 569484
+      }
+    }
+  },
+  "tests": "239 passed, no skips",
+  "limits": [
+    "Zero-delay primitive simulation does not establish physical glitches or energy",
+    "Fresh standalone core mapping is not archived flattened routed UART board netlist",
+    "Historical exploratory baseline is not matched retrained control",
+    "No routed timing, physical power, energy or novelty claim"
+  ]
+}

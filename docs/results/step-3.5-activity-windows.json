@@ -1,0 +1,313 @@
+{
+  "step": "3.5",
+  "date": "2026-11-16",
+  "status": "passed_independent_review",
+  "primary_report": "runs/digits_w1000/baseline-waveform.xs90rtvt/activity-windows.lf7s8aqq/result.json",
+  "primary_report_sha256": "ea5624f652bb451b6c1448416dca62effc56922d303b5da06b2adc95f29c836d",
+  "capture_directory": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/baseline-waveform.xs90rtvt",
+  "capture_report_sha256": "b6586a47aea55867dc535cb7fcdd775a71f3ff53bda468e7562cc6cf2c2a3f09",
+  "capture_artifacts_sha256": {
+    "dlgn_top.sv": "5ff4e1056e7a4ef2443602cd8dbccaff5815851a89e22851ec6a9e6c84cae7c7",
+    "params.json": "e913db934ddcc54e9280ac004a8d18ce16d4fe2b94a5359e464b9821167047f6",
+    "model.json": "e41fff60d1d77688291053b507b874c7c98e18120089d8b9a0096f83c3f45c96",
+    "x_test_bits.npy": "253af81718221c39a547817a77a79fa978e7d415aaf8759ae3dfe13ba888cdb7",
+    "input_indices.json": "45dcd5844a08c2ffefbe006c5f2cf390ac44fa6e3bd8d3eac9b626d8cf5869e7",
+    "x.hex": "08bbbff1d90c5d10c0f77a3481748ece98e40c2b602d0db6e14db937601a14dd",
+    "exp_scores.hex": "f82236883d3d9d21170fd82a6c45984c41c898e1358ba69002010641326128f2",
+    "exp_class.hex": "3c176efde5a8b3122c778bcc9960ca92aa233c26dc699fc1ec80af6c8f433fc7",
+    "capture_params.svh": "19ef07bcd02baca36229066af5b6c30957c4e6cabe47e578d39fda46e498ad45",
+    "tb_activity_capture.sv": "117f014bd97bf8ad42224ad6add532c2259502b2d33d9fefce9dd33fe6b18d23",
+    "commands.json": "5bfed1dad36b995d3e0ae393ff85014c3fe57d613dfcb4bd9755e89f2f34447f",
+    "build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sim.log": "5fa94d59afec74ed7de0cfb8b6c979659a81295387da52d1a178e8a9c4af5e0b",
+    "events.csv": "3720263bfb848f1ef587800e2c6aadf5de68619186cdcd18752e448f666c2ce2",
+    "dlgn.vcd": "2bb9b2c3cd0537d5d732f66adfb42b120eb02575d2946d4b83b5de8a090c8ed7",
+    "simv": "5735914d06add6cd90b5560ad5594da1aa5fc2a4a367164b7ad1248e981db62b"
+  },
+  "source_sha256": {
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/report_activity_windows.py": "6bf2cd12e04e117d34b1547648ce4fe873a4a28c55fcaa7082bdc34ba6d91046",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/dlgn/vcd_activity.py": "ef8462503d477b54381d2baa7286f40c33266a619195b13917aee156c4e50d26",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/analyze_waveform.py": "c9463d3f2f7c5b0c22a958ad90e5929d915acd03c6be09a5fa46266960257447",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/capture_baseline_waveform.py": "d80046c8131dfed1085214fa6743c7b40e1d5844732484a4d1eabfdffd67f898"
+  },
+  "n_images": 450,
+  "architecture": {
+    "IN": 192,
+    "K": 10,
+    "SW": 7,
+    "CW": 4,
+    "LAT": 3,
+    "W": 1000,
+    "D": 4,
+    "G": 100,
+    "head_pipeline": true
+  },
+  "clock": {
+    "nominal_hz": 12000000,
+    "half_period_ps": 41667,
+    "simulated_period_ps": 83334,
+    "simulated_hz": 11999904.000767995,
+    "precision_ps": 1,
+    "note": "1 ps rounding; archived implementation target remains unchanged"
+  },
+  "window_policy": "Per-observation (frame0 settled, frameN-1 settled]; N states and N-1 adjacent pairs; exclude initialization",
+  "windows": [
+    {
+      "signal": "x",
+      "offset_from_input_ps": -41667,
+      "first_sample_ps": 250003,
+      "last_sample_ps": 37666969,
+      "start_exclusive_tick": 250003,
+      "end_inclusive_tick": 37666969,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": ")",
+      "width": 192,
+      "known_samples_verified": 450
+    },
+    {
+      "signal": "l0",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "u+",
+      "width": 192,
+      "known_samples_verified": 450
+    },
+    {
+      "signal": "l1_c",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "r+",
+      "width": 1000,
+      "known_samples_verified": 450
+    },
+    {
+      "signal": "l1",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "$",
+      "width": 1000,
+      "known_samples_verified": 450
+    },
+    {
+      "signal": "l2_c",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "q+",
+      "width": 1000,
+      "known_samples_verified": 450
+    },
+    {
+      "signal": "l2",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "%",
+      "width": 1000,
+      "known_samples_verified": 450
+    },
+    {
+      "signal": "l3_c",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "p+",
+      "width": 1000,
+      "known_samples_verified": 450
+    },
+    {
+      "signal": "l3",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "&",
+      "width": 1000,
+      "known_samples_verified": 450
+    },
+    {
+      "signal": "l4_c",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "o+",
+      "width": 1000,
+      "known_samples_verified": 450
+    },
+    {
+      "signal": "l4",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "'",
+      "width": 1000,
+      "known_samples_verified": 450
+    },
+    {
+      "signal": "sc_flat",
+      "offset_from_input_ps": 83334,
+      "first_sample_ps": 375004,
+      "last_sample_ps": 37791970,
+      "start_exclusive_tick": 375004,
+      "end_inclusive_tick": 37791970,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "v+",
+      "width": 70,
+      "known_samples_verified": 450
+    },
+    {
+      "signal": "best",
+      "offset_from_input_ps": 83334,
+      "first_sample_ps": 375004,
+      "last_sample_ps": 37791970,
+      "start_exclusive_tick": 375004,
+      "end_inclusive_tick": 37791970,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "!",
+      "width": 4,
+      "known_samples_verified": 450
+    },
+    {
+      "signal": "scores",
+      "offset_from_input_ps": 166668,
+      "first_sample_ps": 458338,
+      "last_sample_ps": 37875304,
+      "start_exclusive_tick": 458338,
+      "end_inclusive_tick": 37875304,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "w+",
+      "width": 70,
+      "known_samples_verified": 450
+    },
+    {
+      "signal": "class_out",
+      "offset_from_input_ps": 166668,
+      "first_sample_ps": 458338,
+      "last_sample_ps": 37875304,
+      "start_exclusive_tick": 458338,
+      "end_inclusive_tick": 37875304,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "t+",
+      "width": 4,
+      "known_samples_verified": 450
+    }
+  ],
+  "validated_boundaries": {
+    "input_count": 450,
+    "output_count": 450,
+    "first_input_ps": 291669,
+    "last_input_ps": 37708635,
+    "first_output_check_ps": 458338,
+    "last_output_check_ps": 37875304,
+    "capture_done_ps": 38083638,
+    "output_check_offset_ps": 1,
+    "port_latency_cycles": 2,
+    "scope": "Ledger boundaries for future analysis; not a validated switching window"
+  },
+  "diagnostic_burst_envelope": {
+    "first_data_drive_ps": 250002,
+    "final_output_check_ps": 37875304,
+    "note": "Includes required fill/drain processing; not an approved device-energy denominator"
+  },
+  "checks": {
+    "rising_edges": 457,
+    "falling_edges": 457,
+    "raw_trace_reset_and_tail_verified": true,
+    "reset_and_valid_continuity_verified": true,
+    "input_drive_and_hold_continuity_verified": true,
+    "io_reference_and_marker_alignment_verified": true,
+    "logical_layers_known_at_samples": true,
+    "logical_layer_numpy_comparison": false
+  },
+  "limits": [
+    "Staggered per-observation windows are not a global physical total",
+    "Recorded events inside windows may include simulator intermediates",
+    "Signal-category accounting remains 3.6; settled layer/Python comparison 3.7",
+    "No power/energy or novelty claim; historical inspected data remain exploratory"
+  ],
+  "independent_reports": [
+    {
+      "path": "runs/digits_w1000/baseline-waveform.xs90rtvt/activity-windows.p4p5y9h0/result.json",
+      "sha256": "14269d5b565cd93b41413caed3be0eef6f7027821a7aaf4b26a2a75ded829038"
+    },
+    {
+      "path": "runs/digits_w1000/baseline-waveform.q2umneq1/activity-windows.kuy7li2p/result.json",
+      "sha256": "4d4de118dcbf829f419622c7ffb099830e65db264d2326a5da1c3b0a58356cb8"
+    }
+  ],
+  "independent_audit": {
+    "independent-verification.py": {
+      "path": "runs/digits_w1000/baseline-waveform.xs90rtvt/activity-windows.p4p5y9h0/independent-verification.py",
+      "sha256": "74cb89165ffb0fc4b63d9df453ac9365833c0c940041a09eab3d62e9695d26d1"
+    },
+    "independent-verification.json": {
+      "path": "runs/digits_w1000/baseline-waveform.xs90rtvt/activity-windows.p4p5y9h0/independent-verification.json",
+      "sha256": "f09f2ee7964728d4eb5505da116789d1c54d3bf8103d22a621ce6d14649795af"
+    }
+  },
+  "verification": {
+    "focused_tests": 22,
+    "full_suite_tests": 152,
+    "full_suite_seconds": 11.78,
+    "skips": 0,
+    "review": "docs/reviews/step-3.5-independent-review.md",
+    "blocking_input_continuity_finding_fixed_and_independently_rechecked": true
+  }
+}

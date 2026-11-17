@@ -33,6 +33,13 @@ A completed learning note does not imply hardware deployment or energy reduction
 | 2.9 | [Read and verify the maximum-clock estimate](2.9-read-and-verify-clock-timing.md) — feasible candidate's timing audited; full layer alternative remains unavailable |
 | 2.10 | [Compare latency and throughput](2.10-compare-latency-and-throughput.md) — core/UART report verified; full layer physical rate unavailable |
 | 3.1 | [Measure logical switching in Python](3.1-measure-python-switching.md) |
+| 3.2 | [Verify waveform recording](3.2-verify-waveform-recording.md) — short Icarus recording check; full capture is documented in 3.3 |
+| 3.3 | [Capture the full baseline waveform](3.3-capture-the-baseline-waveform.md) — all 450 ordered images, head-only core, nominal 12 MHz |
+| 3.4 | [Count waveform transitions](3.4-count-waveform-transitions.md) — verified raw bit counter; categories and settled logical comparison are documented in 3.6–3.7 |
+| 3.5 | [Define and verify measurement windows](3.5-define-activity-windows.md) — stage-aligned 450 known states/449 adjacent pairs, with input protocol/fill/drain checks |
+| 3.6 | [Separate activity categories](3.6-separate-activity-categories.md) — exclusive raw-ID categories and canonical settled layer activity; direct NumPy comparison is documented in 3.7 |
+| 3.7 | [Cross-check NumPy and RTL activity](3.7-cross-check-numpy-and-rtl-activity.md) — independently verified exact settled states, transition masks and per-gate counts across all 450 images |
+| 3.8 | [Measure mapped hardware activity](3.8-measure-mapped-activity.md) — independently verified mapped net-bit activity, zero-delay |
 | 4.2 | [Preserve the unpenalized baseline](4.2-preserve-the-unpenalized-baseline.md) |
 | 7.1 | [Maintain project and learning notes](7.1-maintain-project-notes.md) |
 
@@ -50,7 +57,14 @@ pipeline still exceeds UP5K capacity. Step 2.9 now audits the saved feasible
 candidate's timing. Step 2.10 documents cycle latency, core interface capacity
 and ideal-host UART performance. The full candidate's physical rate is still
 unavailable; it is a capacity failure, not a second implemented benchmark.
-Waveform activity analysis, switching-aware training experiments, power estimates, board programming and electrical measurements also remain pending.
+Waveform recording has independently checked short Icarus smoke runs and a
+full 450-image capture. Raw waveform counting and stage-aligned windows are
+verified, including independently reviewed categories and exact settled NumPy/RTL
+value/activity agreement. Mapped activity, timing-aware glitches, switching-aware training experiments, power estimates,
+board programming and electrical measurements remain pending. The November 16
+checklist additions cover complementary metrics (3.10), validation-only
+selection (4.10, before the sweep), a separate Gray-coding experiment (4.11)
+and professor draft review (7.6). They continue the original plan.
 Partial implementation such as the penalty code does not establish an experimental result.
 
 ## Keep these notes current

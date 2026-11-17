@@ -1,0 +1,285 @@
+{
+  "step": "3.3",
+  "date": "2026-11-16",
+  "status": "passed_independent_review",
+  "primary_report": "runs/digits_w1000/baseline-waveform.xs90rtvt/result.json",
+  "primary_report_sha256": "b6586a47aea55867dc535cb7fcdd775a71f3ff53bda468e7562cc6cf2c2a3f09",
+  "primary": {
+    "status": "passed",
+    "directory": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/baseline-waveform.xs90rtvt",
+    "scope": "Capture all historical inputs using the feasible head-only core at nominal 12 MHz.\n\nThis is standalone streaming zero-delay RTL. No UART, delay/glitch, activity\ntotal, physical power or energy result is produced.",
+    "n_images": 450,
+    "params": {
+      "IN": 192,
+      "K": 10,
+      "SW": 7,
+      "CW": 4,
+      "LAT": 3,
+      "W": 1000,
+      "D": 4,
+      "G": 100,
+      "head_pipeline": true
+    },
+    "source_sha256": {
+      "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/model.json": "e41fff60d1d77688291053b507b874c7c98e18120089d8b9a0096f83c3f45c96",
+      "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/x_test_bits.npy": "253af81718221c39a547817a77a79fa978e7d415aaf8759ae3dfe13ba888cdb7",
+      "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/uart_comb_head/dlgn_top.sv": "5ff4e1056e7a4ef2443602cd8dbccaff5815851a89e22851ec6a9e6c84cae7c7",
+      "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/uart_comb_head/params.json": "a0da844c15ce9e6d70dedb1a89d0458c5bb34301988f002c10ec4950bed539fd",
+      "/Users/anoopdeekshithr/h02-difflogic-fpga/rtl/tb_activity_capture.sv": "117f014bd97bf8ad42224ad6add532c2259502b2d33d9fefce9dd33fe6b18d23",
+      "/Users/anoopdeekshithr/h02-difflogic-fpga/dlgn/export_verilog.py": "ba4a6677160948b9f40b3053917b3ac909473e23efb0834266a6698db95dcf18",
+      "/Users/anoopdeekshithr/h02-difflogic-fpga/dlgn/hard.py": "5b98258067a01625c4e17b575bc6a264e14e0c2edd0f0f232b3721a74202641c",
+      "/Users/anoopdeekshithr/h02-difflogic-fpga/dlgn/gates.py": "ddf3ee96c0055b6a95f761580aeb91edf12f76fc4385902f396ce9468ff90804",
+      "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/check_waveform_recording.py": "cb2eebc38dc624b0017869c91035856047c94cff20650fbca5097ea80578f301",
+      "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/capture_baseline_waveform.py": "d80046c8131dfed1085214fa6743c7b40e1d5844732484a4d1eabfdffd67f898",
+      "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/report_performance.py": "16bcd85de355513c77f10f0309bedeebcf9752b15eba724c8ff58f34c2a38fa6",
+      "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/report_timing.py": "f777a41dd0edc4454e7c2891e031856720f0fc4d006f589387acfbef1be830ee",
+      "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/build_artifacts.py": "1024c8ef29de7785ccab9b491cf3fe7bc91749cc305c245109ccabdc3c158c11"
+    },
+    "hardware_binding": {
+      "export": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/uart_comb_head",
+      "implementation": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/uart_comb_head/implementation.UVAx2g",
+      "evidence": {
+        "outcome": "routed_timing_passed",
+        "timing_qualified": true,
+        "estimated_fmax_mhz": 19.38585662841797,
+        "utilization": {
+          "ICESTORM_DSP": {
+            "available": 8,
+            "used": 0
+          },
+          "ICESTORM_HFOSC": {
+            "available": 1,
+            "used": 0
+          },
+          "ICESTORM_LC": {
+            "available": 5280,
+            "used": 4160
+          },
+          "ICESTORM_LFOSC": {
+            "available": 1,
+            "used": 0
+          },
+          "ICESTORM_PLL": {
+            "available": 1,
+            "used": 0
+          },
+          "ICESTORM_RAM": {
+            "available": 30,
+            "used": 0
+          },
+          "ICESTORM_SPRAM": {
+            "available": 4,
+            "used": 0
+          },
+          "IO_I3C": {
+            "available": 2,
+            "used": 0
+          },
+          "SB_GB": {
+            "available": 8,
+            "used": 5
+          },
+          "SB_I2C": {
+            "available": 2,
+            "used": 0
+          },
+          "SB_IO": {
+            "available": 39,
+            "used": 4
+          },
+          "SB_LEDDA_IP": {
+            "available": 1,
+            "used": 0
+          },
+          "SB_RGBA_DRV": {
+            "available": 1,
+            "used": 0
+          },
+          "SB_SPI": {
+            "available": 2,
+            "used": 0
+          },
+          "SB_WARMBOOT": {
+            "available": 1,
+            "used": 0
+          }
+        },
+        "provenance": {
+          "validation_sha256": "b4b5b0f34a2402175263d548841a43f4a58b276d42de48462f55dfcc710d59ec",
+          "params_sha256": "a0da844c15ce9e6d70dedb1a89d0458c5bb34301988f002c10ec4950bed539fd",
+          "input_files": {
+            "synth_uart.json": "00d383915c0102fa302c59ee735cc98156cd55282140b26ef9841504e99dc627",
+            "synth_manifest.json": "0bb9efe07c3d27c4131ffff18d3e17f1975970031b938e80c9eb697b97618783",
+            "icebreaker_uart.pcf": "4a2a32e2a0c6ea08db293027b4742f73a70b0e7fbcc31b5ec2ba19986f066e2a",
+            "icebreaker_uart.sdc": "0396f2bbdd84864beff668e052b8785d80d29b62125f55d86b2456f4b736acda",
+            "tools.txt": "84751cffa4791248c1ace863ac5395ac0a8bc1feaec53a479d436fb900fd5a02"
+          },
+          "output_files": {
+            "routed_uart.asc": "dcbc3c66009e795bfe90f46ae97d31fa9f2c3448f12b66d52cce54f87ea9ca13",
+            "routed_uart.json": "c9b8cc84e4f277da39162e3d8bf53f2bbd5d5d5f49310d7d6455b8f73ba0e40d",
+            "timing_uart.json": "538c60dec7f33f85d37e375367490ab7f29dd8d19220f67085d1a70fa626d615",
+            "pnr_uart.log": "1acff355afe46f0918bab3578cfe2f3fa5fa78954e31b47348ea46c6538403cd"
+          },
+          "nextpnr": {
+            "path": "/opt/homebrew/Cellar/nextpnr-ice40/0.11.1_2/bin/nextpnr-ice40",
+            "binary_sha256": "b5986780c6d40dba01d4f404adf5e1250f334828dc9429757802d6751e7878fe"
+          }
+        }
+      }
+    },
+    "clock": {
+      "nominal_hz": 12000000,
+      "half_period_ps": 41667,
+      "simulated_period_ps": 83334,
+      "simulated_hz": 11999904.000767995,
+      "precision_ps": 1,
+      "note": "1 ps rounding; archived implementation target remains unchanged"
+    },
+    "workload": {
+      "interface": "standalone core, not UART",
+      "input_source": "all saved x_test_bits.npy rows in unchanged order",
+      "initiation_interval_cycles": 1,
+      "reset_cycles": 3,
+      "drive_phase": "falling edge",
+      "output_check": "rising edge plus 1 ps",
+      "drain": "hold final image; three falling edges after final output check",
+      "baseline": "historical exploratory model; no retraining or selection"
+    },
+    "simulators": {
+      "iverilog": {
+        "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/bin/iverilog",
+        "sha256": "5df81b269e1ff2c965dd00ad5a8071ca17717f416003b3661a18b2dde430e73c",
+        "version": "Icarus Verilog version 13.0 (stable) (v13_0)\n\nCopyright (c) 2000-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\nIcarus Verilog Preprocessor version 13.0 (stable) (v13_0)\n\nCopyright (c) 1999-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\nIcarus Verilog Parser/Elaborator version 13.0 (stable) (v13_0)\n\nCopyright (c) 1998-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\n FLAGS DLL vvp.tgt\nvvp.tgt: Icarus Verilog VVP Code Generator 13.0 (stable) (v13_0)\n\nCopyright (c) 2001-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\n"
+      },
+      "vvp": {
+        "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp",
+        "sha256": "1a9bdf1f40102f64f015514f5069f99a5dd9f9f38de343743ef4c169fb358392",
+        "version": "Icarus Verilog runtime version 13.0 (stable) (v13_0)\n\nCopyright (c) 2001-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\n"
+      }
+    },
+    "events": {
+      "input_count": 450,
+      "output_count": 450,
+      "first_input_ps": 291669,
+      "last_input_ps": 37708635,
+      "first_output_check_ps": 458338,
+      "last_output_check_ps": 37875304,
+      "capture_done_ps": 38083638,
+      "output_check_offset_ps": 1,
+      "port_latency_cycles": 2,
+      "scope": "Ledger boundaries for future analysis; not a validated switching window"
+    },
+    "waveform": {
+      "timescale": "$timescale 1ps $end",
+      "final_timestamp": 38083639,
+      "required_signals": {
+        "clk": {
+          "width": 1,
+          "identifier": "\""
+        },
+        "rst": {
+          "width": 1,
+          "identifier": "("
+        },
+        "in_valid": {
+          "width": 1,
+          "identifier": "#"
+        },
+        "out_valid": {
+          "width": 1,
+          "identifier": "n+"
+        },
+        "x": {
+          "width": 192,
+          "identifier": ")"
+        },
+        "scores": {
+          "width": 70,
+          "identifier": "w+"
+        },
+        "class_out": {
+          "width": 4,
+          "identifier": "t+"
+        },
+        "l0": {
+          "width": 192,
+          "identifier": "u+"
+        },
+        "l1": {
+          "width": 1000,
+          "identifier": "$"
+        },
+        "l2": {
+          "width": 1000,
+          "identifier": "%"
+        },
+        "l3": {
+          "width": 1000,
+          "identifier": "&"
+        },
+        "l4": {
+          "width": 1000,
+          "identifier": "'"
+        },
+        "l1_c": {
+          "width": 1000,
+          "identifier": "r+"
+        },
+        "l2_c": {
+          "width": 1000,
+          "identifier": "q+"
+        },
+        "l3_c": {
+          "width": 1000,
+          "identifier": "p+"
+        },
+        "l4_c": {
+          "width": 1000,
+          "identifier": "o+"
+        }
+      },
+      "bytes": 6476465,
+      "scope": "Recording observability only; no activity counts or window validation"
+    },
+    "files_sha256": {
+      "dlgn_top.sv": "5ff4e1056e7a4ef2443602cd8dbccaff5815851a89e22851ec6a9e6c84cae7c7",
+      "params.json": "e913db934ddcc54e9280ac004a8d18ce16d4fe2b94a5359e464b9821167047f6",
+      "model.json": "e41fff60d1d77688291053b507b874c7c98e18120089d8b9a0096f83c3f45c96",
+      "x_test_bits.npy": "253af81718221c39a547817a77a79fa978e7d415aaf8759ae3dfe13ba888cdb7",
+      "input_indices.json": "45dcd5844a08c2ffefbe006c5f2cf390ac44fa6e3bd8d3eac9b626d8cf5869e7",
+      "x.hex": "08bbbff1d90c5d10c0f77a3481748ece98e40c2b602d0db6e14db937601a14dd",
+      "exp_scores.hex": "f82236883d3d9d21170fd82a6c45984c41c898e1358ba69002010641326128f2",
+      "exp_class.hex": "3c176efde5a8b3122c778bcc9960ca92aa233c26dc699fc1ec80af6c8f433fc7",
+      "capture_params.svh": "19ef07bcd02baca36229066af5b6c30957c4e6cabe47e578d39fda46e498ad45",
+      "tb_activity_capture.sv": "117f014bd97bf8ad42224ad6add532c2259502b2d33d9fefce9dd33fe6b18d23",
+      "commands.json": "5bfed1dad36b995d3e0ae393ff85014c3fe57d613dfcb4bd9755e89f2f34447f",
+      "build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sim.log": "5fa94d59afec74ed7de0cfb8b6c979659a81295387da52d1a178e8a9c4af5e0b",
+      "events.csv": "3720263bfb848f1ef587800e2c6aadf5de68619186cdcd18752e448f666c2ce2",
+      "dlgn.vcd": "2bb9b2c3cd0537d5d732f66adfb42b120eb02575d2946d4b83b5de8a090c8ed7",
+      "simv": "5735914d06add6cd90b5560ad5594da1aa5fc2a4a367164b7ad1248e981db62b"
+    }
+  },
+  "limits": [
+    "Historical exploratory model and previously inspected digits inputs",
+    "Standalone streaming head-only core, not UART workload",
+    "Nominal12MHz rounded to83,334ps simulated period; no implementation-constraint change",
+    "Raw capture includes reset/fill/drain; no activity-analysis window approval",
+    "No switching totals, mapped-delay glitches, power, energy or novelty claim"
+  ],
+  "independent_report": "runs/digits_w1000/baseline-waveform.q2umneq1/result.json",
+  "independent_report_sha256": "640b86090a2cfd5a67e78e132109727afa3aed7b4b236aa9bd92befdddcce75e",
+  "independent_audit": {
+    "result": "runs/digits_w1000/baseline-waveform.q2umneq1/independent-verification.json",
+    "sha256": "d3a9ab887e54a509fc9a3c0666de34896d9ee5f69c8e6f0b6ed1c38e00d50b14",
+    "script": "runs/digits_w1000/baseline-waveform.q2umneq1/independent-verification.py",
+    "script_sha256": "330104b9c92b32480d859ad3765e8e9c06bd44b1f040e7c1dff125515b3eb72e"
+  },
+  "verification": {
+    "focused_tests": 10,
+    "full_suite_tests": 95,
+    "full_suite_seconds": 10.83,
+    "skips": 0,
+    "review": "docs/reviews/step-3.3-independent-review.md"
+  }
+}

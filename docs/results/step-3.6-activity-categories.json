@@ -1,0 +1,852 @@
+{
+  "step": "3.6",
+  "date": "2026-11-16",
+  "status": "passed_independent_review",
+  "primary_report": "runs/digits_w1000/baseline-waveform.xs90rtvt/activity-categories.w0799sk1/result.json",
+  "primary_report_sha256": "68cfc2e523b75637a09b198447702d0e13d7c69f841bddca43f41bdd5189dedd",
+  "capture_directory": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/baseline-waveform.xs90rtvt",
+  "capture_report_sha256": "b6586a47aea55867dc535cb7fcdd775a71f3ff53bda468e7562cc6cf2c2a3f09",
+  "capture_artifacts_sha256": {
+    "dlgn_top.sv": "5ff4e1056e7a4ef2443602cd8dbccaff5815851a89e22851ec6a9e6c84cae7c7",
+    "params.json": "e913db934ddcc54e9280ac004a8d18ce16d4fe2b94a5359e464b9821167047f6",
+    "model.json": "e41fff60d1d77688291053b507b874c7c98e18120089d8b9a0096f83c3f45c96",
+    "x_test_bits.npy": "253af81718221c39a547817a77a79fa978e7d415aaf8759ae3dfe13ba888cdb7",
+    "input_indices.json": "45dcd5844a08c2ffefbe006c5f2cf390ac44fa6e3bd8d3eac9b626d8cf5869e7",
+    "x.hex": "08bbbff1d90c5d10c0f77a3481748ece98e40c2b602d0db6e14db937601a14dd",
+    "exp_scores.hex": "f82236883d3d9d21170fd82a6c45984c41c898e1358ba69002010641326128f2",
+    "exp_class.hex": "3c176efde5a8b3122c778bcc9960ca92aa233c26dc699fc1ec80af6c8f433fc7",
+    "capture_params.svh": "19ef07bcd02baca36229066af5b6c30957c4e6cabe47e578d39fda46e498ad45",
+    "tb_activity_capture.sv": "117f014bd97bf8ad42224ad6add532c2259502b2d33d9fefce9dd33fe6b18d23",
+    "commands.json": "5bfed1dad36b995d3e0ae393ff85014c3fe57d613dfcb4bd9755e89f2f34447f",
+    "build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sim.log": "5fa94d59afec74ed7de0cfb8b6c979659a81295387da52d1a178e8a9c4af5e0b",
+    "events.csv": "3720263bfb848f1ef587800e2c6aadf5de68619186cdcd18752e448f666c2ce2",
+    "dlgn.vcd": "2bb9b2c3cd0537d5d732f66adfb42b120eb02575d2946d4b83b5de8a090c8ed7",
+    "simv": "5735914d06add6cd90b5560ad5594da1aa5fc2a4a367164b7ad1248e981db62b"
+  },
+  "source_sha256": {
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/report_activity_categories.py": "5214cc7a11703d80913619d2fa46f000103a82496b178e542d0905c2996fb615",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/report_activity_windows.py": "6bf2cd12e04e117d34b1547648ce4fe873a4a28c55fcaa7082bdc34ba6d91046",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/analyze_waveform.py": "c9463d3f2f7c5b0c22a958ad90e5929d915acd03c6be09a5fa46266960257447",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/capture_baseline_waveform.py": "d80046c8131dfed1085214fa6743c7b40e1d5844732484a4d1eabfdffd67f898",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/dlgn/vcd_activity.py": "ef8462503d477b54381d2baa7286f40c33266a619195b13917aee156c4e50d26",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/dlgn/export_verilog.py": "ba4a6677160948b9f40b3053917b3ac909473e23efb0834266a6698db95dcf18",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/dlgn/gates.py": "ddf3ee96c0055b6a95f761580aeb91edf12f76fc4385902f396ce9468ff90804",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/dlgn/hard.py": "5b98258067a01625c4e17b575bc6a264e14e0c2edd0f0f232b3721a74202641c"
+  },
+  "analysis_artifacts_sha256": {
+    "report_activity_categories.py": "5214cc7a11703d80913619d2fa46f000103a82496b178e542d0905c2996fb615",
+    "report_activity_windows.py": "6bf2cd12e04e117d34b1547648ce4fe873a4a28c55fcaa7082bdc34ba6d91046",
+    "analyze_waveform.py": "c9463d3f2f7c5b0c22a958ad90e5929d915acd03c6be09a5fa46266960257447",
+    "capture_baseline_waveform.py": "d80046c8131dfed1085214fa6743c7b40e1d5844732484a4d1eabfdffd67f898",
+    "vcd_activity.py": "ef8462503d477b54381d2baa7286f40c33266a619195b13917aee156c4e50d26",
+    "export_verilog.py": "ba4a6677160948b9f40b3053917b3ac909473e23efb0834266a6698db95dcf18",
+    "gates.py": "ddf3ee96c0055b6a95f761580aeb91edf12f76fc4385902f396ce9468ff90804",
+    "hard.py": "5b98258067a01625c4e17b575bc6a264e14e0c2edd0f0f232b3721a74202641c",
+    "capture-manifest.json": "b6586a47aea55867dc535cb7fcdd775a71f3ff53bda468e7562cc6cf2c2a3f09"
+  },
+  "n_images": 450,
+  "architecture": {
+    "IN": 192,
+    "K": 10,
+    "SW": 7,
+    "CW": 4,
+    "LAT": 3,
+    "W": 1000,
+    "D": 4,
+    "G": 100,
+    "head_pipeline": true
+  },
+  "clock": {
+    "nominal_hz": 12000000,
+    "half_period_ps": 41667,
+    "simulated_period_ps": 83334,
+    "simulated_hz": 11999904.000767995,
+    "precision_ps": 1,
+    "note": "1 ps rounding; archived implementation target remains unchanged"
+  },
+  "checks": {
+    "rising_edges": 457,
+    "falling_edges": 457,
+    "raw_trace_reset_and_tail_verified": true,
+    "reset_and_valid_continuity_verified": true,
+    "input_drive_and_hold_continuity_verified": true,
+    "io_reference_and_marker_alignment_verified": true,
+    "logical_layers_known_at_samples": true,
+    "logical_layer_numpy_comparison": false
+  },
+  "supported_exporter_architecture_verified": true,
+  "observations": [
+    {
+      "signal": "x",
+      "offset_from_input_ps": -41667,
+      "first_sample_ps": 250003,
+      "last_sample_ps": 37666969,
+      "start_exclusive_tick": 250003,
+      "end_inclusive_tick": 37666969,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": ")",
+      "width": 192,
+      "known_samples_verified": 450,
+      "role": "input_port",
+      "canonical_logical_output": false,
+      "recorded": {
+        "observed_records": 449,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 449,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 22013,
+        "rises": 11007,
+        "falls": 11006,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 22013,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 22013,
+        "rises": 11007,
+        "falls": 11006,
+        "bit_pair_opportunities": 86208,
+        "changes_per_bit_per_image_pair": 0.2553475315515961
+      }
+    },
+    {
+      "signal": "l0",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "u+",
+      "width": 192,
+      "known_samples_verified": 450,
+      "role": "data_register",
+      "canonical_logical_output": false,
+      "recorded": {
+        "observed_records": 449,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 449,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 22013,
+        "rises": 11007,
+        "falls": 11006,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 22013,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 22013,
+        "rises": 11007,
+        "falls": 11006,
+        "bit_pair_opportunities": 86208,
+        "changes_per_bit_per_image_pair": 0.2553475315515961
+      }
+    },
+    {
+      "signal": "l1_c",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "r+",
+      "width": 1000,
+      "known_samples_verified": 450,
+      "role": "logical_layer_output",
+      "canonical_logical_output": true,
+      "recorded": {
+        "observed_records": 449,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 449,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 126546,
+        "rises": 63277,
+        "falls": 63269,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 126546,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 126546,
+        "rises": 63277,
+        "falls": 63269,
+        "bit_pair_opportunities": 449000,
+        "changes_per_bit_per_image_pair": 0.28183964365256126
+      }
+    },
+    {
+      "signal": "l1",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "$",
+      "width": 1000,
+      "known_samples_verified": 450,
+      "role": "logical_layer_copy",
+      "canonical_logical_output": false,
+      "recorded": {
+        "observed_records": 449,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 449,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 126546,
+        "rises": 63277,
+        "falls": 63269,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 126546,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 126546,
+        "rises": 63277,
+        "falls": 63269,
+        "bit_pair_opportunities": 449000,
+        "changes_per_bit_per_image_pair": 0.28183964365256126
+      }
+    },
+    {
+      "signal": "l2_c",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "q+",
+      "width": 1000,
+      "known_samples_verified": 450,
+      "role": "logical_layer_output",
+      "canonical_logical_output": true,
+      "recorded": {
+        "observed_records": 449,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 449,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 144016,
+        "rises": 72002,
+        "falls": 72014,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 144016,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 144016,
+        "rises": 72002,
+        "falls": 72014,
+        "bit_pair_opportunities": 449000,
+        "changes_per_bit_per_image_pair": 0.32074832962138083
+      }
+    },
+    {
+      "signal": "l2",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "%",
+      "width": 1000,
+      "known_samples_verified": 450,
+      "role": "logical_layer_copy",
+      "canonical_logical_output": false,
+      "recorded": {
+        "observed_records": 449,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 449,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 144016,
+        "rises": 72002,
+        "falls": 72014,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 144016,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 144016,
+        "rises": 72002,
+        "falls": 72014,
+        "bit_pair_opportunities": 449000,
+        "changes_per_bit_per_image_pair": 0.32074832962138083
+      }
+    },
+    {
+      "signal": "l3_c",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "p+",
+      "width": 1000,
+      "known_samples_verified": 450,
+      "role": "logical_layer_output",
+      "canonical_logical_output": true,
+      "recorded": {
+        "observed_records": 449,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 449,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 167436,
+        "rises": 83717,
+        "falls": 83719,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 167436,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 167436,
+        "rises": 83717,
+        "falls": 83719,
+        "bit_pair_opportunities": 449000,
+        "changes_per_bit_per_image_pair": 0.3729086859688196
+      }
+    },
+    {
+      "signal": "l3",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "&",
+      "width": 1000,
+      "known_samples_verified": 450,
+      "role": "logical_layer_copy",
+      "canonical_logical_output": false,
+      "recorded": {
+        "observed_records": 449,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 449,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 167436,
+        "rises": 83717,
+        "falls": 83719,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 167436,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 167436,
+        "rises": 83717,
+        "falls": 83719,
+        "bit_pair_opportunities": 449000,
+        "changes_per_bit_per_image_pair": 0.3729086859688196
+      }
+    },
+    {
+      "signal": "l4_c",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "o+",
+      "width": 1000,
+      "known_samples_verified": 450,
+      "role": "logical_layer_output",
+      "canonical_logical_output": true,
+      "recorded": {
+        "observed_records": 449,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 449,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 190171,
+        "rises": 95083,
+        "falls": 95088,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 190171,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 190171,
+        "rises": 95083,
+        "falls": 95088,
+        "bit_pair_opportunities": 449000,
+        "changes_per_bit_per_image_pair": 0.423543429844098
+      }
+    },
+    {
+      "signal": "l4",
+      "offset_from_input_ps": 0,
+      "first_sample_ps": 291670,
+      "last_sample_ps": 37708636,
+      "start_exclusive_tick": 291670,
+      "end_inclusive_tick": 37708636,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "'",
+      "width": 1000,
+      "known_samples_verified": 450,
+      "role": "logical_layer_copy",
+      "canonical_logical_output": false,
+      "recorded": {
+        "observed_records": 449,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 449,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 190171,
+        "rises": 95083,
+        "falls": 95088,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 190171,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 190171,
+        "rises": 95083,
+        "falls": 95088,
+        "bit_pair_opportunities": 449000,
+        "changes_per_bit_per_image_pair": 0.423543429844098
+      }
+    },
+    {
+      "signal": "sc_flat",
+      "offset_from_input_ps": 83334,
+      "first_sample_ps": 375004,
+      "last_sample_ps": 37791970,
+      "start_exclusive_tick": 375004,
+      "end_inclusive_tick": 37791970,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "v+",
+      "width": 70,
+      "known_samples_verified": 450,
+      "role": "head_score_register_view",
+      "canonical_logical_output": false,
+      "recorded": {
+        "observed_records": 449,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 449,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 14020,
+        "rises": 7010,
+        "falls": 7010,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 14020,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 14020,
+        "rises": 7010,
+        "falls": 7010,
+        "bit_pair_opportunities": 31430,
+        "changes_per_bit_per_image_pair": 0.4460706331530385
+      }
+    },
+    {
+      "signal": "best",
+      "offset_from_input_ps": 83334,
+      "first_sample_ps": 375004,
+      "last_sample_ps": 37791970,
+      "start_exclusive_tick": 375004,
+      "end_inclusive_tick": 37791970,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "!",
+      "width": 4,
+      "known_samples_verified": 450,
+      "role": "output_logic",
+      "canonical_logical_output": false,
+      "recorded": {
+        "observed_records": 406,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 406,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 788,
+        "rises": 395,
+        "falls": 393,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 788,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 788,
+        "rises": 395,
+        "falls": 393,
+        "bit_pair_opportunities": 1796,
+        "changes_per_bit_per_image_pair": 0.43875278396436523
+      }
+    },
+    {
+      "signal": "scores",
+      "offset_from_input_ps": 166668,
+      "first_sample_ps": 458338,
+      "last_sample_ps": 37875304,
+      "start_exclusive_tick": 458338,
+      "end_inclusive_tick": 37875304,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "w+",
+      "width": 70,
+      "known_samples_verified": 450,
+      "role": "data_register",
+      "canonical_logical_output": false,
+      "recorded": {
+        "observed_records": 449,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 449,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 14020,
+        "rises": 7010,
+        "falls": 7010,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 14020,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 14020,
+        "rises": 7010,
+        "falls": 7010,
+        "bit_pair_opportunities": 31430,
+        "changes_per_bit_per_image_pair": 0.4460706331530385
+      }
+    },
+    {
+      "signal": "class_out",
+      "offset_from_input_ps": 166668,
+      "first_sample_ps": 458338,
+      "last_sample_ps": 37875304,
+      "start_exclusive_tick": 458338,
+      "end_inclusive_tick": 37875304,
+      "sample_count": 450,
+      "adjacent_pairs": 449,
+      "duration_ps": 37416966,
+      "identifier": "t+",
+      "width": 4,
+      "known_samples_verified": 450,
+      "role": "data_register",
+      "canonical_logical_output": false,
+      "recorded": {
+        "observed_records": 406,
+        "initializations": 0,
+        "initial_unknown_bits": 0,
+        "value_change_records": 406,
+        "redundant_value_records": 0,
+        "known_bit_toggles": 788,
+        "rises": 395,
+        "falls": 393,
+        "unknown_bit_changes": 0,
+        "four_state_bit_changes": 788,
+        "unknown_value_records": 0
+      },
+      "settled": {
+        "known_bit_toggles": 788,
+        "rises": 395,
+        "falls": 393,
+        "bit_pair_opportunities": 1796,
+        "changes_per_bit_per_image_pair": 0.43875278396436523
+      }
+    }
+  ],
+  "logical_gate_output_metric": {
+    "signals": [
+      "l1_c",
+      "l2_c",
+      "l3_c",
+      "l4_c"
+    ],
+    "known_bit_toggles": 628169,
+    "bit_pair_opportunities": 1796000,
+    "adjacent_image_pairs": 449,
+    "changes_per_gate_per_image_pair": 0.34976002227171493,
+    "interpretation": "Settled learned gate outputs counted once per logical slot; excludes lN copies/registers, ports, head, clock and control; not a physical total; NumPy layer comparison remains step 3.7"
+  },
+  "observability": [
+    "Unpacked sc/sc_reg arrays are not separately dumped by this capture",
+    "sc_flat is a packed view of sc_reg when head_pipeline is enabled; its VCD reg type alone does not identify storage",
+    "pc and winner-tree wires are observable output-logic views; different IDs can still represent redundant logical information"
+  ],
+  "limits": [
+    "Only RTL recorded events and settled endpoint comparisons",
+    "Whole-trace partition includes startup/control/testbench and logical copies",
+    "Staggered aligned observations cannot form a shared physical-time total",
+    "No logical-layer NumPy comparison until 3.7; no mapped or physical glitch evidence",
+    "No power/energy benefit or novelty established; historical data are exploratory"
+  ],
+  "whole_trace": {
+    "window": {
+      "start_exclusive_tick": null,
+      "end_inclusive_tick": null,
+      "policy": "All records if unbounded; otherwise (start,end], with carried state"
+    },
+    "categories": {
+      "output_logic": {
+        "identifier_count": 1009,
+        "declared_bits": 3033,
+        "counts": {
+          "observed_records": 369967,
+          "initializations": 1009,
+          "initial_unknown_bits": 3013,
+          "value_change_records": 316597,
+          "redundant_value_records": 52361,
+          "known_bit_toggles": 505537,
+          "rises": 252745,
+          "falls": 252792,
+          "unknown_bit_changes": 3013,
+          "four_state_bit_changes": 508550,
+          "unknown_value_records": 1009
+        }
+      },
+      "clock": {
+        "identifier_count": 1,
+        "declared_bits": 1,
+        "counts": {
+          "observed_records": 915,
+          "initializations": 1,
+          "initial_unknown_bits": 0,
+          "value_change_records": 914,
+          "redundant_value_records": 0,
+          "known_bit_toggles": 914,
+          "rises": 457,
+          "falls": 457,
+          "unknown_bit_changes": 0,
+          "four_state_bit_changes": 914,
+          "unknown_value_records": 0
+        }
+      },
+      "control": {
+        "identifier_count": 4,
+        "declared_bits": 6,
+        "counts": {
+          "observed_records": 17,
+          "initializations": 4,
+          "initial_unknown_bits": 4,
+          "value_change_records": 13,
+          "redundant_value_records": 0,
+          "known_bit_toggles": 11,
+          "rises": 5,
+          "falls": 6,
+          "unknown_bit_changes": 4,
+          "four_state_bit_changes": 15,
+          "unknown_value_records": 2
+        }
+      },
+      "logical_layer_copy": {
+        "identifier_count": 4,
+        "declared_bits": 4000,
+        "counts": {
+          "observed_records": 1808,
+          "initializations": 4,
+          "initial_unknown_bits": 3772,
+          "value_change_records": 1804,
+          "redundant_value_records": 0,
+          "known_bit_toggles": 629527,
+          "rises": 314751,
+          "falls": 314776,
+          "unknown_bit_changes": 3772,
+          "four_state_bit_changes": 633299,
+          "unknown_value_records": 4
+        }
+      },
+      "input_port": {
+        "identifier_count": 1,
+        "declared_bits": 192,
+        "counts": {
+          "observed_records": 451,
+          "initializations": 1,
+          "initial_unknown_bits": 0,
+          "value_change_records": 450,
+          "redundant_value_records": 0,
+          "known_bit_toggles": 22071,
+          "rises": 11065,
+          "falls": 11006,
+          "unknown_bit_changes": 0,
+          "four_state_bit_changes": 22071,
+          "unknown_value_records": 0
+        }
+      },
+      "logical_layer_output": {
+        "identifier_count": 4,
+        "declared_bits": 4000,
+        "counts": {
+          "observed_records": 1808,
+          "initializations": 4,
+          "initial_unknown_bits": 3772,
+          "value_change_records": 1804,
+          "redundant_value_records": 0,
+          "known_bit_toggles": 629527,
+          "rises": 314751,
+          "falls": 314776,
+          "unknown_bit_changes": 3772,
+          "four_state_bit_changes": 633299,
+          "unknown_value_records": 4
+        }
+      },
+      "elaboration_constant": {
+        "identifier_count": 1,
+        "declared_bits": 32,
+        "counts": {
+          "observed_records": 1,
+          "initializations": 1,
+          "initial_unknown_bits": 0,
+          "value_change_records": 0,
+          "redundant_value_records": 0,
+          "known_bit_toggles": 0,
+          "rises": 0,
+          "falls": 0,
+          "unknown_bit_changes": 0,
+          "four_state_bit_changes": 0,
+          "unknown_value_records": 0
+        }
+      },
+      "data_register": {
+        "identifier_count": 3,
+        "declared_bits": 266,
+        "counts": {
+          "observed_records": 1313,
+          "initializations": 3,
+          "initial_unknown_bits": 266,
+          "value_change_records": 1310,
+          "redundant_value_records": 0,
+          "known_bit_toggles": 36923,
+          "rises": 18492,
+          "falls": 18431,
+          "unknown_bit_changes": 266,
+          "four_state_bit_changes": 37189,
+          "unknown_value_records": 3
+        }
+      },
+      "head_score_register_view": {
+        "identifier_count": 1,
+        "declared_bits": 70,
+        "counts": {
+          "observed_records": 452,
+          "initializations": 1,
+          "initial_unknown_bits": 70,
+          "value_change_records": 451,
+          "redundant_value_records": 0,
+          "known_bit_toggles": 14061,
+          "rises": 7032,
+          "falls": 7029,
+          "unknown_bit_changes": 70,
+          "four_state_bit_changes": 14131,
+          "unknown_value_records": 1
+        }
+      },
+      "simulator_bookkeeping": {
+        "identifier_count": 2,
+        "declared_bits": 64,
+        "counts": {
+          "observed_records": 910,
+          "initializations": 2,
+          "initial_unknown_bits": 0,
+          "value_change_records": 1,
+          "redundant_value_records": 907,
+          "known_bit_toggles": 2,
+          "rises": 2,
+          "falls": 0,
+          "unknown_bit_changes": 0,
+          "four_state_bit_changes": 2,
+          "unknown_value_records": 0
+        }
+      },
+      "testbench": {
+        "identifier_count": 6,
+        "declared_bits": 161,
+        "counts": {
+          "observed_records": 2265,
+          "initializations": 6,
+          "initial_unknown_bits": 0,
+          "value_change_records": 2259,
+          "redundant_value_records": 0,
+          "known_bit_toggles": 4582,
+          "rises": 2284,
+          "falls": 2298,
+          "unknown_bit_changes": 0,
+          "four_state_bit_changes": 4582,
+          "unknown_value_records": 0
+        }
+      }
+    },
+    "unique_identifier_count": 1036,
+    "declaration_count": 1036,
+    "totals": {
+      "observed_records": 379907,
+      "initializations": 1036,
+      "initial_unknown_bits": 10897,
+      "value_change_records": 325603,
+      "redundant_value_records": 53268,
+      "known_bit_toggles": 1843155,
+      "rises": 921584,
+      "falls": 921571,
+      "unknown_bit_changes": 10897,
+      "four_state_bit_changes": 1854052,
+      "unknown_value_records": 1023
+    },
+    "reconciled": true,
+    "interpretation": "Whole trace including reset/fill/drain; a partition of recorded IDs, not unique physical nodes or useful-work network switching"
+  },
+  "independent_reports": [
+    {
+      "path": "runs/digits_w1000/baseline-waveform.xs90rtvt/activity-categories.y98xlian/result.json",
+      "sha256": "a0348251948fd6fa0e31d761dc3353d325e9b5e7076c92b8b63c4ca4a5ba5fa8"
+    },
+    {
+      "path": "runs/digits_w1000/baseline-waveform.q2umneq1/activity-categories.z_xyxdti/result.json",
+      "sha256": "ae0def75a15ab1cebc14849cb82a9f10c94e5917a20903093c7712c6740da7ca"
+    }
+  ],
+  "independent_audit": {
+    "independent-verification.py": {
+      "path": "runs/digits_w1000/baseline-waveform.xs90rtvt/activity-categories.y98xlian/independent-verification.py",
+      "sha256": "16c1997c15bbb094f8cad29f92a79766b7572a28f02508ccfd99bd86e53200ac"
+    },
+    "independent-verification.json": {
+      "path": "runs/digits_w1000/baseline-waveform.xs90rtvt/activity-categories.y98xlian/independent-verification.json",
+      "sha256": "78e5eaeba5b5d545d0bf4b3d1126e103e0fc0075d0daf159d63d4c13ba596d2b"
+    }
+  },
+  "verification": {
+    "focused_tests": 20,
+    "independent_focused_seconds": 0.92,
+    "full_suite_tests": 172,
+    "full_suite_seconds": 12.25,
+    "skips": 0,
+    "review": "docs/reviews/step-3.6-independent-review.md",
+    "blocking_findings": 0
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "step": "3.4",
+  "date": "2026-11-16",
+  "status": "passed_independent_review",
+  "primary_report": "runs/digits_w1000/baseline-waveform.xs90rtvt/activity-analysis.zemyttyn/result.json",
+  "primary_report_sha256": "f9d33259571ccf7f70e1d2d0be22394511678e6762f12a858f850827a88231c4",
+  "capture_directory": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/digits_w1000/baseline-waveform.xs90rtvt",
+  "capture_report_sha256": "b6586a47aea55867dc535cb7fcdd775a71f3ff53bda468e7562cc6cf2c2a3f09",
+  "capture_artifacts_sha256": {
+    "dlgn_top.sv": "5ff4e1056e7a4ef2443602cd8dbccaff5815851a89e22851ec6a9e6c84cae7c7",
+    "params.json": "e913db934ddcc54e9280ac004a8d18ce16d4fe2b94a5359e464b9821167047f6",
+    "model.json": "e41fff60d1d77688291053b507b874c7c98e18120089d8b9a0096f83c3f45c96",
+    "x_test_bits.npy": "253af81718221c39a547817a77a79fa978e7d415aaf8759ae3dfe13ba888cdb7",
+    "input_indices.json": "45dcd5844a08c2ffefbe006c5f2cf390ac44fa6e3bd8d3eac9b626d8cf5869e7",
+    "x.hex": "08bbbff1d90c5d10c0f77a3481748ece98e40c2b602d0db6e14db937601a14dd",
+    "exp_scores.hex": "f82236883d3d9d21170fd82a6c45984c41c898e1358ba69002010641326128f2",
+    "exp_class.hex": "3c176efde5a8b3122c778bcc9960ca92aa233c26dc699fc1ec80af6c8f433fc7",
+    "capture_params.svh": "19ef07bcd02baca36229066af5b6c30957c4e6cabe47e578d39fda46e498ad45",
+    "tb_activity_capture.sv": "117f014bd97bf8ad42224ad6add532c2259502b2d33d9fefce9dd33fe6b18d23",
+    "commands.json": "5bfed1dad36b995d3e0ae393ff85014c3fe57d613dfcb4bd9755e89f2f34447f",
+    "build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sim.log": "5fa94d59afec74ed7de0cfb8b6c979659a81295387da52d1a178e8a9c4af5e0b",
+    "events.csv": "3720263bfb848f1ef587800e2c6aadf5de68619186cdcd18752e448f666c2ce2",
+    "dlgn.vcd": "2bb9b2c3cd0537d5d732f66adfb42b120eb02575d2946d4b83b5de8a090c8ed7",
+    "simv": "5735914d06add6cd90b5560ad5594da1aa5fc2a4a367164b7ad1248e981db62b"
+  },
+  "source_sha256": {
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/scripts/analyze_waveform.py": "c9463d3f2f7c5b0c22a958ad90e5929d915acd03c6be09a5fa46266960257447",
+    "/Users/anoopdeekshithr/h02-difflogic-fpga/dlgn/vcd_activity.py": "ef8462503d477b54381d2baa7286f40c33266a619195b13917aee156c4e50d26"
+  },
+  "timescale": {
+    "magnitude": 1,
+    "unit": "ps",
+    "seconds_per_tick": "1E-12"
+  },
+  "window": {
+    "start_exclusive_tick": null,
+    "end_inclusive_tick": null,
+    "policy": "All records if unbounded; otherwise (start,end], with carried state"
+  },
+  "first_timestamp_tick": 0,
+  "last_timestamp_tick": 38083639,
+  "declaration_count": 1036,
+  "unique_identifier_count": 1036,
+  "identifiers_without_values": [],
+  "totals": {
+    "observed_records": 379907,
+    "initializations": 1036,
+    "initial_unknown_bits": 10897,
+    "value_change_records": 325603,
+    "redundant_value_records": 53268,
+    "known_bit_toggles": 1843155,
+    "rises": 921584,
+    "falls": 921571,
+    "unknown_bit_changes": 10897,
+    "four_state_bit_changes": 1854052,
+    "unknown_value_records": 1023
+  },
+  "interpretation": "Digital recorded-event diagnostics, including same-timestamp events; not settled logical transitions, physical glitches, or power/energy",
+  "limits": [
+    "Whole-trace diagnostic unless explicit boundaries supplied",
+    "No approved useful-work window or category comparison yet",
+    "All unique VCD identifiers include testbench/control/clock",
+    "Distinct IDs with equal values are not assumed aliases",
+    "No physical glitch, power, energy or novelty claim"
+  ],
+  "independent_reports": [
+    {
+      "path": "runs/digits_w1000/baseline-waveform.xs90rtvt/activity-analysis.57c50ob3/result.json",
+      "sha256": "02c24628d634aaa43620d42416babf799860f0223f5f2cc2be9d3f2dc7ca3c10"
+    },
+    {
+      "path": "runs/digits_w1000/baseline-waveform.q2umneq1/activity-analysis.hhsciw9w/result.json",
+      "sha256": "ded936783c3183205e302d8f4b98d40050c39452fa5afb670a4821a932beb304"
+    }
+  ],
+  "independent_audit": {
+    "independent-verification.py": {
+      "path": "runs/digits_w1000/baseline-waveform.xs90rtvt/activity-analysis.57c50ob3/independent-verification.py",
+      "sha256": "16eaea4ef7f93c90e319cfecdb2904d26fc47eea41d1246599e31395e96a288f"
+    },
+    "independent-verification.json": {
+      "path": "runs/digits_w1000/baseline-waveform.xs90rtvt/activity-analysis.57c50ob3/independent-verification.json",
+      "sha256": "b48b26c7fcb3d88f2fe28d5263aeeffb8882a7958c175e339a525b49f15a9a2b"
+    }
+  },
+  "verification": {
+    "focused_tests": 35,
+    "full_suite_tests": 130,
+    "full_suite_seconds": 10.16,
+    "skips": 0,
+    "review": "docs/reviews/step-3.4-independent-review.md"
+  }
+}
