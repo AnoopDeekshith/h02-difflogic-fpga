@@ -67,7 +67,10 @@ switch, and train the network itself to switch less while staying accurate.
 - **Open:** which board and Vivado version the class uses; whether the professor accepts the
   power-aware loss as the stretch goal instead of the quantized-NN comparison.
 - **Open:** patent/disclosure timing before presenting the power idea publicly on Dec 4.
-  Keep the repo private until that is decided.
+  **Nov 19:** Anoop made the GitHub repo public and chose to keep it public, so
+  the code, docs and results on `main` are publicly disclosed from that date.
+  Still keep personal material (conversation transcripts, emails) out of the repo
+  and its releases.
 
 ## Week-by-week plan
 
