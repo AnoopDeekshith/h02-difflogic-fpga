@@ -1,7 +1,7 @@
 # H02 Project Context
 
 Background for anyone (or any AI assistant) working in this repo.
-Last updated: Nov 18, 2026.
+Last updated: Nov 19, 2026.
 
 ## Who and why
 
@@ -586,6 +586,17 @@ switch, and train the network itself to switch less while staying accurate.
   touches <1% but would shorten requests ~20%. A claimed prescaler saving was
   rejected by review. Professor one-pager draft:
   `docs/summaries/2026-11-19-professor-one-pager.md` (not circulated).
+- **Professor update sent Nov 19:** Anoop sent Professor Eshraghian a
+  status email (reply in the Nov 16 MCSoC thread): findings through 4.15 and
+  4.11, characterization framing, Vivado plan, four questions (paper target
+  and Nov 30 feasibility; need for a device power estimate; hardware-side vs
+  training follow-up; Dec 4 disclosure). Awaiting reply.
+- **Resume point (Nov 20):** Anoop configures his x86 Rocky Linux machine
+  for Vivado (AMD Artix-7 target, separate cross-check); Radiant (iCE40,
+  free license, Linux/Windows, VCD import) is the chip-matched option. He
+  also has a Windows laptop. Next: prepare design files and instructions for
+  the installed tool. Hold 4.14 until the professor replies. See
+  [Nov 19 discussion](discussions/2026-11-19-paper-direction-power-tools-and-professor-update.md).
 - **Next research decision:** assess the proposed energy pilot before more
   weaker-lambda tuning. Do not promote lambda 0.3 as a robust default,
   cherry-pick seed 3 or relabel failed accuracy decisions. Step 4.6's own

@@ -54,6 +54,9 @@ A completed learning note does not imply hardware deployment or energy reduction
 
 ## Older documents
 
+- [November 19 discussion about paper direction, power tools and the professor update](../discussions/2026-11-19-paper-direction-power-tools-and-professor-update.md).
+- [November 18 layer-targeted penalty discussion](../discussions/2026-11-18-layer-targeted-penalty.md) and
+  [small saving and pilot plan](../discussions/2026-11-18-small-saving-publication-and-pilot-plan.md).
 - [November 18 discussion about switching versus energy](../discussions/2026-11-18-switching-versus-energy.md):
   Anoop's questions, the limits of the weak-penalty result and the revised
   recommendation to assess energy benefit before more tuning.
