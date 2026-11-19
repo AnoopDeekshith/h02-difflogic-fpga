@@ -1,0 +1,150 @@
+{
+  "step": "4.3",
+  "date": "2026-11-18",
+  "status": "independently verified",
+  "evidence_directory": "runs/step4.3-pair.ixlscii4",
+  "experiment": {
+    "dataset": "digits",
+    "epochs": 60,
+    "width": 1000,
+    "depth": 4,
+    "tau": 10,
+    "batch_size": 100,
+    "optimizer": "Adam",
+    "learning_rate": 0.01,
+    "model_seed": 0,
+    "split_seed": 0,
+    "train_images": 1077,
+    "validation_images": 270,
+    "test_images": 450,
+    "test_evaluation": "deferred for both runs",
+    "act_mode": "batch",
+    "device": "cpu",
+    "cpu_thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    },
+    "checkpoint_rule": "final epoch of fixed budget"
+  },
+  "runs": {
+    "control": {
+      "directory": "runs/step4.3-pair.ixlscii4/control",
+      "act_weight": 0.0,
+      "epochs": 60,
+      "width": 1000,
+      "depth": 4,
+      "model_seed": 0,
+      "n_train": 1077,
+      "n_validation": 270,
+      "n_test": 450,
+      "validation_soft_acc": 0.9222222222222223,
+      "validation_hard_acc": 0.9222222222222223,
+      "validation_correct": 249,
+      "validation_discretization_gap_pp": 0.0,
+      "validation": {
+        "ref_acc": 0.9222222222222223,
+        "ref_toggle_rate": 0.3475,
+        "changes": 373910,
+        "opportunities": 1076000,
+        "image_pairs": 269,
+        "n_gates": 4000
+      },
+      "test_evaluated": false,
+      "validation_torch_vs_ref_scores_match": true,
+      "validation_torch_vs_ref_classes_match": true,
+      "no_test_artifacts": true,
+      "model_sha256": "57700d8bd020084fc3e57011b6971d067836dfa71ce710ce7649f57c79971b3f",
+      "manifest_sha256": "871dc8787423b2b932bdc12873a816f06846d642641fa7ccf0f9a6b6e72b3c17",
+      "train_seconds": 17.45647096633911
+    },
+    "penalty": {
+      "directory": "runs/step4.3-pair.ixlscii4/penalty",
+      "act_weight": 0.1,
+      "epochs": 60,
+      "width": 1000,
+      "depth": 4,
+      "model_seed": 0,
+      "n_train": 1077,
+      "n_validation": 270,
+      "n_test": 450,
+      "validation_soft_acc": 0.9148148148148149,
+      "validation_hard_acc": 0.9074074074074074,
+      "validation_correct": 245,
+      "validation_discretization_gap_pp": 0.7407407407407418,
+      "validation": {
+        "ref_acc": 0.9074074074074074,
+        "ref_toggle_rate": 0.32245631970260225,
+        "changes": 346963,
+        "opportunities": 1076000,
+        "image_pairs": 269,
+        "n_gates": 4000
+      },
+      "test_evaluated": false,
+      "validation_torch_vs_ref_scores_match": true,
+      "validation_torch_vs_ref_classes_match": true,
+      "no_test_artifacts": true,
+      "model_sha256": "5f7ce1481cb7a921391615668a0a3c856c88edfa0d9cf6a02b125e7ad9da35c0",
+      "manifest_sha256": "a84a2587d26c1bdd9e95da5da88c7cc3451ea49e7ff8ad8351f8237627dcbc9f",
+      "train_seconds": 14.59869909286499
+    }
+  },
+  "comparison": {
+    "fewer_validation_correct": 4,
+    "accuracy_drop_pp": 1.4814814814814836,
+    "settled_changes_reduction": 26947,
+    "settled_switching_reduction_percent": 7.206814474071301,
+    "denominator": 1076000,
+    "max_accuracy_drop_pp": 1.0,
+    "accuracy_floor": 0.9122222222222223,
+    "penalty_eligible": false,
+    "selected": "control",
+    "conclusion": "Lambda 0.1 reduces settled validation switching but exceeds the predeclared accuracy-loss allowance in this one seed"
+  },
+  "evidence_sha256": {
+    "plan.json": "96ae50e66cd532c5ed99f66f3c4a66d23973ae8e765d0b8113de38f93155f515",
+    "selection_policy.json": "3d9c106d47b80476c2c7b19ca2475040c220a9dd8b65f35e4b6d39f65b751051",
+    "control.log": "b92a1995b4ab7b9ae5b6ea82349c17c49d11144dbc0729c5839481af0a0c7108",
+    "penalty.log": "a41d8e1cbbc1ca5bb0d1322eb43b7e851d9f09e84c0d0f134b1ef6a162236c52",
+    "selection.log": "97d39737b6d2185caded3220685209cce670b367468b177958a197d52cabed50",
+    "selection.json": "0671c521fc90cd520a9b0d498a09007ee8d68d2df7e3f92f378e6004c4d0ab6b"
+  },
+  "source_sha256": {
+    "scripts/train.py": "471d0b155cd512c9c39a408d9ebbf70bcfd357c21f4c5c3c4b6a0df93451e0ee",
+    "dlgn/experiment.py": "724d0cd87b4827250f263df0daae1c3a255f6a2886f12fcee952913d8ebd4c09",
+    "dlgn/data.py": "51a73f496196282b10ba374a93caeb74357a1b1a8eadae16b03d2e6c1d6ca717",
+    "dlgn/model.py": "e7638ab5f6438b93d52e2ea9699745671e21551acd8b4c400871d33d6c53091a",
+    "dlgn/hard.py": "5b98258067a01625c4e17b575bc6a264e14e0c2edd0f0f232b3721a74202641c",
+    "dlgn/gates.py": "ddf3ee96c0055b6a95f761580aeb91edf12f76fc4385902f396ce9468ff90804",
+    "scripts/select_validation_models.py": "8372d6bfe9eb7e4d281ba654885d712f830cbcb4f981fee81a6df8515baaf3d1",
+    "scripts/evaluate_selected_model.py": "83e95ffb4fb7af75643ed5972f0f4761ae1c85a6263bad6ccb99a2dd49747df5"
+  },
+  "historical_baseline_sha256": {
+    "model.json": "e41fff60d1d77688291053b507b874c7c98e18120089d8b9a0096f83c3f45c96",
+    "metrics.json": "b6b34c524bb37b2682fb49b1ce0a28c3fab8f31e304af84ab9f54017140f32d6",
+    "x_test_bits.npy": "253af81718221c39a547817a77a79fa978e7d415aaf8759ae3dfe13ba888cdb7",
+    "y_test.npy": "c5b184113dae9157933cb22e4def0a4c98c29e86cf0204e3404adc48815b1d1e"
+  },
+  "historical_baseline_unchanged": true,
+  "limits": [
+    "One matched model seed and one nonzero lambda; not a sweep or repeatability result",
+    "Validation-only comparison; no new test performance reported",
+    "Historical 93.56 percent test baseline has a different protocol and is not the control",
+    "Fixed final epoch; no best-epoch selection",
+    "Unweighted settled learned-gate transitions, not mapped switching or glitches",
+    "No new RTL, resource, timing, power, energy or novelty evidence",
+    "Lambda 0.1 does not satisfy the frozen one-percentage-point accuracy allowance"
+  ],
+  "verification": {
+    "independent_review": "docs/reviews/step-4.3-independent-review.md",
+    "audit_script": "runs/step4.3-review.independent/audit.py",
+    "audit_script_sha256": "c5d16f6e6b2805663a5b7fe2f80e31c7c308ef6050c2bb3aa95c123c5ea345ab",
+    "audit_result": "runs/step4.3-review.independent/result.json",
+    "audit_result_sha256": "5ab3e1edbe4db688738aff17ee24f9cdd95e41e7a66c0c81356a687bc78318b4",
+    "oracle": "Separate scalar truth-table implementation matched every validation integer score/class and exact learned-gate change total for both models",
+    "checkpoints": "Both final epoch 60; all optimizer parameters have 660 Adam steps",
+    "tests": "Executable code unchanged; latest suite remains step4.10 285 passed in19.18s, not rerun for this experiment",
+    "method_scope": "Single-seed validation-only training pair; no training or test inference repeated by reviewer",
+    "verdict": "PASS; no blocking findings",
+    "review_sha256": "0ceb6b93d14a95d8614d85655f9d4bd857d9e43fd4014d23b259bf82f93887f9"
+  }
+}

@@ -4,10 +4,17 @@ Saved from Anoop's supplied checklist on November 13, 2026. Initially a snapshot
 items 2.5–2.7 were subsequently updated after tool, UART and constraint checks.
 Completed-step explanations start at [the learning index](steps/README.md).
 
-We have completed the toy model, functional verification, synthesis, a routed timing/performance report for the feasible candidate, full waveform capture, categorized activity and exact settled layer-value/activity comparison against NumPy. The full pipeline remains over capacity. Mapped activity, timing-aware glitch analysis, energy experiments and physical deployment remain.
+We have completed the toy model, functional verification, synthesis, a routed timing/performance report for the feasible candidate, waveform/NumPy activity checks, mapped activity, a bounded timing-aware glitch assessment and independently verified validation-only experiment preparation. The first matched 60-epoch pair is independently verified; the eight-point, seed-0 penalty sweep is independently verified. The full pipeline remains over capacity. The repeated-seed study is independently verified: switching falls in all four new pairs, but lambda 0.3 meets the accuracy allowance in only one. Selected-model hardware checks, energy experiments and physical deployment remain.
 
-This checklist reflects the code and saved results as of November 16, 2026.
+This checklist reflects the code and saved results as of November 18, 2026.
 New steps require an independent verification sub-agent and a recorded review.
+
+The [November 18 research discussion](discussions/2026-11-18-switching-versus-energy.md)
+records concern that weaker penalties may yield too little useful energy
+benefit. The revised recommendation is to assess a supported power flow and a
+bounded matched hardware-energy pilot before more tuning. This is a proposed
+priority change; no experiment was launched and no task status changed by
+recording the discussion.
 
 ## Professor-feedback additions (November 16)
 
@@ -45,7 +52,7 @@ The first part establishes that the trained network works and that its Verilog i
 | 1.8 | [Export the original Verilog design](steps/1.8-export-the-verilog-core.md) | ✅ | Input/output registers, logic layers, score calculation, predicted class, and valid signals generated. |
 | 1.9 | [Generate reference vectors and a self-checking testbench](steps/1.9-generate-reference-vectors.md) | ✅ | Testbench compares every class score and the predicted class against Python. |
 | 1.10 | [Verify the trained model in simulation](steps/1.10-verify-the-core-bit-for-bit.md) | ✅ | 450/450 images match exactly. This covers those inputs; it is not formal verification over every possible input. |
-| 1.11 | [Run the existing regression tests](steps/1.11-run-the-regression-tests.md) | ✅ | 194 tests pass: 45 cases through step 2.8, 18 archived-timing cases in 2.9, 8 performance cases in 2.10, 14 recording cases in 3.2, 10 full-capture cases in 3.3, 35 activity-counter cases in 3.4, 22 measurement-window cases in 3.5, 20 category cases in 3.6 and 22 NumPy/RTL activity cases in 3.7. See the reviews for scope. |
+| 1.11 | [Run the existing regression tests](steps/1.11-run-the-regression-tests.md) | ✅ | Latest Nov 18 full run: 285 tests pass, no skips (19.18 s). Includes 255 pre-change cases, 23 validation-selection cases and 7 independent step 4.10 review cases. Earlier per-step totals remain historical. |
 
 The second part establishes the FPGA resource cost and achievable performance.
 
@@ -81,16 +88,16 @@ The fourth part is your switching-aware training extension.
 
 | ID | Task | Status | Specific result or remaining work |
 |---|---|---|---|
-| 4.1 | Implement the training penalty | ◐ | Code supports λ × mean[2p(1−p)], an IID zero-delay surrogate. One-epoch smoke validates execution only; effectiveness and energy correlation remain untested. Future runs use validation monitoring and saved partitions/checkpoints. |
+| 4.1 | Implement the training penalty | ◐ | Code supports λ × mean[2p(1−p)], an IID zero-delay surrogate. Repeated λ=0.3 runs reduce settled validation switching in all four new pairs (mean 16.71%), but only one meets the frozen accuracy allowance; mean loss 1.48 pp. Consistently acceptable accuracy, energy benefit and generality remain unestablished. |
 | 4.2 | [Preserve the unpenalized baseline](steps/4.2-preserve-the-unpenalized-baseline.md) | ✅ | Existing run uses λ = 0 and has saved accuracy, model, and logical switching results. |
-| 4.3 | Run an initial penalized experiment | ☐ | After 4.10, retrain both λ=0 control and a small nonzero λ with matched splits, architecture, seed and training budget. Do not use the historical baseline as the matched control. |
-| 4.4 | Sweep penalty strengths | ☐ | Compare several λ values using validation data for selection; reserve test results for final evaluation. |
-| 4.5 | Repeat selected experiments across seeds | ☐ | Check that improvements are reproducible rather than dependent on one initialization. |
+| 4.3 | [Run an initial penalized experiment](steps/4.3-run-the-initial-penalty-experiment.md) | ✅ | Independently verified fresh matched 60-epoch seed-0 pair. Control: 249/270 hard validation correct, 0.347500 switching. λ=0.1: 245/270, 0.322456 switching (7.21% lower), but 1.48 pp accuracy loss exceeds the frozen 1 pp allowance, so control is retained. Test remains deferred; no energy claim. |
+| 4.4 | [Sweep penalty strengths](steps/4.4-sweep-penalty-strengths.md) | ✅ | Independently verified eight-point seed-0 grid. Six new 60-epoch runs plus two explicitly reused 4.3 runs. λ=0.3 selected: 247/270 correct (91.48%) vs control 249/270 (92.22%); 17.17% fewer settled changes with 0.74 pp accuracy loss. Test deferred; one-seed validation choice, not energy evidence. |
+| 4.5 | [Repeat selected experiments across seeds](steps/4.5-repeat-the-selected-penalty-across-seeds.md) | ✅ | Eight new 60-epoch runs form paired seeds 1–4 with fixed λ=0.3, plus explicitly reused discovery seed 0. Independently verified methodology, artifacts and aggregation. Primary mean switching reduction 16.71%; mean accuracy loss 1.48 pp; only 1/4 new pairs passes the unchanged allowance. All-pairs consistency fails; no seed discarded or λ retuned. Test deferred; no energy claim. |
 | 4.6 | Verify each selected model | ☐ | Export each model and repeat score-and-class comparisons against its own Python reference. |
 | 4.7 | Measure each model’s hardware cost and activity | ☐ | Compare accuracy, switching, LUTs, registers, and timing using a consistent procedure. |
 | 4.8 | Plot the tradeoffs | ☐ | Accuracy versus switching first; accuracy versus estimated or measured energy once available. |
 | 4.9 | Run the optional penalty ablation | ◐ | Per-sample penalty mode exists, but no experiment has compared it with the batch-mean switching penalty. |
-| 4.10 | Prepare validation-only experiment selection | ☐ | Execute before 4.3–4.5: allow sweeps to defer test evaluation, save validation inputs/order and hard switching alongside accuracy, define accuracy/switching selection criteria and archive configurations/checkpoints/split provenance. Final test reporting follows selection; the already inspected digits test remains exploratory. |
+| 4.10 | [Prepare validation-only experiment selection](steps/4.10-prepare-validation-only-selection.md) | ✅ | Independently verified deferred test mode, ordered validation data/reference scores/activity, frozen accuracy-budget policy, matched within-seed selector and checkpoint-based final evaluation. Two one-epoch mechanism runs passed; full suite 285 passes. No useful penalty result claimed; the already inspected digits test remains exploratory. |
 | 4.11 | Assess Gray coding in a separate experiment | ☐ | First identify candidate pixel/score/counter signals and actual transitions. Current pixel encoding is thermometer. Gray-coded pixel inputs require retraining and explicit input-width/quantization controls; register/counter recoding requires score/class equivalence and area/timing/activity accounting. Separate interface savings from learned-network savings; no automatic benefit is assumed. |
 
 The fifth part turns activity measurements into power and energy evidence.

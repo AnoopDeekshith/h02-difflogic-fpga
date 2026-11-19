@@ -43,6 +43,49 @@ baseline; its old training protocol used the full training pool and monitored
 test accuracy. Retrain both controls and penalized models under the same new
 protocol before research comparisons.
 
+### Validation-only research selection
+
+Use `--defer-test` for every control/candidate training run used in a sweep.
+It saves ordered validation inputs, exact NumPy scores/classes, settled switching,
+split indices, a final-epoch checkpoint and hashed provenance. Existing output
+directories are rejected. The default compatibility mode still evaluates test;
+such runs cannot enter the validation-only selector.
+
+```bash
+python scripts/train.py --dataset digits --width 1000 --depth 4 --epochs 60 \
+  --defer-test --act-weight 0 --out runs/digits_control_v2
+python scripts/train.py --dataset digits --width 1000 --depth 4 --epochs 60 \
+  --defer-test --act-weight 0.1 --out runs/digits_penalty_v2
+python scripts/select_validation_models.py --control runs/digits_control_v2 \
+  --candidates runs/digits_penalty_v2 --out runs/digits_selection_v2.json
+```
+
+The policy is copied before training: retain models within one percentage point
+of the matched control's hard validation accuracy, then minimize settled
+validation switching. This is a working tolerance, not a professor requirement.
+Include the control in selection; it can win. Different seeds are compared
+separately. Settle the experiment design and candidate list before final test
+evaluation; after selection, evaluate the saved checkpoint without retraining:
+
+```bash
+python scripts/evaluate_selected_model.py --selection runs/digits_selection_v2.json \
+  --out runs/digits_selected_test_v2
+```
+
+The final evaluation directory contains the selected model and test vectors for
+the existing exporters. Validation-only directories deliberately have no test
+vectors. See [step 4.10](docs/steps/4.10-prepare-validation-only-selection.md)
+for evidence and limits. The new one-epoch smoke runs check this procedure;
+they do not establish an optimized model, lower power, or lower energy.
+
+The [five-pair repeated-seed experiment](docs/steps/4.5-repeat-the-selected-penalty-across-seeds.md)
+keeps discovery seed 0 separate from four new pairs. Fixed lambda 0.3 lowers
+settled logical switching in all four new pairs, but only one meets the frozen
+accuracy allowance; it is not a robust default under that rule. Test evaluation
+remains deferred. A subsequent [research discussion](docs/discussions/2026-11-18-switching-versus-energy.md)
+recommends assessing the energy benefit before more tuning; no energy pilot
+has been launched.
+
 ## iCEBreaker implementation tool check
 
 The implementation target is the iCEBreaker's iCE40UP5K, SG48 package, using

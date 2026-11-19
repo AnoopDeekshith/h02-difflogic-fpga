@@ -43,9 +43,17 @@ A completed learning note does not imply hardware deployment or energy reduction
 | 3.9 | [Assess glitch activity](3.9-assess-glitch-activity.md) — SDF-timed routed board, 8 images; core glitch ratio 1.68 |
 | 3.10 | [Report complementary switching metrics](3.10-report-complementary-switching-metrics.md) — surrogate vs measured, per layer, RTL/mapped/timed views |
 | 4.2 | [Preserve the unpenalized baseline](4.2-preserve-the-unpenalized-baseline.md) |
+| 4.3 | [Run the initial matched penalty experiment](4.3-run-the-initial-penalty-experiment.md) — independently verified 60-epoch pair; lower logical switching but accuracy-budget rejection |
+| 4.4 | [Sweep penalty strengths](4.4-sweep-penalty-strengths.md) — independently verified eight-point seed-0 grid; lambda 0.3 meets the validation accuracy allowance with lower logical switching |
+| 4.5 | [Repeat the selected penalty across seeds](4.5-repeat-the-selected-penalty-across-seeds.md) — independently verified four-new-pair repeat; lower logical switching but only one meets accuracy allowance |
+| 4.10 | [Prepare validation-only selection](4.10-prepare-validation-only-selection.md) — independently verified deferred test mode, frozen selection policy, provenance and separate final evaluation |
 | 7.1 | [Maintain project and learning notes](7.1-maintain-project-notes.md) |
 
 ## Older documents
+
+- [November 18 discussion about switching versus energy](../discussions/2026-11-18-switching-versus-energy.md):
+  Anoop's questions, the limits of the weak-penalty result and the revised
+  recommendation to assess energy benefit before more tuning.
 
 - [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md): background, goals, results and decisions.
 - [PROJECT_CHECKLIST.md](../PROJECT_CHECKLIST.md): completed, partial and pending tasks.
@@ -62,8 +70,18 @@ unavailable; it is a capacity failure, not a second implemented benchmark.
 Waveform recording has independently checked short Icarus smoke runs and a
 full 450-image capture. Raw waveform counting and stage-aligned windows are
 verified, including independently reviewed categories and exact settled NumPy/RTL
-value/activity agreement. Mapped activity, timing-aware glitches, switching-aware training experiments, power estimates,
-board programming and electrical measurements remain pending. The November 16
+value/activity agreement. Mapped activity and a scoped timing-aware glitch
+assessment are complete. Validation-only training/selection preparation and
+its mechanism checks are independently verified. The first matched 60-epoch
+penalty pair is independently verified; lambda 0.1 does not meet the accuracy
+allowance. The eight-point seed-0 sweep is independently verified;
+lambda 0.3 meets that allowance in the discovery seed. The four-new-pair
+repeat is independently verified: only one meets the allowance,
+so lambda 0.3 is not a robust default. The subsequent discussion linked above
+recommends assessing energy benefit before more tuning; that pilot remains
+a proposal, not a completed experiment. Selected-model
+RTL/hardware checks, power estimates, board programming and electrical
+measurements remain pending. The November 16
 checklist additions cover complementary metrics (3.10), validation-only
 selection (4.10, before the sweep), a separate Gray-coding experiment (4.11)
 and professor draft review (7.6). They continue the original plan.
