@@ -1,0 +1,53 @@
+{
+  "step": "4.13",
+  "date": "2026-11-18",
+  "status": "independently verified",
+  "policy": "docs/experiments/hardware-switching-stop-rule-v3.json",
+  "policy_sha256": "5d22135a5caa14e258c48aa386c5a41e2fba359cca12c733ac1b7e3b7236930d",
+  "code_commit": "3c2e1e6",
+  "evidence_directory": "runs/step4.13-probe.nakln11l",
+  "independent_rerun": "runs/step4.13-review.independent/step4.13-probe.ygnq800p (all artifacts hash-identical)",
+  "independent_oracle": "runs/step4.13-review.independent/oracle (own netlist writer, testbench, VCD parser and fanout counter; exact agreement)",
+  "pair": {"model_seed": 1, "control_lambda": 0.0, "penalty_lambda": 0.3,
+           "penalty_label": "accuracy-failed hardware diagnostic, not a selected model"},
+  "workload": "270 saved validation images in saved order, one per clock at nominal 12 MHz, standalone head-only core (LAT 3); no test data loaded",
+  "functional": {"rtl_bit_exact": "270/270 both models", "mapped_bit_exact": "270/270 both models", "unknown_changes_in_window": 0},
+  "window_ps": {"start_exclusive": 250001, "end_inclusive": 22875184},
+  "synthesis_yosys_ice40_up": {
+    "control": {"SB_LUT4": 2908, "SB_CARRY": 123, "SB_DFF": 334, "SB_DFFSR": 5, "core_nets": 3370},
+    "penalty": {"SB_LUT4": 2829, "SB_CARRY": 123, "SB_DFF": 334, "SB_DFFSR": 5, "core_nets": 3291},
+    "fit_note": "Synthesis counts only; packing/fit not established by the probe"
+  },
+  "metrics": {
+    "control": {"M1": 384982, "M2": 1061277},
+    "penalty": {"M1": 372638, "M2": 1019592}
+  },
+  "reductions": {
+    "M1": 0.03206383675080915,
+    "M2": 0.039278152640639497,
+    "logical_settled_step_4_5": 0.16035742698932043
+  },
+  "decision": "CONTINUE",
+  "decision_rule": "PAUSE iff R < 2% on both M1 and M2 (unrounded)",
+  "margin_note": "M1 exceeds the threshold by 1.21 percentage points on one seed with zero delay; the final 4.14 decision may still be STOP or INCONCLUSIVE.",
+  "analysis_not_validated_measurement": {
+    "source": "docs/reviews/step-4.13-independent-review.md, decompose.py (heuristic net labels)",
+    "logical_reduction_by_layer_percent": {"L1": 27.6, "L2": 24.8, "L3": 13.3, "L4": 3.6},
+    "M1_by_region": {
+      "input_register_ffs": {"control": 13097, "penalty": 13097},
+      "nets_equal_to_a_single_layer_gate": {"control": 91543, "penalty": 80210, "nets": "872 / 811"},
+      "popcount_adders_and_merged_gate_luts": {"control": 230123, "penalty": 229450},
+      "pre_score_carries": {"control": 6417, "penalty": 6506},
+      "argmax_lut_and_carry": {"control": 26593, "penalty": 26168},
+      "score_class_valid_ffs": {"control": 17209, "penalty": 17207}
+    },
+    "interpretation": "The penalty saves mostly in layers 1-2; layer 4, which drives the popcount, changes only 3.6%. Popcount/adder and merged-gate LUT activity is about 60% of mapped M1 and essentially unchanged. Only about 870 of 4,000 learned gates survive as their own nets after technology mapping.",
+    "M2_note": "About half of the M2 reduction (20,879 of 41,685) comes from input-register flip-flops whose toggles are identical in both models but drive fewer cell inputs in the penalized model (2,192 vs 2,383 pins). Excluding them, R2 is 2.37%. Decision unchanged because R1 alone exceeds 2%."
+  },
+  "limits": [
+    "Zero-delay mapped standalone core: no routing, glitches, power or energy",
+    "One model seed; screening only, not the final 4.14 decision",
+    "Fanout-weighted counts are a rough capacitance stand-in",
+    "R includes shared logic (input register, popcount, registers, argmax) by the frozen core definition"
+  ]
+}

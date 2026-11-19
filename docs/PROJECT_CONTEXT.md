@@ -560,6 +560,16 @@ switch, and train the network itself to switch less while staying accurate.
   noise. Lambda 0.3 stays an accuracy-failed diagnostic. See
   [walkthrough](steps/4.12-freeze-the-hardware-stop-rule.md) and
   [review](reviews/step-4.12-independent-review.md).
+- **Step 4.13 probe (Nov 18, independently verified):** seed-1 control vs
+  λ=0.3, 270 validation images, both 270/270 RTL and mapped exact. Logical
+  16.0% reduction becomes **3.2% mapped core toggles (M1)** and **3.9%
+  fanout-weighted (M2; 2.37% excluding an input-register load difference)**.
+  Frozen rule: **CONTINUE**, thin margin. Analysis: penalty saves mostly in
+  layers 1–2 (layer 4 only 3.6%); popcount/adder LUTs ≈60% of mapped toggles
+  and nearly unchanged; only ~870/4,000 gates survive as nets. Suggests a
+  uniform gate penalty mis-targets post-mapping cost (untested idea). Evidence:
+  `runs/step4.13-probe.nakln11l/`; [walkthrough](steps/4.13-run-the-screening-probe.md),
+  [summary](results/step-4.13-screening-probe.json), [review](reviews/step-4.13-independent-review.md).
 - **Next research decision:** assess the proposed energy pilot before more
   weaker-lambda tuning. Do not promote lambda 0.3 as a robust default,
   cherry-pick seed 3 or relabel failed accuracy decisions. Step 4.6's own
