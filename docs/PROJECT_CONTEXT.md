@@ -1,7 +1,7 @@
 # H02 Project Context
 
 Background for anyone (or any AI assistant) working in this repo.
-Last updated: Nov 16, 2026.
+Last updated: Nov 18, 2026.
 
 ## Who and why
 
@@ -79,17 +79,17 @@ switch, and train the network itself to switch less while staying accurate.
 6. Nov 23-29: stretch goal (power-aware training); Thanksgiving slack.
 7. Nov 30-Dec 4: report, slides, demo, clean repo.
 
-## Status (updated Nov 16)
+## Status (updated Nov 18)
 
 - Toy training completed: `runs/digits_w1000`, digits dataset, 4 layers x 1,000
   gates, 60 epochs, seed 0, no activity penalty. Soft accuracy 93.78%; hard and
   NumPy reference accuracy 93.56%; discretization gap 0.22 percentage points.
   PyTorch hard-model scores match the NumPy reference.
 - Removed a stray backtick at the start of `tests/test_gates.py` that prevented
-  test collection. Latest `.venv/bin/python -m pytest tests -q`: **194 passed**,
-  including independent exhaustive head-pipeline, artifact/protocol and
-  archived-timing/performance, recording/full-capture, counter/window/category
-  and NumPy/RTL activity checks. Latest full run: Nov 16, 13.83 seconds, no skips.
+  test collection. Before step 4.10 edits, a fresh Nov 18 full suite passed
+  **255 tests in 17.06 seconds**, no skips. After step 4.10's 23 new selection
+  cases and 7 independent cases, the full suite passed **285 in 19.18 seconds**,
+  no skips. Earlier per-step totals below remain dated historical records.
 - Re-ran the trained model's combinational simulation and exported/simulated its
   pipelined version. Both pass **450/450 vectors**, comparing every integer
   class score and the predicted class with the NumPy reference. This covers the
@@ -422,7 +422,7 @@ switch, and train the network itself to switch less while staying accurate.
   board with `--sdf` (bit-identical bitstream, 19.39 MHz), renamed cells so
   Icarus parses the SDF, and simulated 8 images at 12 MHz with the real UART
   divider, timed (`-gspecify -ginterconnect -DTIMING`) and zero delay. All
-  replies exact; settled values identical. Core: 32,580 timed transitions vs
+  replies exact; per-net settled-change counts identical. Core: 32,580 timed transitions vs
   12,178 settled changes, **1.68 extra per settled change**; interface 0.70.
   Icarus filters pulses narrower than a path delay (inertial); one delay
   corner; not energy. Evidence: `runs/step3.9-glitch/timed-activity.0hvnej44/`.
@@ -432,11 +432,136 @@ switch, and train the network itself to switch less while staying accurate.
   (difference < 1 permutation std). Layers 0.28→0.42; 499 constant gates.
   The surrogate models settled changes only; routed-core glitches add ~1.7
   transitions per settled change on 8 images.
-- **Next:** 4.1 onward (validation-only sweep mode 4.10 before 4.3–4.5);
-  code-review tidy-ups (shared VCD parser/validators) before sweeps.
+- **Step 4.10 preparation (Nov 18, independently verified):**
+  `scripts/train.py --defer-test` performs no test inference or test export,
+  saves fixed-order validation inputs/labels, exact NumPy scores/classes and
+  changes/opportunities, and archives configuration, split identities, final
+  checkpoint, source/package provenance and status. A frozen policy is copied
+  before training. Existing output folders are rejected. The compatibility
+  mode without the flag still evaluates test and cannot enter the selector.
+  The existing dataset loader still returns test arrays; deferral concerns
+  inference, metrics and exports, not an unloaded test dataset.
+  `scripts/select_validation_models.py` recomputes validation quantities and
+  checks matched data, architecture, training budget, model seed, source and
+  versions. It minimizes settled switching within a working one-percentage-
+  point accuracy budget relative to the control, with the control selectable.
+  This tolerance is not a professor requirement; repeated-seed aggregation is
+  not implemented. `scripts/evaluate_selected_model.py` rechecks selection and
+  evaluates the selected checkpoint later without retraining, in a new folder.
+  Real 1-epoch mechanism evidence: `runs/step4.10-preparation.20uuxoj6/`;
+  control selected because the penalty lost 4/270 validation examples
+  (1.48148 percentage points), beyond the frozen budget. These undertrained
+  smoke runs are not step 4.3 results or evidence of useful optimization.
+  See [walkthrough](steps/4.10-prepare-validation-only-selection.md),
+  [summary](results/step-4.10-validation-selection.json) and final independent
+  [review](reviews/step-4.10-independent-review.md).
+- **Professor direction reported Nov 18:** Anoop says the professor encouraged
+  pushing the work toward a conference paper. No new venue, deadline, required
+  dataset or power-evidence threshold was specified in that update.
+- **Step 4.3 initial pair (Nov 18, independently verified):**
+  Fresh lambda-zero control and lambda-0.1 batch-penalty model each completed
+  60 CPU epochs with the same 4×1,000 architecture, tau 10, Adam/0.01,
+  batch size 100, model/split seed 0, 1,077 train / 270 validation, unchanged
+  validation order and one-thread environment. All test evaluation is deferred.
+  The plan, policy and eight source files were archived before training under
+  `runs/step4.3-pair.ixlscii4/`; historical baseline hashes remain unchanged.
+  Hard validation: control **249/270 = 92.22%**, lambda 0.1 **245/270 = 90.74%**.
+  Settled learned-gate changes: **373,910 vs 346,963 / 1,076,000** opportunities,
+  rates **0.347500 vs 0.32245632**. This is **7.2068% fewer logical changes**,
+  with a **1.48148-percentage-point accuracy loss**. The loss exceeds the
+  frozen 1 pp allowance, so the pair selector retains the control. This is
+  a tradeoff result, not an accepted optimization or evidence of energy savings.
+  Both PyTorch/NumPy integer scores/classes agree; independent scalar checks
+  reproduce all 270 validation images, counts and checkpoint/optimizer progress.
+  One lambda and one seed do not establish repeatability, novelty or a
+  hardware result. No new full regression was needed: executable code is
+  unchanged from the 285-pass step 4.10 suite. See
+  [walkthrough](steps/4.3-run-the-initial-penalty-experiment.md),
+  [summary](results/step-4.3-initial-penalty-experiment.json) and
+  [independent review](reviews/step-4.3-independent-review.md).
+- **Step 4.4 sweep (Nov 18, independently verified):**
+  Compared lambda **0, 0.001, 0.003, 0.01, 0.03, 0.1, 0.3 and 1** at the
+  same seed-0 60-epoch protocol. Six new runs are under
+  `runs/step4.4-sweep.zlmbqzyd/`; the verified 4.3 lambda-zero and lambda-0.1
+  runs were explicitly reused, not rerun or presented as fresh output. The
+  grid was chosen after the known 4.3 results, then fixed before six new runs.
+  The original one-percentage-point accuracy allowance was unchanged.
+  The selector chooses **lambda 0.3**: **247/270 = 91.4815%** hard validation
+  accuracy, **309,698/1,076,000 = 0.28782342** settled changes per gate/pair.
+  Against the matched control's 249/270 and 373,910 changes, this is
+  **17.1731% fewer logical changes at 0.74074 pp accuracy cost**, satisfying
+  the frozen allowance. Lambda 1 lowers changes 42.30% but only gets 236/270
+  correct, so it is rejected. Lambda 0.001 slightly increases switching.
+  All eight checkpoints are final epoch 60; independent scalar checks match
+  every validation score/class and exact count, all Adam steps are 660, and
+  source/policy/data/order identities agree. No executable code changed; the
+  285-test result remains the prior step 4.10 run, not a new sweep test run.
+  All test evaluation is deferred. This is a provisional within-grid choice
+  for repeated-seed testing, not a final paper model, hardware result, energy
+  improvement or novelty claim. See [walkthrough](steps/4.4-sweep-penalty-strengths.md),
+  [summary](results/step-4.4-penalty-strength-sweep.json) and
+  [independent review](reviews/step-4.4-independent-review.md).
+- **Step 4.5 repeated seeds (Nov 18, independently verified):**
+  Fixed lambda 0.3 after discovery seed 0; trained eight new 60-epoch models
+  as matched control/penalty pairs for seeds 1–4. Reused the two verified
+  seed-0 models explicitly. The prewritten plan, frozen policy and eight-file
+  source snapshot are under `runs/step4.5-seeds.vyq2h2nf/`. The same 1,077
+  training / 270 validation images and validation order remain fixed; only
+  model seed varies connections, initial weights and minibatch shuffle.
+  Primary reporting excludes the discovery pair. All four new pairs lower
+  settled learned-gate changes, by **16.0357%, 16.7279%, 16.2527%, 17.8436%**.
+  Accuracy losses are **1.1111, 2.2222, 0, 2.5926 percentage points** against
+  each seed's own control. Only **1/4** meets the frozen one-point allowance.
+  The predeclared conservative all-four consistency rule therefore fails.
+  Mean per-pair reduction is **16.71498%**, sample SD **0.80604 percentage
+  points**; mean accuracy loss **1.48148 pp**, sample SD **1.17121 pp**.
+  Pooled-count reduction is separately **16.71602%**. Including discovery
+  gives a secondary, selection-informed mean of 16.80661% with 1.33333 pp
+  accuracy loss and 2/5 joint passes; it is not the primary repeat assessment.
+  No failed-accuracy seed was removed, lambda was not retuned and the budget
+  was not relaxed. Lambda 0.3 is not a consistently acceptable default under
+  this rule, despite the repeated lower-switching pattern in these runs.
+  Independent scalar/checkpoint/RNG audits match all ten models (2,700
+  model-image computations, still the same 270 distinct validation images).
+  Descriptive sample SD is not a confidence interval or dataset-level claim.
+  No test evaluation or new RTL/hardware/power/energy result was produced.
+  Training code is unchanged; the 285-test result remains from step 4.10.
+  See [walkthrough](steps/4.5-repeat-the-selected-penalty-across-seeds.md),
+  [summary](results/step-4.5-repeated-seeds.json) and
+  [independent review](reviews/step-4.5-independent-review.md).
+- **Research discussion recorded Nov 18:** Anoop questioned whether the
+  seed-0 lambda-0.03 result (2.05% fewer logical changes at 0.74 pp accuracy
+  loss) would yield enough energy benefit to justify pursuing it. The
+  assistant revised its earlier weaker-penalty recommendation: prioritize
+  planning a supported power flow and a bounded matched control/lambda-0.3
+  hardware-energy pilot to assess whether logical reductions matter in energy.
+  This is a discussed recommendation, not a completed or launched experiment.
+  No power flow has been selected or energy reduction demonstrated. Full
+  discussion: [switching versus energy](discussions/2026-11-18-switching-versus-energy.md).
+- **Follow-up discussion recorded Nov 18:** energy cannot be checked now (no
+  power tool installed; Radiant/Vivado need x86). Anoop set a working rule:
+  under 2% energy saving is not worth pursuing as a power-saving claim; a
+  characterization paper (how much logical reduction survives mapping,
+  routing, glitches and power) was discussed as a possible MCSoC framing,
+  pending professor review. Nine plan deviations/additions are proposed,
+  awaiting approval, including validation-vector export, a predeclared 2%
+  stop rule on routed core transitions, generalized mapped/timed activity
+  tools and place-and-route seed variability. See
+  [small saving and pilot plan](discussions/2026-11-18-small-saving-publication-and-pilot-plan.md).
+- **Next research decision:** assess the proposed energy pilot before more
+  weaker-lambda tuning. Do not promote lambda 0.3 as a robust default,
+  cherry-pick seed 3 or relabel failed accuracy decisions. Step 4.6's own
+  RTL checks and implementation feasibility remain necessary for any new
+  model; steps 5.1–5.5 provide the uncompleted power/energy work. Any revised
+  accuracy target needs a separate recorded comparison. Keep test evaluation
+  deferred while selecting.
+  The non-blocking shared-VCD-parser/validator consolidation remains before
+  larger hardware-activity batches. This NumPy-only training sweep did not
+  use that path or refactor measurement code.
   The full-layer design still needs
   resizing or a larger target for a second hardware performance result.
-  No neural-network bitstream has been generated or programmed. A live serial
+  Routed neural-network configuration evidence exists, including the bit-identical
+  step 3.9 reroute; no physical board has been programmed. A live serial
   host client is still pending. UART throughput must not be reported as the
   core's maximum throughput; power claims must specify the workload.
 
@@ -469,8 +594,8 @@ bash synth/synth_ice40.sh runs/digits_w1000/rtl_pipe
 - Implementation setup, interface and constraints are complete through 2.7;
   2.8 has an independently validated routed head-only candidate. The full-layer
   candidate remains oversized, so the two-architecture item is partial.
-  Next activity work: mapped-net activity, supported timing-aware glitch
-  assessment and complementary metrics, before energy claims.
+  Mapped activity, a scoped timing-aware glitch assessment and complementary
+  metrics were subsequently completed in steps 3.8–3.10. Energy remains unmeasured.
 - Research evaluation must use consistent targets, clocks, workloads and
   settings; validation data for selecting penalty strengths; repeated seeds;
   and separate reporting of switching, estimated power and measured energy.
@@ -520,8 +645,11 @@ then matched training and mapped comparison. Power/energy 5.x and physical
 deployment 6.x retain their separate evidence requirements. Four pending tasks
 were added to the original 57-item checklist; the older Excel tracker is still
 a separate, unrefreshed snapshot.
-With steps 3.2–3.7 independently verified, the current Markdown checklist has
-**61 tasks: 30 complete, 9 partial and 22 pending** (after 3.10).
+After step 3.10 the Markdown checklist had 61 tasks: 30 complete, 9 partial and
+22 pending. After step 4.10, it had 31 complete, 9 partial and 21 pending. After step 4.3, it had 32 complete, 9 partial and 20 pending. After step 4.4, it had 33 complete, 9 partial and 19 pending. With step 4.5
+independently verified on Nov 18, it now has
+**61 tasks: 34 complete, 9 partial and 18 pending**. Older Excel trackers and
+the downloadable Nov 17 learning guide remain dated snapshots.
 
 ## How Anoop wants to work
 
