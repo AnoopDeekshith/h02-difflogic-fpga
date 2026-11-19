@@ -1,0 +1,18 @@
+{
+  "schema": "validation_selection_policy_v1",
+  "max_accuracy_drop_pp": 1.0,
+  "ranking": "min_switching_then_max_accuracy_then_min_lambda_then_model_hash",
+  "accuracy_measure": "NumPy hard-model validation recognition accuracy",
+  "switching_measure": "Unweighted settled changes over all learned gate outputs in saved validation order divided by gate count times adjacent-image pairs",
+  "checkpoint": "Final epoch of a matched fixed training budget",
+  "comparison": "One matched model seed at a time, including the lambda-zero control as a selectable candidate",
+  "budget_rationale": "Working experimental tolerance of one percentage point; not a professor requirement or a demonstrated Pareto optimum. Freeze before meaningful training; use a separately named policy for a different tolerance.",
+  "future_hardware_controls": {
+    "target": "iCE40UP5K-SG48",
+    "clock_hz": 12000000,
+    "layer_pipeline": false,
+    "head_pipeline": true,
+    "workload": "Match image order and valid schedule within each hardware comparison"
+  },
+  "limits": "Software validation selection does not establish hardware feasibility, glitch reduction, power, energy or novelty. The already inspected digits test remains exploratory. Repeated-seed aggregation is a later experimental step."
+}

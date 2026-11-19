@@ -1,0 +1,127 @@
+{
+  "step": "4.10",
+  "date": "2026-11-18",
+  "status": "independently verified",
+  "scope": "One-epoch validation-preparation smoke only; not step4.3 experiment or evidence of useful optimization",
+  "evidence_directory": "runs/step4.10-preparation.20uuxoj6",
+  "runs": {
+    "control": {
+      "directory": "runs/step4.10-preparation.20uuxoj6/control",
+      "act_weight": 0.0,
+      "epochs": 1,
+      "width": 1000,
+      "depth": 4,
+      "seed": 0,
+      "n_train": 1077,
+      "n_validation": 270,
+      "n_test": 450,
+      "test_evaluated": false,
+      "validation": {
+        "ref_acc": 0.16666666666666666,
+        "ref_toggle_rate": 0.18769702602230484,
+        "changes": 201962,
+        "opportunities": 1076000,
+        "image_pairs": 269,
+        "n_gates": 4000
+      },
+      "validation_torch_vs_ref_scores_match": true,
+      "validation_torch_vs_ref_classes_match": true,
+      "manifest_sha256": "af87a6d495d7234600c46966944d30770d52a7ed7a7d4e5ec076b9b903c1a5a9",
+      "model_sha256": "533564ad315389b0c2efffec3c7feb8ea1c06819f86fd3cad8595790b1648710",
+      "no_test_artifacts": true
+    },
+    "penalty": {
+      "directory": "runs/step4.10-preparation.20uuxoj6/penalty",
+      "act_weight": 0.1,
+      "epochs": 1,
+      "width": 1000,
+      "depth": 4,
+      "seed": 0,
+      "n_train": 1077,
+      "n_validation": 270,
+      "n_test": 450,
+      "test_evaluated": false,
+      "validation": {
+        "ref_acc": 0.15185185185185185,
+        "ref_toggle_rate": 0.18142193308550186,
+        "changes": 195210,
+        "opportunities": 1076000,
+        "image_pairs": 269,
+        "n_gates": 4000
+      },
+      "validation_torch_vs_ref_scores_match": true,
+      "validation_torch_vs_ref_classes_match": true,
+      "manifest_sha256": "fba131b1462ee6a962c8c48c2dfa093fa00702a814a708c1ac4f6114551e3cd0",
+      "model_sha256": "41cfd4037108e30420265da342f2199c4d02d6c59c75a6155641c399c5930523",
+      "no_test_artifacts": true
+    }
+  },
+  "selection": {
+    "selected": "control",
+    "max_accuracy_drop_pp": 1.0,
+    "accuracy_floor": 0.15666666666666665,
+    "candidates": [
+      {
+        "directory": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/step4.10-preparation.20uuxoj6/control",
+        "manifest_sha256": "af87a6d495d7234600c46966944d30770d52a7ed7a7d4e5ec076b9b903c1a5a9",
+        "model_sha256": "533564ad315389b0c2efffec3c7feb8ea1c06819f86fd3cad8595790b1648710",
+        "eligible": true,
+        "act_weight": 0.0,
+        "ref_acc": 0.16666666666666666,
+        "ref_toggle_rate": 0.18769702602230484,
+        "changes": 201962,
+        "opportunities": 1076000,
+        "image_pairs": 269,
+        "n_gates": 4000
+      },
+      {
+        "directory": "/Users/anoopdeekshithr/h02-difflogic-fpga/runs/step4.10-preparation.20uuxoj6/penalty",
+        "manifest_sha256": "fba131b1462ee6a962c8c48c2dfa093fa00702a814a708c1ac4f6114551e3cd0",
+        "model_sha256": "41cfd4037108e30420265da342f2199c4d02d6c59c75a6155641c399c5930523",
+        "eligible": false,
+        "act_weight": 0.1,
+        "ref_acc": 0.15185185185185185,
+        "ref_toggle_rate": 0.18142193308550186,
+        "changes": 195210,
+        "opportunities": 1076000,
+        "image_pairs": 269,
+        "n_gates": 4000
+      }
+    ],
+    "selection_sha256": "c6e3975cceaf87d0129138f022a88600aff25ed26e6dd336793990d19f8e5ac0"
+  },
+  "source_sha256": {
+    "scripts/train.py": "471d0b155cd512c9c39a408d9ebbf70bcfd357c21f4c5c3c4b6a0df93451e0ee",
+    "dlgn/experiment.py": "724d0cd87b4827250f263df0daae1c3a255f6a2886f12fcee952913d8ebd4c09",
+    "dlgn/data.py": "51a73f496196282b10ba374a93caeb74357a1b1a8eadae16b03d2e6c1d6ca717",
+    "dlgn/model.py": "e7638ab5f6438b93d52e2ea9699745671e21551acd8b4c400871d33d6c53091a",
+    "dlgn/hard.py": "5b98258067a01625c4e17b575bc6a264e14e0c2edd0f0f232b3721a74202641c",
+    "dlgn/gates.py": "ddf3ee96c0055b6a95f761580aeb91edf12f76fc4385902f396ce9468ff90804",
+    "scripts/select_validation_models.py": "8372d6bfe9eb7e4d281ba654885d712f830cbcb4f981fee81a6df8515baaf3d1",
+    "scripts/evaluate_selected_model.py": "83e95ffb4fb7af75643ed5972f0f4761ae1c85a6263bad6ccb99a2dd49747df5"
+  },
+  "evidence_sha256": {
+    "runs/step4.10-preparation.20uuxoj6/commands.json": "442c151de3b3ad7e9dfdc315fcb38addd0c34d63ffeae8a62c16cbcfb4c617c9",
+    "runs/step4.10-preparation.20uuxoj6/control.log": "7296ef2dbf99de192d8657ffa28ae0e41dd90411b7aa75dc65cd1ed4f1099e38",
+    "runs/step4.10-preparation.20uuxoj6/penalty.log": "6929556b3c805bd2bf6036dda2e554cf31396deb5d895fa7adeb20463d7858b0",
+    "runs/step4.10-preparation.20uuxoj6/selection.log": "9b5c177053ac9c735eb7574b1ab2ff8601f217f551906f4f96a9d6cb73381512"
+  },
+  "limits": [
+    "No meaningful 60-epoch matched control or penalty experiment performed",
+    "No real-data post-selection test evaluation in this step; synthetic tests cover that path",
+    "Existing dataset loader returns test arrays but deferred mode does not infer on or export them",
+    "One percentage point is a working predeclared tolerance, not a professor requirement",
+    "Selection compares one matched seed; repeated-seed aggregation remains pending",
+    "Settled logical activity only; no FPGA implementation, power, energy or novelty result",
+    "Historical digits test was inspected previously and remains exploratory"
+  ],
+  "verification": {
+    "full_suite": "285 passed in 19.18 seconds; no skips",
+    "pre_change_suite": "255 passed in 17.06 seconds",
+    "new_cases": 23,
+    "independent_cases": 7,
+    "independent_review": "docs/reviews/step-4.10-independent-review.md",
+    "mechanism_oracle": "Independent scalar truth-table oracle matched all 270 images, every score/class and exact change totals for both smoke models",
+    "verdict": "PASS; no blocking findings in code, methodology, mechanism evidence or documentation"
+  }
+}
