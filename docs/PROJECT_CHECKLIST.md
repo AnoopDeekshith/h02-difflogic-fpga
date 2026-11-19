@@ -18,7 +18,7 @@ recording the discussion.
 
 On November 18 Anoop approved four added steps (3.11, 4.12, 4.13, 4.14; see
 [pilot plan discussion](discussions/2026-11-18-small-saving-publication-and-pilot-plan.md)),
-bringing the checklist to 65 tasks. Lambda 0.3 enters hardware as an
+bringing the checklist to 65 tasks; 4.15 was added the same day after the 4.13 probe (66 tasks; [discussion](discussions/2026-11-18-layer-targeted-penalty.md)). Lambda 0.3 enters hardware as an
 accuracy-failed diagnostic, not a selected model. Steps 4.6–4.7 use saved
 validation images, never test data, while selection is open.
 
@@ -109,6 +109,7 @@ The fourth part is your switching-aware training extension.
 | 4.12 | [Freeze the hardware-switching stop rule](steps/4.12-freeze-the-hardware-stop-rule.md) | ✅ | Added Nov 18. Policy `docs/experiments/hardware-switching-stop-rule-v3.json` (v1 amended twice before measurement after independent review; 2% core-level threshold, M1 raw / M2 fanout-weighted core transitions, STOP/INCONCLUSIVE/PROCEED, PAUSE/CONTINUE probe) frozen before any hardware measurement of the new models; independently verified (three review rounds; v1/v2 kept in git). |
 | 4.13 | [Run the screening probe](steps/4.13-run-the-screening-probe.md) | ✅ | Independently verified (rerun hash-identical; separate oracle exact). Seed 1, 270/270 RTL and mapped exact. Logical 16.0% → mapped M1 **3.2%**, M2 **3.9%** (2.37% without input-register load difference). **CONTINUE**, thin margin. Popcount/adders ≈60% of mapped toggles, nearly unchanged; layer-4 logical reduction only 3.6%. Not energy. |
 | 4.14 | Run the hardware switching pilot | ☐ | Added Nov 18; only after CONTINUE. Seeds 1–4 primary, seed 0 secondary, routed SDF-timed core activity, placement seeds 1–3, noise check, final STOP/INCONCLUSIVE/PROCEED. Not an energy result. |
+| 4.15 | Test a layer-targeted switching penalty | ☐ | Added Nov 18 after 4.13; runs before 3.11/4.14. Frozen plan `docs/experiments/layer-targeting-v1.json`: profiles L4, L34, M23, RAMP vs uniform at λ 0.1/0.2/0.3 (same grid for all); seed-1 discovery by lowest mapped M1 within 1 pp; confirmation seeds 2–4; TARGETING_BETTER only if every seed is eligible, ≥ 2% and beats the comparator. Backward compatibility: retrained seed-1 control/λ0.3 byte-identical. Not energy. |
 
 The fifth part turns activity measurements into power and energy evidence.
 

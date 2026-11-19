@@ -1,0 +1,77 @@
+{
+  "schema": "layer_targeting_policy_v1",
+  "step": "4.15",
+  "frozen_on": "2026-11-18",
+  "approved_by": "Anoop (conversation of 2026-11-18): set up the last-layer penalty test, include middle layers",
+  "frozen_before": "Any training run with --act-layer-weights and any mapped measurement other than the step 4.13 seed-1 pair",
+  "question": "Does weighting the batch switching penalty toward particular layers give a larger reduction in mapped core toggles (M1) than the uniform penalty, at acceptable accuracy?",
+  "penalty": "lambda * sum_l w_l * mean_l(2 p (1-p)) / sum_l w_l, batch mode (dlgn/model.py activity_penalty layer_weights). Uniform = original mean over all gates (no --act-layer-weights). Normalization keeps the total penalty size equal across profiles, not the push per gate: relative to uniform, L4 puts 4x per-gate weight on layer 4, L34 and M23 2x on their two layers, RAMP 1.6x on layer 4 (0.4x on layer 1).",
+  "profiles": {
+    "U": null,
+    "L4": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "L34": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "M23": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "RAMP": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "targeted_profiles": [
+    "L4",
+    "L34",
+    "M23",
+    "RAMP"
+  ],
+  "lambdas": [
+    0.1,
+    0.2,
+    0.3
+  ],
+  "training": "scripts/train.py --dataset digits --width 1000 --depth 4 --tau 10 --epochs 60 --bs 100 --lr 0.01 --act-mode batch --split-seed 0 --device cpu --defer-test, OMP_NUM_THREADS=1, MKL_NUM_THREADS=1. Final epoch; no checkpoint selection.",
+  "compatibility_gate": "Every retrained control and uniform lambda-0.3 model must have a model.json byte-identical to its archived step 4.5 counterpart; otherwise stop and debug.",
+  "measurement": "scripts/probe_mapped_switching.py capture_model unchanged: export head-only core with the 270 saved validation images, 270/270 RTL and zero-delay mapped bit-exact, core-net M1 (raw) and M2 (fanout-weighted) in the step 3.8 window (first_input_ps - 41667 - 1, last_output_check_ps]. No test data.",
+  "accuracy_rule": "Eligible iff hard NumPy validation accuracy drop versus the same-seed control is <= 1.0 percentage point (validation_selection_policy_v1 tolerance, unchanged).",
+  "discovery": {
+    "seed": 1,
+    "models": "control, then every profile (U, L4, L34, M23, RAMP) at every lambda in lambdas (16 models); the same strength grid for uniform and targeted profiles so the comparator is not a weaker penalty by construction.",
+    "select_targeted": "T* = eligible targeted model with the lowest mapped M1; ties by higher accuracy, then lower lambda, then profile order L4, L34, M23, RAMP.",
+    "select_uniform": "U* = eligible uniform model with the lowest mapped M1, same tie rule; may not exist.",
+    "no_eligible_targeted": "Outcome NO_ELIGIBLE_TARGETED; stop, report, do not relax the accuracy rule or add lambdas.",
+    "reproduction_gate": "Seed-1 control and U lambda 0.3 mapped M1 must equal step 4.13 (384,982 and 372,638); otherwise stop and debug."
+  },
+  "confirmation": {
+    "seeds": [
+      2,
+      3,
+      4
+    ],
+    "models": "control, U lambda 0.3, the U* configuration if different, and the T* configuration, per seed (each trained fresh; controls and U 0.3 must pass the compatibility gate).",
+    "comparator": "U* configuration if it exists, else U lambda 0.3 (the step 4.5 reference)",
+    "outcome": {
+      "TARGETING_BETTER": "On every confirmation seed: T* accuracy drop <= 1 pp, R_M1(T*) >= 2%, and R_M1(T*) > R_M1(comparator).",
+      "TARGETING_NOT_SHOWN": "Anything else."
+    },
+    "descriptive": "Mean and per-seed R_M1, R_M2, logical reduction, accuracy drop and LUT4 counts for T*, comparator and U lambda 0.3. Each outcome condition (eligible, >= 2%, beats comparator) and the comparator's own accuracy drop are reported per seed."
+  },
+  "limits": "Zero-delay mapped standalone core on one synthesis run per model; no routing, glitches, power or energy. Seed 1 was already used for the 4.13 probe, so discovery there is informed by that result; confirmation seeds 2-4 are the evidence. Three confirmation seeds are a small sample. TARGETING_BETTER does not establish an energy saving, novelty or a selected final model; test data remain deferred.",
+  "attempts": "Every attempt folder is retained and reported, including failures. A failed discovery may be rerun only into a new folder that records the failed one; each confirmation attempt gets its own subfolder, and a second confirmation is refused once one has passed.",
+  "provenance": "Plan, policy and code are committed before discovery; plan.json records git HEAD and an empty git status for tracked files.",
+  "followup": "Carrying a selected profile into the routed pilot (4.14) requires a dated v4 stop-rule amendment; seeds 1-4 would then already be used, so that pilot would not be independent seed evidence."
+}
