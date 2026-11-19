@@ -1,0 +1,52 @@
+{
+  "schema": "hardware_switching_stop_rule_v1",
+  "frozen_on": "2026-11-18",
+  "approved_by": "Anoop (conversation of 2026-11-18)",
+  "frozen_before": "Any export, synthesis, placement, routing or hardware-activity measurement of the step 4.4/4.5 matched control or lambda-0.3 models",
+  "purpose": "Decide whether the lambda-0.3 reduction in settled logical switching is worth pursuing as an energy-saving claim, before acquiring a supported power-analysis flow.",
+  "accuracy_status": "Lambda 0.3 is a hardware diagnostic only. Its step 4.5 accuracy verdicts under validation_selection_policy_v1 (1 percentage point) remain failed for seeds 1, 2 and 4 and are not changed by this rule. Any different accuracy allowance requires a separately named, dated policy.",
+  "threshold_percent": 2.0,
+  "threshold_rationale": "Anoop's working judgement (2026-11-18) of the smallest energy saving worth pursuing. Approximate bound: the penalty acts on the learned core only; if clock, interface, I/O and static power were unchanged, total relative energy reduction would not exceed the core's own relative reduction. Area, placement and routing differences between models can violate 'unchanged', so resources are reported alongside.",
+  "fixed_setup": {
+    "models": "Step 4.5 matched pairs: control (lambda 0) and lambda 0.3, model seeds 0-4, split seed 0. Checkpoints and model.json files as archived; no retraining.",
+    "workload": "All 270 saved validation images (x_validation_bits.npy) in saved order, one image per clock after reset, identical schedule for every model. Test data are not loaded for inference, export or simulation.",
+    "architecture": "Feasible head-only core: layer_pipeline false, head_pipeline true",
+    "target": "iCE40UP5K-SG48",
+    "clock_hz": 12000000,
+    "constraints": "Unchanged step 2.7 SDC/PCF for routed board experiments; no relaxed constraints.",
+    "functional_gate": "Every model must match its own NumPy integer scores and lowest-index argmax for all 270 images in RTL and in each simulated mapped/routed netlist before any activity value is used. A mismatch blocks the rule result for that pair until debugged."
+  },
+  "core_definition": "Nets driven by mapped cells (LUT4, carry, flip-flop) belonging to the DLGN core: input register, logic layers, score adders, head score registers and argmax/output registers. Excluded: clock net, reset/synchronizer logic, UART wrapper, top-level I/O ports and testbench signals. The same classification code applies to both models of a pair.",
+  "metrics": {
+    "M1_raw": "Sum over core nets of known 0/1 transitions within the stage-aligned useful-work window (first settled state, last settled state]. X/Z-involving changes are counted separately and must be zero or reported.",
+    "M2_fanout_weighted": "Sum over core nets of known transitions multiplied by the net's fanout, defined as the number of mapped cell input-pin bits the net drives in the analysed netlist. Rough capacitance stand-in only; not calibrated capacitance, wire length or energy."
+  },
+  "reduction": "R = 1 - penalty_value / control_value for each metric and model seed, computed with each model's mean over its placement seeds where placement applies.",
+  "screening_probe": {
+    "checklist_step": "4.13",
+    "pair": "Model seed 1 (first primary repeat seed)",
+    "netlist": "Zero-delay post-synthesis mapped simulation of the standalone head-only core (step 3.8 style). Deterministic synthesis; no placement seed involved.",
+    "decision": {
+      "PAUSE": "R < 2% on both M1 and M2. Do not build steps 3.11/4.14; record and discuss with the professor. This is not the final STOP.",
+      "CONTINUE": "R >= 2% on M1 or M2. Build steps 3.11 and 4.14 and apply the final rule."
+    },
+    "limits": "One seed and no glitches; the probe cannot establish the final decision in either direction."
+  },
+  "final_rule": {
+    "checklist_step": "4.14",
+    "primary_seeds": [1, 2, 3, 4],
+    "secondary_seed": 0,
+    "secondary_reason": "Seed 0 informed the choice of lambda 0.3 and is reported separately, not averaged into the primary result.",
+    "netlist": "Routed head-only UART board design with SDF back-annotated delays (step 3.9 style), core nets only.",
+    "placement_seeds": [1, 2, 3],
+    "timed_image_set": "All 270 validation images if a single timed simulation is practical. Otherwise the first N images in saved order (N >= 32), with N fixed from the runtime of the seed-1 control run alone and recorded before any lambda-0.3 timed result is inspected. The zero-delay mapped metrics on all 270 images are reported for every model regardless.",
+    "noise": "For each model, placement range = max - min of the metric over its placement seeds. Pair noise = larger of the two models' ranges. Primary noise = mean pair noise over seeds 1-4.",
+    "decision_order": [
+      "STOP: mean primary R < 2% on both M1 and M2. Stop the energy-saving framing; use the characterization framing.",
+      "PROCEED: for at least one metric, mean primary R >= 2% and mean (control - penalty) difference > 2 x primary noise. Proceed to a supported power flow (5.x). PROCEED is not an energy claim.",
+      "INCONCLUSIVE: anything else. Report, do not claim a hardware switching reduction, discuss next steps."
+    ]
+  },
+  "always_report": "Per-seed and per-placement M1/M2, R, LUT4, flip-flops, carry cells, packed cells, fit, routed Fmax and 12 MHz pass/fail. A model that fails to fit or meet timing is recorded as such, never dropped or rerouted under different constraints.",
+  "limits": "Every metric here is a switching proxy. None is power or energy. Passing does not establish an energy reduction, novelty or venue suitability; failing does not invalidate the verified logical-switching result."
+}
