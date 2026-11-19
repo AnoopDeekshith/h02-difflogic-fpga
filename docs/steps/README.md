@@ -47,6 +47,7 @@ A completed learning note does not imply hardware deployment or energy reduction
 | 4.4 | [Sweep penalty strengths](4.4-sweep-penalty-strengths.md) — independently verified eight-point seed-0 grid; lambda 0.3 meets the validation accuracy allowance with lower logical switching |
 | 4.5 | [Repeat the selected penalty across seeds](4.5-repeat-the-selected-penalty-across-seeds.md) — independently verified four-new-pair repeat; lower logical switching but only one meets accuracy allowance |
 | 4.10 | [Prepare validation-only selection](4.10-prepare-validation-only-selection.md) — independently verified deferred test mode, frozen selection policy, provenance and separate final evaluation |
+| 4.12 | [Freeze the hardware-switching stop rule](4.12-freeze-the-hardware-stop-rule.md) — 2% core-level PAUSE/CONTINUE and STOP/PROCEED/INCONCLUSIVE rule, frozen and twice amended before any measurement; independently verified |
 | 7.1 | [Maintain project and learning notes](7.1-maintain-project-notes.md) |
 
 ## Older documents

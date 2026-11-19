@@ -548,6 +548,18 @@ switch, and train the network itself to switch less while staying accurate.
   stop rule on routed core transitions, generalized mapped/timed activity
   tools and place-and-route seed variability. See
   [small saving and pilot plan](discussions/2026-11-18-small-saving-publication-and-pilot-plan.md).
+- **Step 4.12 stop rule (Nov 18, independently verified):** Anoop approved
+  four added steps (3.11, 4.12–4.14; 65 tasks). Frozen policy
+  `docs/experiments/hardware-switching-stop-rule-v3.json` (SHA-256 5d22135a…),
+  amended twice before any new-model hardware run after review (v1 cde1fbd,
+  v2 f5f8304). 2% threshold on **core** switching (not board share; on the
+  UART board the core is ~0.9% of 3.9 board transitions). Probe (seed 1,
+  zero-delay mapped): PAUSE iff M1 raw and M2 fanout-weighted R < 2%. Final
+  (seeds 1–4, routed SDF, placements 1–3): implementation failure →
+  INCONCLUSIVE; STOP if both < 2%; PROCEED needs ≥ 2% beyond 2× placement
+  noise. Lambda 0.3 stays an accuracy-failed diagnostic. See
+  [walkthrough](steps/4.12-freeze-the-hardware-stop-rule.md) and
+  [review](reviews/step-4.12-independent-review.md).
 - **Next research decision:** assess the proposed energy pilot before more
   weaker-lambda tuning. Do not promote lambda 0.3 as a robust default,
   cherry-pick seed 3 or relabel failed accuracy decisions. Step 4.6's own

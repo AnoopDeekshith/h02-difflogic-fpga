@@ -16,6 +16,12 @@ bounded matched hardware-energy pilot before more tuning. This is a proposed
 priority change; no experiment was launched and no task status changed by
 recording the discussion.
 
+On November 18 Anoop approved four added steps (3.11, 4.12, 4.13, 4.14; see
+[pilot plan discussion](discussions/2026-11-18-small-saving-publication-and-pilot-plan.md)),
+bringing the checklist to 65 tasks. Lambda 0.3 enters hardware as an
+accuracy-failed diagnostic, not a selected model. Steps 4.6–4.7 use saved
+validation images, never test data, while selection is open.
+
 ## Professor-feedback additions (November 16)
 
 Continue the original plan; do not restart step 1.1. Digits images are already
@@ -83,6 +89,7 @@ The third part measures switching before we claim any energy improvement.
 | 3.8 | [Measure mapped hardware activity](steps/3.8-measure-mapped-activity.md) | ✅ | Independently verified zero-delay iCE40UP mapped sim: 3,569 net bits, 450/450 exact, 667,463 known whole-trace flips (LUT 569,566), 0 X/Z. Not glitches or energy. |
 | 3.9 | [Assess glitch activity](steps/3.9-assess-glitch-activity.md) | ✅ | Independently verified SDF-timed routed UART board, 8 images: core 1.68 extra transitions per settled change (20,402/12,178); interface 0.70. Inertial Icarus model, one delay corner; not energy. |
 | 3.10 | [Report complementary switching metrics](steps/3.10-report-complementary-switching-metrics.md) | ✅ | 2p(1−p) 0.3466 vs saved-order 0.3498 vs random-order 0.3473 per gate pair; per-layer 0.28→0.42; 499 constant gates; RTL/mapped/timed views tabled with populations and denominators. |
+| 3.11 | Generalize mapped and timed activity tools | ☐ | Added Nov 18; built only if the 4.13 probe says CONTINUE. Accept any model plus its ordered validation workload; consolidate the shared VCD parser/validator; add routed-board core-net classification (exactly category 'core') and reuse the 4.13 standalone M1/M2 code unchanged. Proxy only. |
 
 The fourth part is your switching-aware training extension.
 
@@ -99,6 +106,9 @@ The fourth part is your switching-aware training extension.
 | 4.9 | Run the optional penalty ablation | ◐ | Per-sample penalty mode exists, but no experiment has compared it with the batch-mean switching penalty. |
 | 4.10 | [Prepare validation-only experiment selection](steps/4.10-prepare-validation-only-selection.md) | ✅ | Independently verified deferred test mode, ordered validation data/reference scores/activity, frozen accuracy-budget policy, matched within-seed selector and checkpoint-based final evaluation. Two one-epoch mechanism runs passed; full suite 285 passes. No useful penalty result claimed; the already inspected digits test remains exploratory. |
 | 4.11 | Assess Gray coding in a separate experiment | ☐ | First identify candidate pixel/score/counter signals and actual transitions. Current pixel encoding is thermometer. Gray-coded pixel inputs require retraining and explicit input-width/quantization controls; register/counter recoding requires score/class equivalence and area/timing/activity accounting. Separate interface savings from learned-network savings; no automatic benefit is assumed. |
+| 4.12 | [Freeze the hardware-switching stop rule](steps/4.12-freeze-the-hardware-stop-rule.md) | ✅ | Added Nov 18. Policy `docs/experiments/hardware-switching-stop-rule-v3.json` (v1 amended twice before measurement after independent review; 2% core-level threshold, M1 raw / M2 fanout-weighted core transitions, STOP/INCONCLUSIVE/PROCEED, PAUSE/CONTINUE probe) frozen before any hardware measurement of the new models; independently verified (three review rounds; v1/v2 kept in git). |
+| 4.13 | Run the screening probe | ☐ | Added Nov 18. Seed-1 control vs λ=0.3 diagnostic: validation-vector export, 270/270 RTL and mapped bit-exact, synthesis resource counts (no fit claim), zero-delay mapped M1/M2 via `scripts/probe_mapped_switching.py`. PAUSE or CONTINUE per the frozen rule; not the final decision. |
+| 4.14 | Run the hardware switching pilot | ☐ | Added Nov 18; only after CONTINUE. Seeds 1–4 primary, seed 0 secondary, routed SDF-timed core activity, placement seeds 1–3, noise check, final STOP/INCONCLUSIVE/PROCEED. Not an energy result. |
 
 The fifth part turns activity measurements into power and energy evidence.
 

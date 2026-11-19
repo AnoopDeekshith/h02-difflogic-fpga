@@ -1,0 +1,124 @@
+{
+  "schema": "hardware_switching_stop_rule_v3",
+  "frozen_on": "2026-11-18",
+  "approved_by": "Anoop (conversation of 2026-11-18); v2 and v3 amend v1 after independent review, before any measurement",
+  "frozen_before": "Any export, synthesis, placement, routing or hardware-activity measurement of the step 4.4/4.5 matched control or lambda-0.3 models",
+  "amendments": [
+    {
+      "date": "2026-11-18",
+      "supersedes": "docs/experiments/hardware-switching-stop-rule-v1.json",
+      "supersedes_sha256": "9b1c2faa035ecaadaddfe628df91bd0fd4fdf151f59ef9391ca3cfcbfa3458bc",
+      "supersedes_commit": "cde1fbd",
+      "reason": "docs/reviews/step-4.12-independent-review.md: B1 workload/window not applicable to mapped and routed netlists; B2 no outcome after implementation failure; B3 functional gate contradicted the timed subset; N1-N8 clarifications. No hardware measurement of any new model existed when amended; the threshold, metrics, seeds and decision structure are unchanged."
+    },
+    {
+      "date": "2026-11-18",
+      "supersedes": "docs/experiments/hardware-switching-stop-rule-v2.json",
+      "supersedes_sha256": "91a555c511f0228a53901f96f143a0c9ae630c83390fc5a7b8bedd6f99963720",
+      "supersedes_commit": "f5f8304",
+      "reason": "docs/reviews/step-4.12-independent-review.md recheck R1: v2's core-inclusive routed rule would count step 3.9 'unclassified' interface nets (reset chain, TX, VCC, interface carries; ~529k settled changes, identical in both models) as core, diluting R toward STOP. Definition repair only; no hardware measurement of any new model existed. Routed decision now uses exactly category()=='core'. Threshold, metrics, seeds and decision structure unchanged."
+    }
+  ],
+  "purpose": "Decide whether the lambda-0.3 reduction in settled logical switching is worth pursuing as an energy-saving claim, before acquiring a supported power-analysis flow.",
+  "accuracy_status": "Lambda 0.3 is a hardware diagnostic only. Its step 4.5 accuracy verdicts under validation_selection_policy_v1 (1 percentage point) remain failed for seeds 1, 2 and 4 and are not changed by this rule. A PROCEED does not make lambda 0.3 a selected model. Any different accuracy allowance requires a separately named, dated policy.",
+  "threshold_percent": 2.0,
+  "threshold_scope": "The 2% applies to the reduction in DLGN core switching (core nets only): a streaming-accelerator view where the core does useful work every clock. It is not a board-level percentage. On the routed UART board the core is idle most of the time; in step 3.9 core nets carried about 32,580 of 3.49 million timed board transitions (about 0.9%), so board-level reductions under the UART workload are far smaller than core reductions and are reported separately, never as the decision quantity.",
+  "threshold_rationale": "Anoop's working judgement (2026-11-18) of the smallest energy saving worth pursuing. Bound in two steps: (1) if non-core power (clock, interface, I/O, static) is unchanged between models, the relative total energy reduction does not exceed the relative core energy reduction; (2) the core energy reduction is assumed not to exceed the larger of the M1/M2 reductions, i.e. per-transition energy is not systematically lower in the penalized model (M2 is only a partial check of this). Area, placement and routing differences can violate (1), so resources are reported alongside.",
+  "models": {
+    "seed_0": {
+      "control": "runs/step4.3-pair.ixlscii4/control",
+      "control_model_sha256": "57700d8bd020084fc3e57011b6971d067836dfa71ce710ce7649f57c79971b3f",
+      "penalty": "runs/step4.4-sweep.zlmbqzyd/lambda_0p3",
+      "penalty_model_sha256": "696dd438a80ede972dadce89181c2171a59b24bbca0152ed16d0181b531491f2"
+    },
+    "seed_1": {
+      "control": "runs/step4.5-seeds.vyq2h2nf/seed_1_control",
+      "control_model_sha256": "f4cf5d74c9cb2505418093d7e6d6b74b4ed05367295d94e259f155af9a4fe105",
+      "penalty": "runs/step4.5-seeds.vyq2h2nf/seed_1_penalty",
+      "penalty_model_sha256": "bff429b74610a81085d49aec239ef7fcf0967fe31a20dd681baf27068a97abfa"
+    },
+    "seed_2": {
+      "control": "runs/step4.5-seeds.vyq2h2nf/seed_2_control",
+      "control_model_sha256": "9a8b17d26c9ca9cafcca4495c628deabbb935da6ecd6988a121db8333b3a56df",
+      "penalty": "runs/step4.5-seeds.vyq2h2nf/seed_2_penalty",
+      "penalty_model_sha256": "741faaa4cc78be7384318e8ed396531e9a4facf02ba23d587ed65e93902cbcd0"
+    },
+    "seed_3": {
+      "control": "runs/step4.5-seeds.vyq2h2nf/seed_3_control",
+      "control_model_sha256": "8fe51f7a54738510a489737d002da715e6d634d327a2a89d37ac4a05d75bcf3b",
+      "penalty": "runs/step4.5-seeds.vyq2h2nf/seed_3_penalty",
+      "penalty_model_sha256": "54800d395c67e7282e2d86d21dbb1f67e74a9b3aa767380ac147da081a42e7ca"
+    },
+    "seed_4": {
+      "control": "runs/step4.5-seeds.vyq2h2nf/seed_4_control",
+      "control_model_sha256": "e6bdbcd8d8a9be7b61b928bbfa677d230ea0f8e617c815b8d7c9d90ee98678d9",
+      "penalty": "runs/step4.5-seeds.vyq2h2nf/seed_4_penalty",
+      "penalty_model_sha256": "9171fd0b23a628db351616552b661ec872044d0a1706f1adf70bc823d867ceb5"
+    },
+    "note": "Seed-0 lambda-0.3 is the step 4.4 sweep model, not the step 4.3 lambda-0.1 penalty run. Archived checkpoints and model.json files; no retraining. Split seed 0 throughout."
+  },
+  "fixed_setup": {
+    "workload": "All 270 saved validation images (x_validation_bits.npy) in saved order, identical bytes and schedule for every model. Standalone head-only core runs (probe and zero-delay mapped metrics): one image per clock after reset, as step 3.8. Routed UART-board runs: one clean request per image at the hardware 104-clock divider with the step 3.9 testbench request spacing. Test data are not loaded for inference, export or simulation.",
+    "window": {
+      "standalone_core": "(first input drive - half period - 1 ps, last output check], as step 3.8; i.e. (first_input_ps - 41667 - 1, last_output_check_ps] from the validated event ledger.",
+      "routed_uart_board": "(rising clock edge before the first request start bit, last reply stop bit + one clock period]. Bounds are fixed in clock cycles by the schedule, so they are identical for both models of a pair, and include all post-edge settling and glitches."
+    },
+    "architecture": "Feasible head-only core: layer_pipeline false, head_pipeline true (LAT 3)",
+    "target": "iCE40UP5K-SG48",
+    "clock_hz": 12000000,
+    "constraints": "Unchanged step 2.7 SDC/PCF for routed board experiments; constraints are never relaxed.",
+    "functional_gate": "Every model must match its own NumPy integer scores and lowest-index argmax for all 270 images in RTL, in zero-delay simulation of its mapped netlist and in zero-delay simulation of each routed netlist. Each timed simulation must also match on every image it simulates. No activity value counts before these checks pass."
+  },
+  "implementation_failure": "If any primary model fails the functional gate, fit/packing, routing or the 12 MHz timing check on any placement seed, its available metrics are reported and the final outcome is INCONCLUSIVE (implementation failure), never STOP or PROCEED. A correctness fix to project code is rerun on every model of every affected pair. Constraints are never relaxed. In the probe, a functional mismatch or a non-positive control metric yields no PAUSE/CONTINUE until fixed, and fixed code is rerun on both models.",
+  "core_definition": {
+    "standalone_core": "Nets driven by mapped LUT4, carry and flip-flop cells (step 3.8 ledger categories lut, carry, ff): input register, logic layers, score adders, head score registers, argmax/output registers and valid-chain flip-flops (identical in both models). Excluded: clock, reset and in_valid primary inputs, the x input port nets and testbench signals.",
+    "routed_uart_board": "Step 3.9 rule (scripts/capture_timed_activity.py category()): a net is core if a visible name starts with 'board.adapter.core.'. The decision uses exactly the nets with category() == 'core'. Nets classified 'unclassified', 'interface', 'clock', 'global_buffer' or 'io' are excluded from the decision and reported separately by name and count. As a sensitivity check only, M1/M2 are also reported with the board.adapter.core.out_valid_* nets moved to interface. The classification code hash is recorded with each result."
+  },
+  "metrics": {
+    "M1_raw": "Sum over core nets of known 0/1 transitions within the window. X/Z-involving changes are counted separately and must be zero inside the window.",
+    "M2_fanout_weighted": "Sum over core nets of known transitions multiplied by the net's fanout: the number of mapped cell input-pin bits the net drives in the analysed netlist (not its own driver, not top-level port references). Rough capacitance stand-in only; not calibrated capacitance, wire length or energy. Mapped-netlist M2 is not comparable with routed-netlist M2.",
+    "comparison": "Values are compared unrounded."
+  },
+  "reduction": "R = 1 - penalty_value / control_value for each metric and model seed, computed with each model's mean over its placement seeds where placement applies.",
+  "screening_probe": {
+    "checklist_step": "4.13",
+    "pair": "Model seed 1 (first primary repeat seed; smallest logical reduction of the primary seeds, 16.04%)",
+    "netlist": "Zero-delay post-synthesis mapped simulation of the standalone head-only core (step 3.8 style). Deterministic synthesis; no placement seed. Synthesis resource counts are reported; packing/fit is not established by the probe (standalone core ports exceed SG48 pins).",
+    "tooling": "Validation-vector export, mapped capture of new models, core-net and fanout counting belong to step 4.13 (scripts/probe_mapped_switching.py). Step 4.14 zero-delay mapped M1/M2 reuse that code unchanged.",
+    "decision": {
+      "PAUSE": "R < 2% on both M1 and M2. Do not build steps 3.11/4.14; record and discuss with the professor. Not the final STOP.",
+      "CONTINUE": "R >= 2% on M1 or M2. Build steps 3.11 and 4.14 and apply the final rule."
+    },
+    "after_pause": "Resuming 3.11/4.14 after a PAUSE requires a new, dated, separately named policy; the threshold may not be reinterpreted after the fact.",
+    "limits": "One seed and no glitches; synthesis may remove constant gates differently for the two models. The probe cannot establish the final decision in either direction."
+  },
+  "final_rule": {
+    "checklist_step": "4.14",
+    "primary_seeds": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "secondary_seed": 0,
+    "secondary_reason": "Seed 0 informed the choice of lambda 0.3 and is reported separately, not averaged into the primary result.",
+    "netlist": "Routed head-only UART board design with SDF back-annotated delays (step 3.9 style), core nets only.",
+    "placement_seeds": [
+      1,
+      2,
+      3
+    ],
+    "placement_evidence": "Record each placement's .asc hash; identical hashes for different seeds are reported, so zero noise can be distinguished from repeated placements.",
+    "timed_image_set": "N = min(270, max(32, floor(B / t_image))), with budget B = 1800 s of timed-simulation wall time per run and t_image measured on the seed-1 control, placement seed 1, before any lambda-0.3 timed result is produced. N is then fixed for every timed run; images are the first N in saved order. Zero-delay mapped M1/M2 on all 270 images are reported for every model regardless.",
+    "noise": "Per metric. For each model, placement range = max - min over its placement seeds. Pair noise = larger of the two models' ranges. Primary noise = mean pair noise over seeds 1-4.",
+    "decision_order": [
+      "INCONCLUSIVE (implementation failure): any condition in implementation_failure.",
+      "STOP: mean primary R < 2% on both M1 and M2. Stop the energy-saving framing; use the characterization framing.",
+      "PROCEED: for at least one metric, mean primary R >= 2% and mean (control - penalty) difference > 2 x that metric's primary noise. Proceed to a supported power flow (5.x). PROCEED is not an energy claim.",
+      "INCONCLUSIVE: anything else. Report, do not claim a hardware switching reduction, discuss next steps."
+    ],
+    "descriptive_only": "Also report how many primary seeds individually have R >= 2% per metric, so one outlier seed cannot hide behind the mean. This count does not change the decision."
+  },
+  "always_report": "Per-seed and per-placement M1/M2, R, LUT4, flip-flops, carry cells, packed cells, fit, routed Fmax and 12 MHz pass/fail; board-level transition totals under the UART workload separately from core totals. A model that fails to fit or meet timing is recorded as such, never dropped or rerouted under different constraints.",
+  "limits": "Every metric here is a switching proxy. None is power or energy. Icarus timing filters narrow pulses inertially and uses one delay corner. Passing does not establish an energy reduction, novelty or venue suitability; failing does not invalidate the verified logical-switching result."
+}
