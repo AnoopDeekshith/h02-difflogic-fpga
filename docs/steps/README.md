@@ -49,6 +49,7 @@ A completed learning note does not imply hardware deployment or energy reduction
 | 4.10 | [Prepare validation-only selection](4.10-prepare-validation-only-selection.md) — independently verified deferred test mode, frozen selection policy, provenance and separate final evaluation |
 | 4.12 | [Freeze the hardware-switching stop rule](4.12-freeze-the-hardware-stop-rule.md) — 2% core-level PAUSE/CONTINUE and STOP/PROCEED/INCONCLUSIVE rule, frozen and twice amended before any measurement; independently verified |
 | 4.13 | [Run the screening probe](4.13-run-the-screening-probe.md) — seed-1 mapped core toggles fall 3.2% (logical 16.0%); CONTINUE with thin margin; independently verified |
+| 4.15 | [Test a layer-targeted penalty](4.15-test-a-layer-targeted-penalty.md) — targeting layers does not reliably beat uniform; chip-level reduction ≤ ~3.6% within accuracy rule; independently verified |
 | 7.1 | [Maintain project and learning notes](7.1-maintain-project-notes.md) |
 
 ## Older documents

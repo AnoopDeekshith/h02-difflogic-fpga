@@ -1,0 +1,334 @@
+{
+  "step": "4.15",
+  "date": "2026-11-19",
+  "status": "independently verified",
+  "policy": "docs/experiments/layer-targeting-v1.json",
+  "policy_commit": "cfd0c02",
+  "code_commit": "293e450",
+  "evidence_directory": "runs/step4.15-targeting.v7r6ms06",
+  "confirmation_directory": "runs/step4.15-targeting.v7r6ms06/confirm.i235hcd1",
+  "review": "docs/reviews/step-4.15-independent-review.md",
+  "workload": "270 saved validation images, zero-delay mapped standalone head-only core; test deferred",
+  "gates": {
+    "compatibility": "seed 1-4 controls and uniform lambda 0.3 byte-identical to step 4.5 archives (8/8)",
+    "reproduction": "seed-1 mapped M1 384,982 / 372,638 equals step 4.13"
+  },
+  "discovery": {
+    "seed": 1,
+    "control_correct": 248,
+    "control_M1": 384982,
+    "candidates": [
+      {
+        "label": "U_0p1",
+        "correct": 245,
+        "drop_pp": 1.1111,
+        "eligible": false,
+        "R_M1_pct": 0.679,
+        "R_M2_pct": 1.004,
+        "R_logical_pct": 6.044,
+        "LUT4": 2899
+      },
+      {
+        "label": "U_0p2",
+        "correct": 247,
+        "drop_pp": 0.3704,
+        "eligible": true,
+        "R_M1_pct": 2.638,
+        "R_M2_pct": 3.224,
+        "R_logical_pct": 12.074,
+        "LUT4": 2832
+      },
+      {
+        "label": "U_0p3",
+        "correct": 245,
+        "drop_pp": 1.1111,
+        "eligible": false,
+        "R_M1_pct": 3.206,
+        "R_M2_pct": 3.928,
+        "R_logical_pct": 16.036,
+        "LUT4": 2829
+      },
+      {
+        "label": "L4_0p1",
+        "correct": 248,
+        "drop_pp": 0.0,
+        "eligible": true,
+        "R_M1_pct": 0.397,
+        "R_M2_pct": 0.139,
+        "R_logical_pct": 0.4,
+        "LUT4": 2899
+      },
+      {
+        "label": "L4_0p2",
+        "correct": 247,
+        "drop_pp": 0.3704,
+        "eligible": true,
+        "R_M1_pct": 1.01,
+        "R_M2_pct": 0.324,
+        "R_logical_pct": 0.345,
+        "LUT4": 2882
+      },
+      {
+        "label": "L4_0p3",
+        "correct": 246,
+        "drop_pp": 0.7407,
+        "eligible": true,
+        "R_M1_pct": 0.822,
+        "R_M2_pct": 0.782,
+        "R_logical_pct": 0.741,
+        "LUT4": 2898
+      },
+      {
+        "label": "L34_0p1",
+        "correct": 248,
+        "drop_pp": 0.0,
+        "eligible": true,
+        "R_M1_pct": 0.292,
+        "R_M2_pct": 0.288,
+        "R_logical_pct": 1.493,
+        "LUT4": 2914
+      },
+      {
+        "label": "L34_0p2",
+        "correct": 244,
+        "drop_pp": 1.4815,
+        "eligible": false,
+        "R_M1_pct": 0.763,
+        "R_M2_pct": 0.943,
+        "R_logical_pct": 2.935,
+        "LUT4": 2922
+      },
+      {
+        "label": "L34_0p3",
+        "correct": 245,
+        "drop_pp": 1.1111,
+        "eligible": false,
+        "R_M1_pct": 1.499,
+        "R_M2_pct": 1.825,
+        "R_logical_pct": 4.466,
+        "LUT4": 2886
+      },
+      {
+        "label": "M23_0p1",
+        "correct": 246,
+        "drop_pp": 0.7407,
+        "eligible": true,
+        "R_M1_pct": -0.37,
+        "R_M2_pct": 0.38,
+        "R_logical_pct": 4.614,
+        "LUT4": 2937
+      },
+      {
+        "label": "M23_0p2",
+        "correct": 246,
+        "drop_pp": 0.7407,
+        "eligible": true,
+        "R_M1_pct": 2.09,
+        "R_M2_pct": 2.69,
+        "R_logical_pct": 9.229,
+        "LUT4": 2884
+      },
+      {
+        "label": "M23_0p3",
+        "correct": 245,
+        "drop_pp": 1.1111,
+        "eligible": false,
+        "R_M1_pct": 3.552,
+        "R_M2_pct": 4.841,
+        "R_logical_pct": 14.59,
+        "LUT4": 2816
+      },
+      {
+        "label": "RAMP_0p1",
+        "correct": 245,
+        "drop_pp": 1.1111,
+        "eligible": false,
+        "R_M1_pct": 0.615,
+        "R_M2_pct": 0.209,
+        "R_logical_pct": 3.461,
+        "LUT4": 2891
+      },
+      {
+        "label": "RAMP_0p2",
+        "correct": 248,
+        "drop_pp": 0.0,
+        "eligible": true,
+        "R_M1_pct": 0.676,
+        "R_M2_pct": 0.835,
+        "R_logical_pct": 7.136,
+        "LUT4": 2898
+      },
+      {
+        "label": "RAMP_0p3",
+        "correct": 246,
+        "drop_pp": 0.7407,
+        "eligible": true,
+        "R_M1_pct": 2.409,
+        "R_M2_pct": 2.727,
+        "R_logical_pct": 11.532,
+        "LUT4": 2856
+      }
+    ],
+    "T_star": {
+      "profile": "RAMP",
+      "lambda": 0.3
+    },
+    "U_star": {
+      "profile": "U",
+      "lambda": 0.2
+    }
+  },
+  "confirmation": {
+    "comparator": {
+      "profile": "U",
+      "lambda": 0.2
+    },
+    "seeds": [
+      {
+        "seed": 2,
+        "control_correct": 253,
+        "control_M1": 383624,
+        "conditions": {
+          "eligible": false,
+          "at_least_2pct": true,
+          "beats_comparator": true
+        },
+        "models": [
+          {
+            "label": "U_0p2",
+            "correct": 249,
+            "drop_pp": 1.4815,
+            "eligible": false,
+            "R_M1_pct": 2.109,
+            "R_M2_pct": 3.397,
+            "R_logical_pct": 12.769,
+            "LUT4": 2840
+          },
+          {
+            "label": "U_0p3",
+            "correct": 247,
+            "drop_pp": 2.2222,
+            "eligible": false,
+            "R_M1_pct": 3.026,
+            "R_M2_pct": 4.886,
+            "R_logical_pct": 16.728,
+            "LUT4": 2837
+          },
+          {
+            "label": "RAMP_0p3",
+            "correct": 249,
+            "drop_pp": 1.4815,
+            "eligible": false,
+            "R_M1_pct": 2.321,
+            "R_M2_pct": 3.808,
+            "R_logical_pct": 12.241,
+            "LUT4": 2823
+          }
+        ]
+      },
+      {
+        "seed": 3,
+        "control_correct": 248,
+        "control_M1": 387942,
+        "conditions": {
+          "eligible": true,
+          "at_least_2pct": true,
+          "beats_comparator": true
+        },
+        "models": [
+          {
+            "label": "U_0p2",
+            "correct": 247,
+            "drop_pp": 0.3704,
+            "eligible": true,
+            "R_M1_pct": 2.247,
+            "R_M2_pct": 3.536,
+            "R_logical_pct": 11.996,
+            "LUT4": 2851
+          },
+          {
+            "label": "U_0p3",
+            "correct": 248,
+            "drop_pp": 0.0,
+            "eligible": true,
+            "R_M1_pct": 3.577,
+            "R_M2_pct": 4.742,
+            "R_logical_pct": 16.253,
+            "LUT4": 2810
+          },
+          {
+            "label": "RAMP_0p3",
+            "correct": 247,
+            "drop_pp": 0.3704,
+            "eligible": true,
+            "R_M1_pct": 3.493,
+            "R_M2_pct": 3.871,
+            "R_logical_pct": 12.421,
+            "LUT4": 2825
+          }
+        ]
+      },
+      {
+        "seed": 4,
+        "control_correct": 249,
+        "control_M1": 381723,
+        "conditions": {
+          "eligible": false,
+          "at_least_2pct": true,
+          "beats_comparator": false
+        },
+        "models": [
+          {
+            "label": "U_0p2",
+            "correct": 249,
+            "drop_pp": 0.0,
+            "eligible": true,
+            "R_M1_pct": 3.027,
+            "R_M2_pct": 3.369,
+            "R_logical_pct": 13.096,
+            "LUT4": 2808
+          },
+          {
+            "label": "U_0p3",
+            "correct": 242,
+            "drop_pp": 2.5926,
+            "eligible": false,
+            "R_M1_pct": 3.962,
+            "R_M2_pct": 4.823,
+            "R_logical_pct": 17.844,
+            "LUT4": 2779
+          },
+          {
+            "label": "RAMP_0p3",
+            "correct": 242,
+            "drop_pp": 2.5926,
+            "eligible": false,
+            "R_M1_pct": 2.288,
+            "R_M2_pct": 2.631,
+            "R_logical_pct": 13.465,
+            "LUT4": 2864
+          }
+        ]
+      }
+    ],
+    "mean": {
+      "R_M1_target": 0.02700359660905109,
+      "R_M1_comparator": 0.024607870988703356,
+      "drop_pp_target": 1.4814814814814816
+    }
+  },
+  "outcome": "TARGETING_NOT_SHOWN",
+  "interpretation": [
+    "Layer-targeted weighting did not reliably beat the uniform penalty on mapped core toggles at acceptable accuracy.",
+    "Penalizing only the last layer reduced layer-4 logical changes by only about 0.7-1.5% even with 4x per-gate weight; the mechanism is not established (layer-4 gates did not become constant; a class-vote limit is not supported).",
+    "Do not describe targeting as slightly better: the mean gap mixes ineligible models, comes mostly from seed 3 and has higher accuracy cost (RAMP 1.48 pp vs U0.2 0.62 pp mean drop).",
+    "Mapped/logical reduction ratio is about 0.2 for U, RAMP, M23 and L34; for L4 the logical reduction is tiny and synthesis variation dominates.",
+    "Across all 28 models, mapped core-toggle reduction within the 1 pp accuracy rule stays at or below about 3.6%."
+  ],
+  "limits": [
+    "Zero-delay mapped standalone core; no routing, glitches, power or energy",
+    "Digits 8x8, one architecture, one target family",
+    "Seed 1 discovery informed by 4.13; three confirmation seeds",
+    "Test data deferred"
+  ]
+}

@@ -570,6 +570,15 @@ switch, and train the network itself to switch less while staying accurate.
   uniform gate penalty mis-targets post-mapping cost (untested idea). Evidence:
   `runs/step4.13-probe.nakln11l/`; [walkthrough](steps/4.13-run-the-screening-probe.md),
   [summary](results/step-4.13-screening-probe.json), [review](reviews/step-4.13-independent-review.md).
+- **Step 4.15 layer targeting (Nov 19, independently verified):** per-layer
+  penalty weights (L4, L34, M23, RAMP) vs uniform, λ 0.1/0.2/0.3, 28 models.
+  Outcome **TARGETING_NOT_SHOWN**: seed-1 T* RAMP 0.3 (2.41% mapped) vs U*
+  uniform 0.2 (2.64%); RAMP fails accuracy on seeds 2 and 4. Last-layer-only
+  moves switching < 1%; mechanism unestablished (class-vote explanation not
+  supported). Within the 1 pp rule, mapped core-toggle reduction ≤ ~3.6% in
+  every model; about one fifth of logical savings survive mapping. Paper
+  direction leans to characterization; discuss with professor before 4.14.
+  See [walkthrough](steps/4.15-test-a-layer-targeted-penalty.md).
 - **Next research decision:** assess the proposed energy pilot before more
   weaker-lambda tuning. Do not promote lambda 0.3 as a robust default,
   cherry-pick seed 3 or relabel failed accuracy decisions. Step 4.6's own
