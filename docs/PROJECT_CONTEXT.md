@@ -579,6 +579,13 @@ switch, and train the network itself to switch less while staying accurate.
   every model; about one fifth of logical savings survive mapping. Paper
   direction leans to characterization; discuss with professor before 4.14.
   See [walkthrough](steps/4.15-test-a-layer-targeted-penalty.md).
+- **Step 4.11 first part (Nov 19, independently verified):** ranking of the
+  step 3.9 routed-board trace: three UART counters ~69% of transitions
+  (register bits 21.7%), clock 27.2% (15.7% counted once), DLGN core 0.7%.
+  Gray-coded counters could at most ~halve register toggles; pixel recoding
+  touches <1% but would shorten requests ~20%. A claimed prescaler saving was
+  rejected by review. Professor one-pager draft:
+  `docs/summaries/2026-11-19-professor-one-pager.md` (not circulated).
 - **Next research decision:** assess the proposed energy pilot before more
   weaker-lambda tuning. Do not promote lambda 0.3 as a robust default,
   cherry-pick seed 3 or relabel failed accuracy decisions. Step 4.6's own

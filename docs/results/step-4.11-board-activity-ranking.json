@@ -1,0 +1,234 @@
+{
+  "source": "runs/step3.9-glitch/timed-activity.0hvnej44",
+  "header": "# samples 325680 max_offset_ps 51369 late_events 0 replies 8",
+  "total_timed_transitions": 4789099,
+  "overrides_applied": [
+    "c24.COUT",
+    "c26.COUT",
+    "c3998.O",
+    "c3999.O",
+    "c4006.O",
+    "c6.COUT"
+  ],
+  "clock_note": "The clock appears twice (pad net and global net, same signal); total_with_clock_once removes one of the two identical copies.",
+  "total_with_clock_once": 4137739,
+  "summary": {
+    "clock_share": 0.2720177636753803,
+    "core_share": 0.006802949782412099,
+    "counters_share": 0.6859973034593773,
+    "counter_register_share": 0.21655284219432508,
+    "counters": {
+      "idle_count": 1234400,
+      "rx_timer": 1397760,
+      "tx_timer": 653149
+    }
+  },
+  "files_sha256": {
+    "net-ledger.json": "69b09e83952e2a04bccdf157d2fe324806cdfc450007b46bc30fcb1ed8834d97",
+    "counts_timed.txt": "9e5c2998b387d5d2699159c15868dbf83901b1e19e99a91951db937d7190aea6",
+    "result.json": "e40c59019d8125af24c9c0cf95eab4778a506d85fb66d2c51f85a1c0399c40b0"
+  },
+  "blocks": [
+    {
+      "block": "clock",
+      "share": 0.2720177636753803,
+      "nets": 2,
+      "timed": 1302720,
+      "settled": 0
+    },
+    {
+      "block": "rx_timer.next_state_logic",
+      "share": 0.16399911549124377,
+      "nets": 11,
+      "timed": 785408,
+      "settled": 251264
+    },
+    {
+      "block": "idle_count.next_state_logic",
+      "share": 0.12745612483684302,
+      "nets": 20,
+      "timed": 610400,
+      "settled": 207200
+    },
+    {
+      "block": "idle_count.register",
+      "share": 0.08686393828985368,
+      "nets": 22,
+      "timed": 416000,
+      "settled": 416000
+    },
+    {
+      "block": "rx_timer.register",
+      "share": 0.0849529316474769,
+      "nets": 7,
+      "timed": 406848,
+      "settled": 406848
+    },
+    {
+      "block": "tx_timer.next_state_logic",
+      "share": 0.0690616335139449,
+      "nets": 9,
+      "timed": 330743,
+      "settled": 126903
+    },
+    {
+      "block": "tx_timer.register",
+      "share": 0.04473597225699448,
+      "nets": 7,
+      "timed": 214245,
+      "settled": 214245
+    },
+    {
+      "block": "idle_count.carry_entry",
+      "share": 0.04343196914492684,
+      "nets": 1,
+      "timed": 208000,
+      "settled": 208000
+    },
+    {
+      "block": "rx_timer.carry_entry",
+      "share": 0.04291078551518772,
+      "nets": 1,
+      "timed": 205504,
+      "settled": 205504
+    },
+    {
+      "block": "rx_other",
+      "share": 0.02842622380535462,
+      "nets": 68,
+      "timed": 136136,
+      "settled": 82144
+    },
+    {
+      "block": "tx_timer.carry_entry",
+      "share": 0.022584832762905925,
+      "nets": 1,
+      "timed": 108161,
+      "settled": 108161
+    },
+    {
+      "block": "core",
+      "share": 0.006802949782412099,
+      "nets": 3252,
+      "timed": 32580,
+      "settled": 12178
+    },
+    {
+      "block": "interface_other",
+      "share": 0.0025697944435894935,
+      "nets": 862,
+      "timed": 12307,
+      "settled": 10447
+    },
+    {
+      "block": "tx_other",
+      "share": 0.002362866167519193,
+      "nets": 16,
+      "timed": 11316,
+      "settled": 7974
+    },
+    {
+      "block": "unclassified",
+      "share": 0.001538285176397481,
+      "nets": 38,
+      "timed": 7367,
+      "settled": 7267
+    },
+    {
+      "block": "io",
+      "share": 0.00015785850323829178,
+      "nets": 2,
+      "timed": 756,
+      "settled": 756
+    },
+    {
+      "block": "global_buffer",
+      "share": 0.0001269549867313246,
+      "nets": 4,
+      "timed": 608,
+      "settled": 608
+    }
+  ],
+  "unclassified_top": [
+    {
+      "names": [
+        "$nextpnr_ICESTORM_LC_1$O"
+      ],
+      "driver": "c7.COUT",
+      "timed": 1663,
+      "settled": 1663
+    },
+    {
+      "names": [
+        "$nextpnr_ICESTORM_LC_4$O"
+      ],
+      "driver": "c23.COUT",
+      "timed": 1663,
+      "settled": 1663
+    },
+    {
+      "names": [
+        "$nextpnr_ICESTORM_LC_6$O"
+      ],
+      "driver": "c25.COUT",
+      "timed": 1040,
+      "settled": 1040
+    },
+    {
+      "names": [
+        "uart_tx_pin_SB_LUT4_O_I3[0]"
+      ],
+      "driver": "c4145.O",
+      "timed": 636,
+      "settled": 636
+    },
+    {
+      "names": [
+        "uart_tx_pin$SB_IO_OUT"
+      ],
+      "driver": "c4168.O",
+      "timed": 636,
+      "settled": 636
+    },
+    {
+      "names": [
+        "$nextpnr_ICESTORM_LC_2$I3"
+      ],
+      "driver": "c3976.COUT",
+      "timed": 415,
+      "settled": 415
+    },
+    {
+      "names": [
+        "$nextpnr_ICESTORM_LC_2$COUT"
+      ],
+      "driver": "c18.COUT",
+      "timed": 415,
+      "settled": 415
+    },
+    {
+      "names": [
+        "uart_tx_pin_SB_LUT4_O_I3[1]"
+      ],
+      "driver": "c4137.O",
+      "timed": 208,
+      "settled": 208
+    },
+    {
+      "names": [
+        "$nextpnr_ICESTORM_LC_8$O"
+      ],
+      "driver": "c27.COUT",
+      "timed": 191,
+      "settled": 191
+    },
+    {
+      "names": [
+        "$nextpnr_ICESTORM_LC_13$O"
+      ],
+      "driver": "c11.COUT",
+      "timed": 191,
+      "settled": 191
+    }
+  ]
+}
