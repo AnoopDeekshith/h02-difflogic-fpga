@@ -50,6 +50,9 @@ def parse_args(argv=None):
     ap.add_argument('--lr', type=float, default=0.01)
     ap.add_argument('--act-weight', type=float, default=0.0)
     ap.add_argument('--act-mode', default='batch', choices=['batch', 'sample'])
+    ap.add_argument('--act-layer-weights', default=None,
+                    help='comma-separated nonnegative per-layer penalty weights, e.g. 0,0,0,1; '
+                         'omitted = original mean over all gates')
     ap.add_argument('--seed', type=int, default=0)
     ap.add_argument('--split-seed', type=int, default=0,
                     help='validation partition seed; separate from model initialization seed')
@@ -68,6 +71,16 @@ def parse_args(argv=None):
         ap.error('tau and learning rate must be finite and positive')
     if not np.isfinite(args.act_weight) or args.act_weight < 0:
         ap.error('activity weight must be finite and nonnegative')
+    if args.act_layer_weights is not None:
+        try:
+            w = [float(v) for v in args.act_layer_weights.split(',')]
+        except ValueError:
+            ap.error('layer weights must be comma-separated numbers')
+        if (len(w) != args.depth or not all(np.isfinite(w)) or min(w) < 0 or sum(w) <= 0):
+            ap.error('layer weights need one finite nonnegative value per layer and a positive sum')
+        if args.act_weight <= 0:
+            ap.error('layer weights require a positive activity weight')
+        args.act_layer_weights = w
     if not np.isfinite(args.val_frac) or not 0 < args.val_frac < 1:
         ap.error('validation fraction must be finite and between zero and one')
     return args
@@ -129,7 +142,7 @@ def train(args, folder, initial_sources):
             ce = F.cross_entropy(model(Xtr[idx]), Ytr[idx])
             loss = ce
             if args.act_weight > 0:
-                act = model.activity_penalty(args.act_mode)
+                act = model.activity_penalty(args.act_mode, args.act_layer_weights)
                 loss = loss + args.act_weight * act
                 tot_act += act.item() * len(idx)
             opt.zero_grad()

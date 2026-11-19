@@ -7,6 +7,7 @@ If you train with difflogic instead, dlgn/difflogic_import.py converts
 that model into the same JSON the exporter reads.
 """
 import json
+import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -77,7 +78,7 @@ class DLGN(nn.Module):
     # ---------------------------------------------------------------
     # Power-aware term (your stretch idea)
     # ---------------------------------------------------------------
-    def activity_penalty(self, mode: str = "batch"):
+    def activity_penalty(self, mode: str = "batch", layer_weights=None):
         """Differentiable estimate of switching activity, averaged over gates.
 
         mode="batch"  (recommended): p_g = mean over the batch of gate g's
@@ -90,7 +91,17 @@ class DLGN(nn.Module):
         mode="sample": mean of 2 a (1 - a) per sample. This is NOT activity;
             it penalizes undecided soft outputs and mostly pushes the
             network toward discreteness. Keep it only as an ablation.
+
+        layer_weights=None keeps the original mean over all gates. A list of
+        nonnegative per-layer weights (one per logic layer, positive sum)
+        returns sum_l w_l * mean_l(alpha) / sum_l w_l, e.g. [0, 0, 0, 1]
+        penalizes only the last layer (step 4.15 targeting experiment).
         """
+        if layer_weights is not None:
+            w = [float(v) for v in layer_weights]
+            if (len(w) != len(self.layers) or not all(math.isfinite(v) for v in w)
+                    or min(w) < 0 or sum(w) <= 0):
+                raise ValueError("layer_weights needs one nonnegative weight per layer, positive sum")
         terms = []
         for l in self.layers:
             a = l.last_out
@@ -99,7 +110,9 @@ class DLGN(nn.Module):
                 terms.append(2 * p * (1 - p))
             else:
                 terms.append((2 * a * (1 - a)).mean(0))
-        return torch.cat(terms).mean()
+        if layer_weights is None:
+            return torch.cat(terms).mean()
+        return sum(wl * t.mean() for wl, t in zip(w, terms)) / sum(w)
 
     # ---------------------------------------------------------------
     def to_json(self, path):
