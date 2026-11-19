@@ -73,6 +73,14 @@ independently checked; counts, not energy):
   transitions per prediction scale with frequency.
 - These would be **interface** savings, not savings from the learned network.
 
+## Next step on power
+
+Anoop will try Vivado on his x86 Rocky Linux machine and report back. Vivado
+targets AMD parts (e.g., Artix-7), so its numbers would be a separate
+cross-check. For the iCE40 itself, Lattice Radiant (Linux/Windows, free
+license) can import simulation activity (VCD). Estimates are approximate in
+absolute terms; same-flow comparisons between models are more reliable.
+
 ## Questions for you
 
 1. Is a characterization paper the right target, and is **MCSoC 2027
