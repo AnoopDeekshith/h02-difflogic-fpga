@@ -3,6 +3,9 @@
 Project background, dates, plan, status and how Anoop wants to work:
 @docs/PROJECT_CONTEXT.md
 
+Working rules (verification, commits, step transitions):
+@AGENTS.md
+
 ## How to help
 
 - Anoop is learning this deeply. Explain one small piece at a time, in plain language,
